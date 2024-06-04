@@ -1,0 +1,21 @@
+:root {
+    --base-color: #4CAF50;
+    --second-base-color: #388E3C;
+    --dark-gray: #333333;
+    --medium-gray: #444444;
+    --error-color: #FF4136;
+}
+
+* {
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.swal2-dark {
+    background-color: #22252c !important;
+    /* Dark background color */
+    color: #fff;
+    /* White text color */
+}
