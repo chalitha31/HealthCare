@@ -52,3 +52,67 @@ function filterTable() {
         }
     }
 }
+
+// function checkAge(){
+
+//     const age = document.getElementById('age').value;
+// if(age < 0) {
+
+
+// }
+// }
+
+
+function registerPatient() {
+
+    const name = document.getElementById('name').value;
+    const nic = document.getElementById('nic').value;
+    const age = document.getElementById('age').value;
+    const email = document.getElementById('email').value;
+    const address = document.getElementById('address').value;
+    const contact = document.getElementById('contact').value;
+    const symptoms = document.getElementById('symptoms').value;
+
+    patientDetails = {
+
+        "name": name,
+        "nic": nic,
+        "age": age,
+        "email": email,
+        "address": address,
+        "contact": contact,
+        "symptoms": symptoms,
+
+    };
+
+
+    fetch("http://localhost/HealthCare/reception/receptionProcess.php", {
+
+
+        method: "POST",
+        body: JSON.stringify(patientDetails)
+    })
+
+    .then(function(response) {
+        return response.text();
+
+    })
+
+    .then(function(data) {
+
+        if (data === "success") {
+            alert("success");
+            window.location.reload();
+        } else {
+            console.log(data);
+        }
+
+    })
+
+    .catch(function(err) {
+
+        console.error("resiptionProcess  error : ".err);
+
+    })
+
+}

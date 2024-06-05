@@ -19,6 +19,7 @@
             font-size: 16px;
             outline: none;
         }
+
         #searchBar:focus {
             border-color: var(--base-color);
         }
@@ -28,7 +29,8 @@
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px 15px;
             border: 1px solid var(--medium-gray);
             text-align: left;
@@ -52,36 +54,55 @@
             background-color: var(--medium-gray);
             color: white;
         }
-
     </style>
 
-<script>
-    
+    <script>
 
-</script>
+
+    </script>
 </head>
 <h2 class="content-title">Patients</h2>
-    <input type="text" id="searchBar" placeholder="Search..." onkeyup="filterTable()">
-    <table id="dataTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr onclick="window.location.href='#'">
-                <td>1</td>
-                <td>John Doe</td>
-            </tr>
-            <tr onclick="window.location.href='#'">
+<input type="text" id="searchBar" placeholder="Search..." onkeyup="filterTable()">
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>Patients ID</th>
+            <th>Patients Name</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    <?php
+    require_once "../connection.php";
+
+
+    $patientResultSet = Database::search("SELECT * FROM `registered_patients`");
+
+    $patientCount = $patientResultSet->num_rows;
+
+    if ($patientCount > 0) {
+
+        while ($patientResult = $patientResultSet->fetch_assoc()) {
+    ?>
+           
+                <tr ondblclick="window.location.href='profile-view.php?p_id=<?php echo $patientResult['p_id'] ?>'">
+                    <td><?php echo $patientResult['p_id'] ?></td>
+                    <td><?php echo $patientResult['name'] ?></td>
+                </tr>
+                <!-- <tr onclick="window.location.href='#'">
                 <td>2</td>
                 <td>Jane Smith</td>
             </tr>
             <tr onclick="window.location.href='#'">
                 <td>3</td>
                 <td>Michael Johnson</td>
-            </tr>
-        </tbody>
-    </table>
+            </tr> -->
+           
 
+    <?php
+        }
+    }
+
+    ?>
+ </tbody>
+</table>

@@ -74,7 +74,7 @@
     </style>
 </head>
 <h2 class="content-title">Patient Registration</h2>
-<form class="registration-form">
+<div class="registration-form">
     <div class="form-row">
         <div class="form-group">
             <label for="name">Name:</label>
@@ -109,5 +109,5 @@
         <label for="symptoms">Symptoms:</label>
         <textarea id="symptoms" name="symptoms" rows="4" required></textarea>
     </div>
-    <button type="submit">Register</button>
-</form>
+    <button type="submit" onclick="registerPatient()">Register</button>
+</div>
