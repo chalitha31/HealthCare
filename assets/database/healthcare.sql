@@ -21,18 +21,52 @@ USE `healthcare`;
 
 -- Dumping structure for table healthcare.patients_details
 CREATE TABLE IF NOT EXISTS `patients_details` (
-  `id` int DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `patients_id` int DEFAULT NULL,
-  `symptoms` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `reception_id` varchar(50) DEFAULT NULL,
+  `symptoms` text,
+  `Prescriptions` text,
+  `doctor_id` varchar(50) DEFAULT NULL,
+  `age` int DEFAULT NULL,
+  `symptoms_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_patients_details_register_patients` (`patients_id`),
+  KEY `FK_patients_details_register_reception` (`reception_id`),
+  KEY `FK_patients_details_registered_doctor` (`doctor_id`),
+  CONSTRAINT `FK_patients_details_register_patients` FOREIGN KEY (`patients_id`) REFERENCES `registered_patients` (`p_id`),
+  CONSTRAINT `FK_patients_details_register_reception` FOREIGN KEY (`reception_id`) REFERENCES `registered_reception` (`id_num`),
+  CONSTRAINT `FK_patients_details_registered_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `registered_doctor` (`id_num`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Dumping data for table healthcare.patients_details: ~0 rows (approximately)
+INSERT INTO `patients_details` (`id`, `patients_id`, `reception_id`, `symptoms`, `Prescriptions`, `doctor_id`, `age`, `symptoms_date`) VALUES
+	(1, 5, '1542658v', 'fdfsf', 'sdsdsdasda', '785645v', 25, '2024-06-05 22:00:24'),
+	(2, 6, '1542658v', 'fdf', '', '785645v', 35, '2024-06-05 22:00:24'),
+	(3, 7, '1542658v', 'abcdeg', '', '785645v', 26, '2024-06-05 22:01:26'),
+	(4, 8, '1542658v', 'abnd kfhie kdlke odk', 'penadol  20mg', '785645v', 26, '2024-06-05 22:02:06'),
+	(5, 9, '1542658v', 'fdfha uefn ', '', '785645v', 56, '2024-06-05 22:02:25'),
+	(6, 7, '1542658v', 'abnd kfhie kfdfffffff33', 'penadol  20mg', '785645v', 27, '2024-06-05 22:04:11');
 
--- Dumping structure for table healthcare.register_patients
-CREATE TABLE IF NOT EXISTS `register_patients` (
+-- Dumping structure for table healthcare.registered_doctor
+CREATE TABLE IF NOT EXISTS `registered_doctor` (
+  `id_num` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `verification_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `register_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id_num`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table healthcare.registered_doctor: ~0 rows (approximately)
+INSERT INTO `registered_doctor` (`id_num`, `name`, `email`, `mobile`, `password`, `verification_code`, `register_date`) VALUES
+	('785645v', 'doc01', 'doc@gmail.com', '0716585698', '12342', NULL, '2024-06-05 17:32:06');
+
+-- Dumping structure for table healthcare.registered_patients
+CREATE TABLE IF NOT EXISTS `registered_patients` (
   `p_id` int NOT NULL AUTO_INCREMENT,
-  `fname` varchar(50) DEFAULT NULL,
-  `lname` varchar(50) DEFAULT NULL,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `mobile` varchar(12) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `id_num` varchar(20) DEFAULT NULL,
@@ -42,16 +76,24 @@ CREATE TABLE IF NOT EXISTS `register_patients` (
   `reception_id` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`p_id`),
   KEY `FK_register_patients_register_reception` (`reception_id`),
-  CONSTRAINT `FK_register_patients_register_reception` FOREIGN KEY (`reception_id`) REFERENCES `register_reception` (`id_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `FK_register_patients_register_reception` FOREIGN KEY (`reception_id`) REFERENCES `registered_reception` (`id_num`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table healthcare.register_patients: ~0 rows (approximately)
+-- Dumping data for table healthcare.registered_patients: ~0 rows (approximately)
+INSERT INTO `registered_patients` (`p_id`, `name`, `mobile`, `email`, `id_num`, `address`, `age`, `register_date`, `reception_id`) VALUES
+	(2, 'abcd efg', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 23, '2024-06-05 17:51:47', '1542658v'),
+	(3, 'chalitha chamod', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 12, '2024-06-05 17:55:27', '1542658v'),
+	(4, 'chalitha chamod', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 34, '2024-06-05 18:17:16', '1542658v'),
+	(5, 'chalitha chamod', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 23, '2024-06-05 18:18:07', '1542658v'),
+	(6, 'chalitha chamod', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 34, '2024-06-05 18:18:53', '1542658v'),
+	(7, 'sanuka tharaka', '07165846895', 'sanuka@gmail.com', '254685v', 'galgamuwa alawwa', 26, '2024-06-05 22:01:26', '1542658v'),
+	(8, 'sanuka tharaka', '07165846895', 'sanuka@gmail.com', '254685v', 'galgamuwa alawwa', 26, '2024-06-05 22:02:06', '1542658v'),
+	(9, 'chalitha chamod', '0713772006', 'chalithachamod3031@gmail.com', '4564', 'pinnagollawththa maharachchimulla alawwa', 56, '2024-06-05 22:02:25', '1542658v');
 
--- Dumping structure for table healthcare.register_reception
-CREATE TABLE IF NOT EXISTS `register_reception` (
+-- Dumping structure for table healthcare.registered_reception
+CREATE TABLE IF NOT EXISTS `registered_reception` (
   `id_num` varchar(50) NOT NULL,
-  `fname` varchar(50) DEFAULT NULL,
-  `lname` varchar(50) DEFAULT NULL,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `password` varchar(200) DEFAULT NULL,
@@ -60,7 +102,9 @@ CREATE TABLE IF NOT EXISTS `register_reception` (
   PRIMARY KEY (`id_num`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table healthcare.register_reception: ~0 rows (approximately)
+-- Dumping data for table healthcare.registered_reception: ~0 rows (approximately)
+INSERT INTO `registered_reception` (`id_num`, `name`, `email`, `mobile`, `password`, `verification_code`, `register_date`) VALUES
+	('1542658v', 'recip_01', 'res@gmail.com', '0716584569', '12345', NULL, '2024-06-05 17:29:18');
 
 -- Dumping structure for table healthcare.user
 CREATE TABLE IF NOT EXISTS `user` (
@@ -72,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table healthcare.user: ~0 rows (approximately)
+-- Dumping data for table healthcare.user: ~2 rows (approximately)
 INSERT INTO `user` (`fname`, `lname`, `email`, `password`, `register_Date`) VALUES
 	('abc', 'def', 'abc@gmail.com', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2024-06-04 01:32:47'),
 	('qwe', 'qwe', 'qwe@gmail.com', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', '2024-06-04 11:18:10');
