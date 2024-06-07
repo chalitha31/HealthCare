@@ -82,6 +82,7 @@ function registerPatient() {
         "address": address,
         "contact": contact,
         "symptoms": symptoms,
+        "status": "add",
 
     };
 

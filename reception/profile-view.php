@@ -49,7 +49,7 @@ $patient_id = $_GET["p_id"];
                     </div>
                     <div class="form-group">
                         <label>NIC:</label>
-                        <input class="profile-inputs" type="text" id="nic" name="name" value="<?php echo $patientResult["id_num"]; ?>" disabled required>
+                        <input class="profile-inputs" type="text" id="nic" name="nic" value="<?php echo $patientResult["id_num"]; ?>" disabled required>
                         <!-- <span>123456789V</span> -->
                     </div>
                     <div class="form-group">
@@ -73,7 +73,7 @@ $patient_id = $_GET["p_id"];
                         <!-- <span>+123456789</span> -->
                     </div>
                 </div>
-                <button class="save-details">Save</button>
+                <button onclick="updatePatientProfile(<?php echo $patient_id ?>);" class="save-details">Save</button>
 
             <?php
             }
@@ -99,100 +99,75 @@ $patient_id = $_GET["p_id"];
                     </tr>
                 </thead>
                 <tbody>
+                <?php
+        $patientDetailsResultSet = Database::search("SELECT * FROM `patients_details` WHERE `patients_id` = '" . $patient_id . "'");
+        $patientDetailsCount = $patientDetailsResultSet->num_rows;
 
-                    <?php
-                    $patientDetailsResultSet = Database::search("SELECT * FROM `patients_details` WHERE `patients_id` = '" . $patient_id . "'");
+        if ($patientDetailsCount > 0) {
+            while ($patientDetailsResult = $patientDetailsResultSet->fetch_assoc()) {
+                $recordId = $patientDetailsResult["id"]; // Assuming id is unique for each record
+        ?>
+                <tr onclick="showPopup('details-popup-<?php echo $recordId; ?>')">
+                    <td><?php echo $recordId; ?></td>
+                    <td><?php echo $patientDetailsResult["symptoms_date"]; ?></td>
+                    <td><?php echo $patientDetailsResult["age"]; ?></td>
 
-                    $patientDetailsCount = $patientDetailsResultSet->num_rows;
+                    <?php if (empty($patientDetailsResult["Prescriptions"])) { ?>
+                        <td><button class="status-btn pending">Pending</button></td>
+                    <?php } else { ?>
+                        <td><button class="status-btn checked">Checked</button></td>
+                    <?php } ?>
+                </tr>
 
-                    if ($patientDetailsCount > 0) {
-                        while ($patientDetailsResult = $patientDetailsResultSet->fetch_assoc()) {
-                    ?>
-
-                            <tr onclick="showPopup('details-popup')">
-                                <td><?php echo $patientDetailsResult["id"]; ?></td>
-                                <td><?php echo $patientDetailsResult["symptoms_date"]; ?></td>
-                                <td><?php echo $patientDetailsResult["age"]; ?></td>
-
-                                <?php
-
-                                if ($patientDetailsResult["Prescriptions"] == "") {
-                                ?>
-
-                                    <td><button class="status-btn pending">pending</button></td>
-
-                                <?php
-                                } else {
-                                ?>
-                                    <td><button class="status-btn checked">Checked</button></td>
-
-                                <?php
-                                }
-
-                                ?>
-
-                            </tr>
-                            <!-- <tr onclick="showPopup('details-popup')">
-                                <td>2</td>
-                                <td>2024-06-02 11:00 AM</td>
-                                <td>30</td>
-                                <td><button class="status-btn checked">Checked</button></td>
-                            </tr> -->
-
-
-
-
-                            <!-- Popup Container for Details -->
-
-                    <?php
-                        }
-                    }
-                    ?>
-
+                <!-- Popup Container for Details -->
+                <div id="details-popup-<?php echo $recordId; ?>" class="popup-container" style="display: none;">
+                    <div class="popup-content">
+                        <span class="close-btn" onclick="closePopup('details-popup-<?php echo $recordId; ?>')">&times;</span>
+                        <h2>Record</h2>
+                        <div class="details-columns">
+                            <div class="details-column">
+                                <h3>Symptoms</h3>
+                                <div class="text-container">
+                                    <p class="symptoms-text"><?php echo $patientDetailsResult["symptoms"]; ?></p>
+                                </div>
+                            </div>
+                            <div class="details-column">
+                                <h3>Prescriptions</h3>
+                                <div class="text-container">
+                                    <p class="prescriptions-text"><?php echo $patientDetailsResult["Prescriptions"]; ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Popup Container for Details -->
+        <?php
+            }
+        }
+        ?>
                 </tbody>
             </table>
         </div>
 
-        <div id="details-popup" class="popup-container">
-            <div class="popup-content">
-                <span class="close-btn" onclick="closePopup('details-popup')">&times;</span>
-                <h2>Record</h2>
-                <div class="details-columns">
-                    <div class="details-column">
-                        <h3>Symptoms</h3>
-                        <div class="text-container">
-                            <!-- <p class="symptoms-text"><?php echo $patientDetailsResult["symptoms"]; ?></p> -->
-                            <p class="prescriptions-text">Nullam dictum felis eu pede mollis pretium.</p>
-                            <p class="prescriptions-text">Nullam dictum felis eu pede mollis pretium.</p>
-                            <p class="prescriptions-text">Nullam dictum felis eu pede mollis pretium.</p>
-                            <p class="prescriptions-text">Nullam dictum felis eu pede mollis pretium.</p>
+        <!-- Popup Container for Details -->
 
-                        </div>
-                    </div>
-                    <div class="details-column">
-                        <h3>Prescriptions</h3>
-                        <div class="text-container">
-                            <p class="prescriptions-text">Nullam dictum felis eu pede mollis pretium.</p>
-                            <p class="prescriptions-text">Nullam dictum felis eu pede mollis pretium.</p>s
-                            <!-- <p class="prescriptions-text"><?php echo $patientDetailsResult["Prescriptions"]; ?></p> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+       
+
+        <!-- Popup Container for Details -->
+
 
         <!-- Popup Container for Adding Symptoms -->
         <div id="add-symptoms-popup" class="popup-container">
             <div class="popup-content">
                 <span class="close-btn" onclick="closePopup('add-symptoms-popup')">&times;</span>
                 <h2>Add New Symptoms</h2>
-                <form id="addSymptomsForm">
+                <div class="addSymptomsForm" id="addSymptomsForm">
                     <div class="form-group">
                         <!-- <label for="symptoms">Symptoms:</label> -->
                         <textarea id="symptoms" name="symptoms" rows="4" required></textarea>
                     </div>
-                    <button type="submit">Add Symptoms</button>
-                </form>
+                    <button onclick="exsitsPatientAddSymptoms(<?php echo $patient_id ?>)" type="submit">Add Symptoms</button>
+                </div>
             </div>
         </div>
     </div>

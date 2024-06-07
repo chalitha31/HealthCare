@@ -1,4 +1,3 @@
-
 body {
     font-family: Arial, sans-serif;
     background-color: #f1f1f1;
@@ -24,7 +23,7 @@ body {
     border-radius: 10px;
 }
 
-.detail-heading{
+.detail-heading {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -36,19 +35,19 @@ body {
     width: 100%;
 }
 
-.edit-details{
+.edit-details {
     margin-left: auto;
     font-size: 18px;
     font-weight: 400;
-
 }
 
-.fa-pen-to-square{
+.fa-pen-to-square {
     font-size: 18px;
     color: var(--dark-gray);
     cursor: pointer;
 }
-.fa-pen-to-square:hover{
+
+.fa-pen-to-square:hover {
     color: var(--base-color);
 }
 
@@ -109,7 +108,6 @@ body {
     background-color: var(--second-base-color);
 }
 
-
 .symptoms-table-container {
     margin-top: 80px;
     padding: 20px;
@@ -120,7 +118,7 @@ body {
     margin-bottom: 20px;
 }
 
-#symptoms{
+#symptoms {
     resize: vertical;
 }
 
@@ -146,11 +144,12 @@ table {
 }
 
 #symptomsTable th,
-#symptomsTable td{
+#symptomsTable td {
     text-align: center;
 }
 
-th, td {
+th,
+td {
     padding: 12px 15px;
     border: 1px solid var(--medium-gray);
     text-align: left;
@@ -204,7 +203,8 @@ tbody tr:hover {
     max-width: 90%;
     position: relative;
 }
-.popup-content h2{
+
+.popup-content h2 {
     color: var(--base-color);
     margin-bottom: 20px;
 }
@@ -218,22 +218,26 @@ tbody tr:hover {
     color: var(--dark-gray);
 }
 
-form {
+
+/* form change .addSymptomsForm */
+
+.addSymptomsForm {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-form .form-group {
+.addSymptomsForm.form-group {
     margin-bottom: 15px;
 }
 
-form label {
+.addSymptomsForm label {
     margin-bottom: 5px;
     color: var(--dark-gray);
 }
 
-form input, form textarea {
+.addSymptomsForm input,
+.addSymptomsForm textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid var(--medium-gray);
@@ -244,12 +248,13 @@ form input, form textarea {
     transition: border-color 0.3s;
 }
 
-form input:focus, form textarea:focus {
+.addSymptomsForm input:focus,
+.addSymptomsForm textarea:focus {
     border-color: var(--base-color);
     outline: none;
 }
 
-form button {
+.addSymptomsForm button {
     padding: 10px 15px;
     background-color: var(--base-color);
     border: none;
@@ -260,12 +265,12 @@ form button {
     transition: background-color 0.3s;
 }
 
-form button:hover {
+.addSymptomsForm button:hover {
     background-color: var(--second-base-color);
 }
 
 
-
+/* end changes */
 
 .popup-container {
     display: none;
@@ -310,7 +315,7 @@ form button:hover {
     flex: 1;
 }
 
-.text-container{
+.text-container {
     max-height: 600px;
     overflow-y: auto;
 }
@@ -327,13 +332,13 @@ form button:hover {
     border-radius: 5px;
 }
 
+
 /* Responsive Design */
 
 @media (max-width: 768px) {
     .profile-details .form-row {
         flex-direction: column;
     }
-
     .profile-details .form-group {
         min-width: 100%;
     }
