@@ -36,16 +36,23 @@ CREATE TABLE IF NOT EXISTS `patients_details` (
   CONSTRAINT `FK_patients_details_register_patients` FOREIGN KEY (`patients_id`) REFERENCES `registered_patients` (`p_id`),
   CONSTRAINT `FK_patients_details_register_reception` FOREIGN KEY (`reception_id`) REFERENCES `registered_reception` (`id_num`),
   CONSTRAINT `FK_patients_details_registered_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `registered_doctor` (`id_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table healthcare.patients_details: ~0 rows (approximately)
+-- Dumping data for table healthcare.patients_details: ~6 rows (approximately)
 INSERT INTO `patients_details` (`id`, `patients_id`, `reception_id`, `symptoms`, `Prescriptions`, `doctor_id`, `age`, `symptoms_date`) VALUES
 	(1, 5, '1542658v', 'fdfsf', 'sdsdsdasda', '785645v', 25, '2024-06-05 22:00:24'),
 	(2, 6, '1542658v', 'fdf', '', '785645v', 35, '2024-06-05 22:00:24'),
 	(3, 7, '1542658v', 'abcdeg', '', '785645v', 26, '2024-06-05 22:01:26'),
 	(4, 8, '1542658v', 'abnd kfhie kdlke odk', 'penadol  20mg', '785645v', 26, '2024-06-05 22:02:06'),
 	(5, 9, '1542658v', 'fdfha uefn ', '', '785645v', 56, '2024-06-05 22:02:25'),
-	(6, 7, '1542658v', 'abnd kfhie kfdfffffff33', 'penadol  20mg', '785645v', 27, '2024-06-05 22:04:11');
+	(6, 7, '1542658v', 'abnd kfhie kfdfffffff33', 'penadol  20mg', '785645v', 27, '2024-06-05 22:04:11'),
+	(7, 2, '1542658v', 'head problems\neye problems\nhand problems', '', '785645v', 23, '2024-06-07 19:36:54'),
+	(8, 2, '1542658v', '', '', '785645v', 25, '2024-06-07 19:39:12'),
+	(9, 2, '1542658v', 'abc deg ghi', '', '785645v', 25, '2024-06-07 19:39:26'),
+	(10, 2, '1542658v', 'aaaaaaaaaaaaaaaaaaaaa', '', '785645v', 30, '2024-06-07 21:24:05'),
+	(11, 10, '1542658v', 'fdjsp kjdpfmk[p kfkfls ', '', '785645v', 5, '2024-06-07 21:25:07'),
+	(12, 10, '1542658v', 'gklgl pgl [[ ]. ggfg', '', '785645v', 16, '2024-06-07 21:25:58'),
+	(13, 10, '1542658v', 'a', '', '785645v', 20, '2024-06-07 21:27:02');
 
 -- Dumping structure for table healthcare.registered_doctor
 CREATE TABLE IF NOT EXISTS `registered_doctor` (
@@ -77,18 +84,19 @@ CREATE TABLE IF NOT EXISTS `registered_patients` (
   PRIMARY KEY (`p_id`),
   KEY `FK_register_patients_register_reception` (`reception_id`),
   CONSTRAINT `FK_register_patients_register_reception` FOREIGN KEY (`reception_id`) REFERENCES `registered_reception` (`id_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table healthcare.registered_patients: ~0 rows (approximately)
+-- Dumping data for table healthcare.registered_patients: ~8 rows (approximately)
 INSERT INTO `registered_patients` (`p_id`, `name`, `mobile`, `email`, `id_num`, `address`, `age`, `register_date`, `reception_id`) VALUES
-	(2, 'abcd efg', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 23, '2024-06-05 17:51:47', '1542658v'),
+	(2, 'abcd efg', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 30, '2024-06-07 21:24:00', '1542658v'),
 	(3, 'chalitha chamod', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 12, '2024-06-05 17:55:27', '1542658v'),
 	(4, 'chalitha chamod', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 34, '2024-06-05 18:17:16', '1542658v'),
 	(5, 'chalitha chamod', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 23, '2024-06-05 18:18:07', '1542658v'),
 	(6, 'chalitha chamod', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 34, '2024-06-05 18:18:53', '1542658v'),
-	(7, 'sanuka tharaka', '07165846895', 'sanuka@gmail.com', '254685v', 'galgamuwa alawwa', 26, '2024-06-05 22:01:26', '1542658v'),
+	(7, 'sanuka tharaka', '0711234567', 'sanuka@gmail.com', '254685v', 'galgamuwa alawwa', 30, '2024-06-07 12:26:29', '1542658v'),
 	(8, 'sanuka tharaka', '07165846895', 'sanuka@gmail.com', '254685v', 'galgamuwa alawwa', 26, '2024-06-05 22:02:06', '1542658v'),
-	(9, 'chalitha chamod', '0713772006', 'chalithachamod3031@gmail.com', '4564', 'pinnagollawththa maharachchimulla alawwa', 56, '2024-06-05 22:02:25', '1542658v');
+	(9, 'chalitha chamod', '0783772006', 'chalithachamod@gmail.com', '4564', 'maharachchimulla alawwa', 20, '2024-06-07 12:24:53', '1542658v'),
+	(10, 'adeesha', '07165984679', 'abcdeg@gmail.com', '24698752', 'alawwa kurunegala', 20, '2024-06-07 21:26:59', '1542658v');
 
 -- Dumping structure for table healthcare.registered_reception
 CREATE TABLE IF NOT EXISTS `registered_reception` (
