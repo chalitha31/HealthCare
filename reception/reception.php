@@ -1,3 +1,14 @@
+<?php 
+
+session_start();
+
+$Tname = $_GET["name"];
+
+
+if(isset($_SESSION["name"])){
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +24,7 @@
 <body>
     <header>
         <div class="logo">Healthcare</div>
-        <div class="header-username">UserName</div>
+        <div class="header-username"><?php echo $_SESSION["name"] ?></div>
         <!-- <button id="loginBtn">Login</button> -->
     </header>
     <div class="main-container">
@@ -21,10 +32,10 @@
             <ul>
                 <li><a href="#" class="tab" data-target="registration.php">Patient Registration</a></li>
                 <li><a href="#" class="tab" data-target="patients.php">Patients</a></li>
-                <li><a href="#" class="tab">DNDs</a></li>
-                <li><a href="#" class="tab">CDs</a></li>
-                <li><a href="#" class="tab">Articles</a></li>
-                <li><a href="#" class="tab">Messages</a></li>
+                <li><a href="../employee-profile.php?name=<?php echo $Tname ?>" class="tabb">View Profile</a></li>
+                <li style="  cursor: not-allowed;pointer-events: none;"><a href="#" class="tab">CDs</a></li>
+                <li style=" pointer-events: none; cursor: not-allowed;"><a href="#" class="tab">Articles</a></li>
+                <li style=" pointer-events: none; cursor: not-allowed;"><a href="#" class="tab">Messages</a></li>
             </ul>
         </aside>
         <div class="content" id="content">
@@ -36,7 +47,18 @@
         </div>
     </div>
     <script src="reception.js"></script>
-    <script src=""></script>
+    <script src="">
+    </script>
 </body>
 
 </html>
+
+<?php 
+
+}else{
+
+    header("Location: ../employee-profile.php?name=".$Tname);
+
+}
+
+?>

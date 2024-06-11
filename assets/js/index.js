@@ -38,10 +38,27 @@ function login() {
             }
         )
         .then(data => {
-            if (data === "success") {
-                console.log("Success");
+            if (data === "user") {
+                // console.log("Success");
                 // window.location = "reception.php";
                 location.reload();
+            } else if (data === "registered_doctor") {
+
+                // window.location = "reception.php";
+
+            } else if (data === "registered_mlt") {
+
+                // window.location = "reception.php";
+            } else if (data === "registered_pharmacists") {
+
+                // window.location = "reception.php";
+
+            } else if (data === "registered_reception") {
+
+                window.location = "reception/reception.php?name=" + data;
+            } else if (data === "admin") {
+
+                window.location = "admin/admin.php";
             } else {
                 Swal.fire({
                     icon: "error",
@@ -49,7 +66,7 @@ function login() {
                     // color: "#22252c",
                     background: "#fff",
                     // text: "Something went wrong!",
-                    text: data,
+                    text: "invalid login details!",
                     customClass: {
                         popup: 'swal2-dark'
                     }

@@ -28,7 +28,7 @@ $contact = $patientDetails->contact;
 $symptoms = $patientDetails->symptoms;
 
     Database::iud("INSERT INTO `registered_patients` (`name`,`mobile`,`email`,`id_num`,`address`,`age`,`register_date`,`reception_id`) 
-VALUES('" . $name . "','" . $contact . "','" . $email . "','" . $nic . "','" . $address . "','" . $age . "','" . $date . "','1542658v') ");
+VALUES('" . $name . "','" . $contact . "','" . $email . "','" . $nic . "','" . $address . "','" . $age . "','" . $date . "','".$_SESSION["idnum"]."') ");
 
 $patienResult = Database::search("SELECT * FROM `registered_patients` WHERE `register_date` = '$date' AND `name` = '$name'");
 $numrow = $patienResult->num_rows;
@@ -39,7 +39,7 @@ if ($numrow > 0) {
 
 
     Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`)
-VALUES('" . $p_id . "','1542658v','" . $symptoms . "','','785645v','" . $date . "','" . $age . "') ");
+VALUES('" . $p_id . "','".$_SESSION["idnum"]."','" . $symptoms . "','','785645v','" . $date . "','" . $age . "') ");
     echo "success";
     exit();
 }else{
@@ -67,7 +67,7 @@ $symptoms = $patientDetails->symptoms;
 $patientProfile_id = $patientDetails->patientProfile_id;
     
     Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`)
-    VALUES('" . $patientProfile_id . "','1542658v','" . $symptoms . "','','785645v','" . $date . "','" . $age . "') ");
+    VALUES('" . $patientProfile_id . "','".$_SESSION["idnum"]."','" . $symptoms . "','','785645v','" . $date . "','" . $age . "') ");
         echo "success";
         exit();
 }

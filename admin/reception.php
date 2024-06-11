@@ -70,23 +70,23 @@
             margin-bottom: 10px;
         }
 
-        form {
+        .emailForm {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
 
-        form .form-group {
+        .emailForm.form-group {
             margin-bottom: 15px;
         }
 
-        form label {
+        .emailForm label {
             margin-bottom: 5px;
             color: var(--dark-gray);
         }
 
-        form input,
-        form textarea {
+        .emailForm input,
+        .emailForm textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid var(--medium-gray);
@@ -97,13 +97,13 @@
             transition: border-color 0.3s;
         }
 
-        form input:focus,
-        form textarea:focus {
+        .emailForm input:focus,
+        .emailForm textarea:focus {
             border-color: var(--base-color);
             outline: none;
         }
 
-        form button {
+        .emailForm button {
             padding: 10px 15px;
             background-color: var(--base-color);
             border: none;
@@ -114,7 +114,7 @@
             transition: background-color 0.3s;
         }
 
-        form button:hover {
+        .emailForm button:hover {
             background-color: var(--second-base-color);
         }
     </style>
@@ -150,7 +150,7 @@
 </table>
 <div class="email-form-container">
     <h3>Add new Receptionist</h3>
-    <form method="post" action="sendLoginDetails.php" id="emailForm">
+    <!-- <form  id="emailForm">
     <input type="hidden" name="source" value="receptionist">
         <div class="form-group">
             <label for="nic">Nic/Passport no :</label>
@@ -161,5 +161,19 @@
             <input type="email" id="email" name="email" required>
         </div>
         <button type="submit">Send</button>
-    </form>
+    </form> -->
+
+    <div class="emailForm" id="emailForm">
+    <input type="hidden" name="source" id="source"  value="receptionist">
+        <div class="form-group">
+            <label for="nic">Nic/Passport no :</label>
+            <input type="text" id="nic" name="nic" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <button onclick="sendemail()" type="submit">Send</button>
+      
+    </div>
 </div>

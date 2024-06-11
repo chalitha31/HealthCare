@@ -9,19 +9,25 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-if (!isset($_POST["nic"])) {
+    $formData = json_decode(file_get_contents("php://input"));
+
+if (!isset($formData->nic)) {
 
     echo "Please enter your nic or passport number!";
-} elseif (!isset($_POST["email"])) {
+}else if (empty($formData->nic)) {
+    echo "Please enter your nic or passport number!";
+} else if (empty($formData->email)) {
     echo "Please enter your Email address.";
 } else {
 
 
-    $nic = $_POST["nic"];
-    $email = $_POST["email"];
-    $source = $_POST["source"];
+    $nic = $formData->nic;
+    $email = $formData->email;
+    $source = $formData->source;
 
-    $code = substr(uniqid(), 0, 8);   
+    $pwHash = substr(uniqid(), 0, 8);   
+
+    $code = hash("sha256", "$pwHash");
             
     // Process data based on the source
     switch ($source) {
@@ -64,7 +70,7 @@ if (!isset($_POST["nic"])) {
             We are pleased to welcome you to Healthcare. Your account has been successfully created, and you can now access our Healthcare Admin Panel. Below are your login credentials:<br><br>
             <strong>Login URL:</strong> <a href='http://localhost/HealthCare/index.php'>Healthcare</a><br>
             <strong>Email : </strong> {$email}<br>
-            <strong>Temporary Password : </strong> {$code}<br><br>
+            <strong>Temporary Password : </strong> {$pwHash}<br><br>
             For security reasons, we recommend that you log in to your account immediately and update your password and profile information.<br><br>
             <strong>How to Log In:</strong><br>
             <ol>
@@ -93,7 +99,7 @@ if (!isset($_POST["nic"])) {
             "We are pleased to welcome you to Healthcare. Your account has been successfully created, and you can now access our Healthcare Admin Panel. Below are your login credentials:\n\n".
             "Login URL: http://localhost/HealthCare/index.php\n".
             "Email: {$email}\n".
-            "Temporary Password: {$code}\n\n".
+            "Temporary Password: {$pwHash}\n\n".
             "For security reasons, we recommend that you log in to your account immediately and update your password and profile information.\n\n".
             "How to Log In:\n".
             "1. Visit the http://localhost/HealthCare/index.php.\n".
