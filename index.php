@@ -129,6 +129,14 @@ session_start();
                 <p>Pediatrician</p>
             </div>
         </section>
+
+        <div class="about-section">
+            <h2>About Us</h2>
+            <p>Welcome to our healthcare website. Our mission is to provide comprehensive healthcare services with a focus on quality and patient satisfaction. We have a team of dedicated professionals who are here to meet your medical needs and ensure you receive the best care possible.</p>
+            <p>Our services include general health consultations, specialist referrals, laboratory tests, and more. We are committed to maintaining a high standard of care and staying up-to-date with the latest advancements in medical science.</p>
+            <p>Thank you for choosing our healthcare services. We look forward to serving you and your family.</p>
+        </div>
+
     </main>
 
     <footer>

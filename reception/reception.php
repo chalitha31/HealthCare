@@ -33,7 +33,7 @@ if(isset($_SESSION["name"])){
                 <li><a href="#" class="tab" data-target="registration.php">Patient Registration</a></li>
                 <li><a href="#" class="tab" data-target="patients.php">Patients</a></li>
                 <li><a href="../employee-profile.php?name=<?php echo $Tname ?>" class="tabb">View Profile</a></li>
-                <li style="  cursor: not-allowed;pointer-events: none;"><a href="#" class="tab">CDs</a></li>
+                <li><a href="../logoutEmployee.php" class="tabb">Log Out</a></li>
                 <li style=" pointer-events: none; cursor: not-allowed;"><a href="#" class="tab">Articles</a></li>
                 <li style=" pointer-events: none; cursor: not-allowed;"><a href="#" class="tab">Messages</a></li>
             </ul>

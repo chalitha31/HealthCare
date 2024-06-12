@@ -6,7 +6,7 @@ $Tname = $_GET["name"];
 
 $resultSet  = Database::search("SELECT * FROM  $Tname  WHERE `id_num` = '" . $_SESSION["idnum"] . "' AND `email` = '" . $_SESSION["email"] . "'");
 $numRow = $resultSet->num_rows;
-echo "<script>console.log('SELECT * FROM  $Tname  WHERE `id_num` = '" . $_SESSION["idnum"] . "' AND `email` = '" . $_SESSION["email"] . "'')</script>";
+// echo "<script>console.log('SELECT * FROM  $Tname  WHERE `id_num` = '" . $_SESSION["idnum"] . "' AND `email` = '" . $_SESSION["email"] . "'')</script>";
 if ($numRow > 0) {
     $userData = $resultSet->fetch_assoc();
 
@@ -116,7 +116,7 @@ if ($numRow > 0) {
 
         <div class="change-password-container">
             <h3>Change Password</h3>
-            <form id="changePasswordForm">
+            <div id="changePasswordForm">
                 <div class="form-group">
                     <label for="currentPassword">Current Password:</label>
                     <input type="password" id="currentPassword" name="currentPassword" required>
@@ -136,8 +136,8 @@ if ($numRow > 0) {
                     </div>
                 </div>
 
-                <button type="submit">Confirm</button>
-            </form>
+                <button onclick="changePassword('<?php echo $Tname ?>')" type="submit">Confirm</button>
+            </div>
         </div>
 
         <!-- Confirmation Popup -->
@@ -177,7 +177,7 @@ if ($numRow > 0) {
 
 <?php
 } else {
-    // header('Location: index.php');
+    header('Location: index.php');
 }
 
 ?>

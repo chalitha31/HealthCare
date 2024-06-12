@@ -38,8 +38,8 @@ if ($numrow > 0) {
     $p_id = $pd["p_id"];
 
 
-    Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`)
-VALUES('" . $p_id . "','".$_SESSION["idnum"]."','" . $symptoms . "','','785645v','" . $date . "','" . $age . "') ");
+    Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`,`medical_report`)
+VALUES('" . $p_id . "','".$_SESSION["idnum"]."','" . $symptoms . "','','785645v','" . $date . "','" . $age . "','no') ");
     echo "success";
     exit();
 }else{
@@ -66,8 +66,8 @@ $symptoms = $patientDetails->symptoms;
 
 $patientProfile_id = $patientDetails->patientProfile_id;
     
-    Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`)
-    VALUES('" . $patientProfile_id . "','".$_SESSION["idnum"]."','" . $symptoms . "','','785645v','" . $date . "','" . $age . "') ");
+    Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`,`medical_report`)
+    VALUES('" . $patientProfile_id . "','".$_SESSION["idnum"]."','" . $symptoms . "','','785645v','" . $date . "','" . $age . "','no') ");
         echo "success";
         exit();
 }

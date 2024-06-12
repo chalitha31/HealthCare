@@ -29,25 +29,7 @@ if (!isset($formData->nic)) {
 
     $code = hash("sha256", "$pwHash");
             
-    // Process data based on the source
-    switch ($source) {
-        case 'doctor':
-            Database::iud("INSERT INTO `registered_doctor` (`id_num`,`email`,`password`) VALUES ('" . $nic . "','" . $email . "','" . $code . "')");
-            break;
-        case 'receptionist':
-            Database::iud("INSERT INTO `registered_reception` (`id_num`,`email`,`password`) VALUES ('" . $nic . "','" . $email . "','" . $code . "')");
-            break;
-        case 'mlt':
-            Database::iud("INSERT INTO `registered_mlt` (`id_num`,`email`,`password`) VALUES ('" . $nic . "','" . $email . "','" . $code . "')");
-            break;
-        case 'pharmacist':
-            Database::iud("INSERT INTO `registered_pharmacists` (`id_num`,`email`,`password`) VALUES ('" . $nic . "','" . $email . "','" . $code . "')");
-            break;
-        default:
-            $subject = "Unknown Source";
-            $message = "Data received from an unknown source: ";
-            break;
-    }
+  
           
             $mail = new PHPMailer;
             $mail->IsSMTP();
@@ -123,6 +105,25 @@ if (!isset($formData->nic)) {
               
                 echo 'Verification code sending failed';
             } else {
+                  // Process data based on the source
+    switch ($source) {
+        case 'doctor':
+            Database::iud("INSERT INTO `registered_doctor` (`id_num`,`email`,`password`) VALUES ('" . $nic . "','" . $email . "','" . $code . "')");
+            break;
+        case 'receptionist':
+            Database::iud("INSERT INTO `registered_reception` (`id_num`,`email`,`password`) VALUES ('" . $nic . "','" . $email . "','" . $code . "')");
+            break;
+        case 'mlt':
+            Database::iud("INSERT INTO `registered_mlt` (`id_num`,`email`,`password`) VALUES ('" . $nic . "','" . $email . "','" . $code . "')");
+            break;
+        case 'pharmacist':
+            Database::iud("INSERT INTO `registered_pharmacists` (`id_num`,`email`,`password`) VALUES ('" . $nic . "','" . $email . "','" . $code . "')");
+            break;
+        default:
+            $subject = "Unknown Source";
+            $message = "Data received from an unknown source: ";
+            break;
+    }
                 echo 'success';
             }
        

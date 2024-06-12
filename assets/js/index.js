@@ -18,6 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+window.addEventListener('load', (e) => {
+    if (localStorage.getItem('examined') == null || localStorage.getItem('examined') == 'true') {
+        localStorage.setItem('examined', 'false');
+        console.log(localStorage.getItem('examined'));
+    }
+
+})
+
 function login() {
 
     const email = document.getElementById('email').value;
@@ -44,7 +52,7 @@ function login() {
                 location.reload();
             } else if (data === "registered_doctor") {
 
-                // window.location = "reception.php";
+                window.location = "doctor/doctor.php?name=" + data;
 
             } else if (data === "registered_mlt") {
 

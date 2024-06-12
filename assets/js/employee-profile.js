@@ -107,7 +107,31 @@ document.addEventListener('DOMContentLoaded', function() {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // Redirect to index page
-                            window.location.href = "reception/reception.php?name=" + data;
+                            // window.location.href = "reception/reception.php?name=" + data;
+
+                            if (data === "user") {
+                                // console.log("Success");
+                                // window.location = "reception.php";
+                                location.reload();
+                            } else if (data === "registered_doctor") {
+
+                                window.location = "doctor/doctor.php?name=" + data;
+
+                            } else if (data === "registered_mlt") {
+
+                                // window.location = "reception.php";
+                            } else if (data === "registered_pharmacists") {
+
+                                // window.location = "reception.php";
+
+                            } else if (data === "registered_reception") {
+
+                                window.location = "reception/reception.php?name=" + data;
+                            } else if (data === "admin") {
+
+                                window.location = "admin/admin.php";
+                            }
+
                         }
                     });
                 })
@@ -232,7 +256,65 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+function changePassword(tablen) {
 
+    const currentPassword = document.getElementById("currentPassword").value;
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmnewPassword = document.getElementById("confirmnewPassword").value;
+
+    const formD = {
+
+        "currentPassword": currentPassword,
+        "newPassword": newPassword,
+        "confirmnewPassword": confirmnewPassword,
+        "table": tablen,
+    }
+
+    fetch("http://localhost/HealthCare/changePassword.php", {
+        method: "POST",
+        body: JSON.stringify(formD),
+    })
+
+    .then(responce => {
+            return responce.text();
+        })
+        .then(data => {
+            if (data === "success") {
+                Swal.fire({
+                    icon: "success",
+                    title: "Complete!",
+                    // color: "#22252c",
+                    background: "#fff",
+                    // text: "Something went wrong!",
+                    text: "Password Change Successful!",
+                    customClass: {
+                        popup: 'swal2-dark'
+                    }
+
+                    // footer: '<a href="#">Why do I have this issue?</a>'
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    // color: "#22252c",
+                    background: "#fff",
+                    // text: "Something went wrong!",
+                    text: data,
+                    customClass: {
+                        popup: 'swal2-dark'
+                    }
+
+                    // footer: '<a href="#">Why do I have this issue?</a>'
+                });
+
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
+
+}
 
 
 
