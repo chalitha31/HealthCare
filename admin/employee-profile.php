@@ -5,79 +5,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile View</title>
-    <link rel="stylesheet" href="assets/css/common.css">
-    <link rel="stylesheet" href="assets/css/header.css">
-    <link rel="stylesheet" href="assets/css/employee-profile.css">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/header.css">
+    <link rel="stylesheet" href="employee-profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
 
 <?php 
-session_start();
+require_once "../connection.php";
+
+$idnum = $_GET["id_num"];
+$Tname = $_GET["tname"];
+
+$resultSet  = Database::search("SELECT * FROM  `$Tname`  WHERE `id_num` = '" . $idnum . "'");
+$numRow = $resultSet->num_rows;
+// echo "<script>console.log('SELECT * FROM  $Tname  WHERE `id_num` = '" . $_SESSION["idnum"] . "' AND `email` = '" . $_SESSION["email"] . "'')</script>";
+if ($numRow > 0) {
+    $userData = $resultSet->fetch_assoc();
+
 ?>
 
     <header class="header">
         <div class="logo">Healthcare</div>
-        <div class="header-username"><?php if (isset($_SESSION["name"])){
-            echo $_SESSION["name"]; }  ?></div>
+        <div class="header-username">Admin</div>
     </header>
     <div class="container">
         <div class="profile-details">
             <div class="detail-heading">
-                <h2>Patient Details</h2>
-                <i class="fa-solid fa-pen-to-square"></i>
+                <h2>Profile Details</h2>
+                <!-- <i class="fa-solid fa-pen-to-square"></i> -->
             </div>
 
             <div class="image-upload-container">
-                <label for="imageInput" class="image-lable" style="display: none;"><i class="fa-solid fa-cloud-arrow-up"></i></label>
-                <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                <!-- <label for="imageInput" class="image-lable" style="display: none;"><i class="fa-solid fa-cloud-arrow-up"></i></label>
+                <input type="file" id="imageInput" accept="image/*" style="display: none;"> -->
                 <div class="image-preview" id="imagePreview">
-                    <img id="imageDisplay" src="" alt="Employee Image" style="display: none;">
-                    <span id="imagePlaceholder">No image selected</span>
+                <?php
+                        if (isset($userData["image"])) {
+                        ?>
+   <img id="imageDisplay" src="../assets/images/Employe_profile/<?php echo $userData["image"] ?>" alt="Employee Image">
+
+<?php
+                        } else {
+                        ?>
+   <img id="imageDisplay" src="../assets/images/Employe_profile/emptyprofile.jpg" alt="Employee Image">
+
+<?php
+                        }
+                        ?>
+                   
+
+                 
+                    <!-- <span id="imagePlaceholder">No image selected</span> -->
                 </div>
             </div>
 
 
             <div class="form-row">
-                <div class="form-group">
-                    <label>Name:</label>
-                    <input class="profile-inputs" type="text" id="name" name="name" value="John Doe" disabled required>
-                    <!-- <span>John Doe</span> -->
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input class="profile-inputs" type="text" id="name" name="name" value="<?php echo $userData["name"] ?>" disabled required>
+                        <!-- <span>John Doe</span> -->
+                    </div>
+                    <div class="form-group">
+                        <label>NIC:</label>
+                        <input class="profile-inputs" type="text" id="nic" name="nic" value="<?php echo $userData["id_num"] ?>" disabled required>
+                        <!-- <span>123456789V</span> -->
+                    </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input class="profile-inputs" type="email" id="email" name="email" value="<?php echo $userData["email"] ?>" disabled>
+                        <!-- <span>john.doe@example.com</span> -->
+                    </div>
+                    <div class="form-group">
+                        <label>Age:</label>
+                        <input class="profile-inputs" type="number" id="age" name="age" value="<?php echo $userData["age"] ?>" disabled required>
+                        <!-- <span>30</span> -->
+                    </div>
+
+                    <div class="form-group">
+                        <label>Address:</label>
+                        <input class="profile-inputs" type="text" id="address" name="address" value="<?php echo $userData["address"] ?>" disabled required>
+                        <!-- <span>123 Main Street</span> -->
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Number:</label>
+                        <input class="profile-inputs" type="text" id="contact" name="contact" value="<?php echo $userData["mobile"] ?>" disabled required>
+                        <!-- <span>+123456789</span> -->
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>NIC:</label>
-                    <input class="profile-inputs" type="text" id="nic" name="nic" value="123456789V" disabled required>
-                    <!-- <span>123456789V</span> -->
-                </div>
-                <div class="form-group">
-                    <label>Age:</label>
-                    <input class="profile-inputs" type="number" id="age" name="age" value="30" disabled required>
-                    <!-- <span>30</span> -->
-                </div>
-                <div class="form-group">
-                    <label>Email (optional):</label>
-                    <input class="profile-inputs" type="email" id="email" name="email" value="john.doe@example.com" disabled>
-                    <!-- <span>john.doe@example.com</span> -->
-                </div>
-                <div class="form-group">
-                    <label>Address:</label>
-                    <input class="profile-inputs" type="text" id="address" name="address" value="123 Main Street" disabled required>
-                    <!-- <span>123 Main Street</span> -->
-                </div>
-                <div class="form-group">
-                    <label>Contact Number:</label>
-                    <input class="profile-inputs" type="text" id="contact" name="contact" value="+123456789" disabled required>
-                    <!-- <span>+123456789</span> -->
-                </div>
-            </div>
-            <div style="display: flex; width: 100%;" class="">
-                <div style="display: flex;  width: 53%;  justify-content: end;" class="">
+            <div style="display: flex; width: 100%; justify-content: center;" class="">
+                <!-- <div style="display: flex;  width: 53%;  justify-content: end;" class="">
                     <button class="save-details">Save</button>
-                </div>
-                <div style=" display: flex;  width: 47%; justify-content: end;" class="">
-                    <button id="blockButton" class="blockButton">Block</button>
-                </div>
+                </div> -->
+                <!-- <div style=" display: flex;  width: 47%; justify-content: center;" class=""> -->
+                <?php 
+                if( $userData["status"] == 2){
+?>
+ <button style="background-color: orange;" onclick="blockemployee('<?php echo $idnum ?>', '<?php echo $Tname ?>');" id="blockButton" class="blockButton">UnBlock</button>
+
+
+<?php
+                }else{
+?>
+
+<button onclick="blockemployee('<?php echo $idnum ?>', '<?php echo $Tname ?>');" id="blockButton" class="blockButton">Block</button>
+
+<?php
+                }
+
+                ?>
+                                   <!-- </div> -->
             </div>
         </div>
         <!-- <hr> -->
@@ -86,7 +126,7 @@ session_start();
 
     </div>
 
-    <div class="change-password-container">
+    <!-- <div class="change-password-container">
         <h3>Change Password</h3>
         <form id="changePasswordForm">
             <div class="form-group">
@@ -110,7 +150,7 @@ session_start();
 
             <button type="submit">Confirm</button>
         </form>
-    </div>
+    </div> -->
 
     <!-- Confirmation Popup -->
     <!-- <div id="confirmationPopup" class="popup-container">
@@ -140,7 +180,15 @@ session_start();
         </div>
     </div> -->
 
-    <script src="assets/js/employee-profile.js"></script>
+    <?php
+} else {
+    header('Location: admin.php');
+}
+
+?>
+
+    <script src="employee-profile.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

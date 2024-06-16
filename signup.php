@@ -14,6 +14,7 @@
         <!-- <button onclick="window.location.href='login.html'">Login</button> -->
     </header>
     <div class="signup-form-container">
+    <img src="assets/images/signup1.png" alt="Healthcare Image" class="sintro-image">
         <h2>Sign Up</h2>
         <form id="signupForm">
             <div class="form-row">
@@ -28,6 +29,10 @@
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact">Contact:</label>
+                    <input type="text" id="contact" name="contact" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password:</label>

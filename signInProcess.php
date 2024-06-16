@@ -12,7 +12,9 @@ if (empty($userLoginDetails->email) || empty($userLoginDetails->password)) {
 
     $pwHash = hash("sha256", "$userLoginDetails->password");
 
-    $Detailstables = ["user","admin", "registered_reception", "registered_pharmacists", "registered_mlt", "registered_doctor"];
+    $Detailstables = ["user", "admin", "registered_reception", "registered_pharmacists", "registered_mlt", "registered_doctor"];
+
+    $invald = 0;
 
     foreach ($Detailstables as $table) {
         $resultset = Database::search("SELECT * FROM $table WHERE `email` = '$userLoginDetails->email' AND `password` = '$pwHash'");
@@ -22,111 +24,127 @@ if (empty($userLoginDetails->email) || empty($userLoginDetails->password)) {
 
             $userData = $resultset->fetch_assoc();
 
-            session_regenerate_id();
+            if ($userData["status"] == 1) {
 
-            switch ($table) {
-                case 'user':
-                    $_SESSION["fname"] = $userData["fname"];
-                    $_SESSION["lname"] = $userData["lname"];
-                    break;
-            case 'admin':
-                $_SESSION["name"] = $userData["name"];
-                break;
-                case 'registered_reception':
-                case 'registered_pharmacists':
-                case 'registered_mlt':
-                case 'registered_doctor':
-                    $_SESSION["name"] = $userData["name"];
-                    $_SESSION["idnum"] = $userData["id_num"];
-                    $_SESSION["mobile"] = $userData["mobile"];
-                    break;
-            
-                default:
-                    echo "not found";
-                    exit();
-                    break;
+                session_regenerate_id();
+
+                switch ($table) {
+                    case 'user':
+                        $_SESSION["fname"] = $userData["fname"];
+                        $_SESSION["lname"] = $userData["lname"];
+                        break;
+                    case 'admin':
+                        $_SESSION["name"] = $userData["name"];
+                        break;
+                    case 'registered_reception':
+                    case 'registered_pharmacists':
+                    case 'registered_mlt':
+                    case 'registered_doctor':
+                        $_SESSION["name"] = $userData["name"];
+                        $_SESSION["idnum"] = $userData["id_num"];
+                        $_SESSION["mobile"] = $userData["mobile"];
+                        break;
+
+                    default:
+                        echo "not found";
+                        exit();
+                        break;
+                }
+
+                $_SESSION["email"] = $userData["email"];
+
+                echo $table == 'user' ? 'user' : $table;
+                exit();
+
+                // switch ($table) {
+
+                //     case 'user':
+                //         $_SESSION["fname"] = $userData["fname"];
+                //         $_SESSION["lname"] = $userData["lname"];
+                //         $_SESSION["email"] = $userData["email"];
+
+                //         echo "user";
+                //         exit();
+                //         break;
+
+                //     case 'registered_reception':
+
+                //         $_SESSION["fname"] = $userData["name"];
+                //         $_SESSION["lname"] = $userData["id_num"];
+                //         $_SESSION["lname"] = $userData["mobile"];
+                //         $_SESSION["email"] = $userData["email"];
+
+
+                //         echo "reception";
+
+                //         exit();
+                //         break;
+
+                //     case 'registered_pharmacists':
+
+                //         $_SESSION["fname"] = $userData["name"];
+                //         $_SESSION["lname"] = $userData["id_num"];
+                //         $_SESSION["lname"] = $userData["mobile"];
+                //         $_SESSION["email"] = $userData["email"];
+
+                //         echo "pharmacists";
+                //         exit();
+                //         break;
+
+                //     case 'registered_mlt':
+
+                //         $_SESSION["fname"] = $userData["name"];
+                //         $_SESSION["lname"] = $userData["id_num"];
+                //         $_SESSION["lname"] = $userData["mobile"];
+                //         $_SESSION["email"] = $userData["email"];
+
+
+                //         echo "mlt";
+                //         exit();
+                //         break;
+
+                //     case 'registered_doctor':
+
+                //         $_SESSION["fname"] = $userData["name"];
+                //         $_SESSION["lname"] = $userData["id_num"];
+                //         $_SESSION["lname"] = $userData["mobile"];
+                //         $_SESSION["email"] = $userData["email"];
+
+                //         echo "doctor";
+                //         exit();
+                //         break;
+
+
+
+                //     default:
+
+
+                //         echo "not found";
+                //         exit();
+                //         break;
+                // }
+
+
+            } else {
+
+                echo "Sorry.., Temporary blocked your account!";
+                exit();
             }
-            
-            $_SESSION["email"] = $userData["email"];
-            
-            echo $table == 'user' ? 'user' : $table;
-            exit();
+            // else {
 
-            // switch ($table) {
+            //     echo "Invalid Email Or Password";
 
-            //     case 'user':
-            //         $_SESSION["fname"] = $userData["fname"];
-            //         $_SESSION["lname"] = $userData["lname"];
-            //         $_SESSION["email"] = $userData["email"];
-
-            //         echo "user";
-            //         exit();
-            //         break;
-
-            //     case 'registered_reception':
-
-            //         $_SESSION["fname"] = $userData["name"];
-            //         $_SESSION["lname"] = $userData["id_num"];
-            //         $_SESSION["lname"] = $userData["mobile"];
-            //         $_SESSION["email"] = $userData["email"];
-
-
-            //         echo "reception";
-                 
-            //         exit();
-            //         break;
-
-            //     case 'registered_pharmacists':
-
-            //         $_SESSION["fname"] = $userData["name"];
-            //         $_SESSION["lname"] = $userData["id_num"];
-            //         $_SESSION["lname"] = $userData["mobile"];
-            //         $_SESSION["email"] = $userData["email"];
-
-            //         echo "pharmacists";
-            //         exit();
-            //         break;
-
-            //     case 'registered_mlt':
-
-            //         $_SESSION["fname"] = $userData["name"];
-            //         $_SESSION["lname"] = $userData["id_num"];
-            //         $_SESSION["lname"] = $userData["mobile"];
-            //         $_SESSION["email"] = $userData["email"];
-                
-
-            //         echo "mlt";
-            //         exit();
-            //         break;
-
-            //     case 'registered_doctor':
-
-            //         $_SESSION["fname"] = $userData["name"];
-            //         $_SESSION["lname"] = $userData["id_num"];
-            //         $_SESSION["lname"] = $userData["mobile"];
-            //         $_SESSION["email"] = $userData["email"];
-
-            //         echo "doctor";
-            //         exit();
-            //         break;
-
-
-
-            //     default:
-                  
-
-            //         echo "not found";
-            //         exit();
-            //         break;
+            //     exit();
             // }
+        } else {
 
+            $invald += 1;
+        }
+    }
 
-        } 
-        // else {
+    if ($invald == 6) {
+        echo "Invalid Email Or Password";
 
-        //     echo "Invalid Email Or Password";
-           
-        //     exit();
-        // }
+        exit();
     }
 }

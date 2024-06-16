@@ -1,6 +1,6 @@
 <?php
 require_once "../connection.php";
-
+session_start();
 $patient_id = $_GET["p_id"];
 
 
@@ -22,7 +22,7 @@ $patient_id = $_GET["p_id"];
 <body>
     <header class="header">
         <div class="logo">Healthcare</div>
-        <div class="header-username">UserName</div>
+        <div class="header-username"><?php echo $_SESSION["name"] ?></div>
     </header>
     <div class="container">
         <div class="profile-details">
@@ -173,6 +173,7 @@ $patient_id = $_GET["p_id"];
     </div>
 
     <script src="../assets/js/profile-view.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

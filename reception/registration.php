@@ -81,7 +81,7 @@
             <input type="text" id="name" name="name" required>
         </div>
         <div class="form-group">
-            <label for="nic">NIC:</label>
+            <label for="nic">NIC (optional):</label>
             <input type="text" id="nic" name="nic" required>
         </div>
     </div>

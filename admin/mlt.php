@@ -124,6 +124,15 @@
 
     </script>
 </head>
+
+<?php 
+require_once "../connection.php";
+$docResultSet = Database::search("SELECT  `id_num` , `name` FROM `registered_mlt`");
+$numRow = $docResultSet->num_rows;
+$docResult = $docResultSet->fetch_all(MYSQLI_ASSOC);
+
+?>
+
 <h2 class="content-title">MLT Section</h2>
 <input type="text" id="searchBar" placeholder="Search..." onkeyup="filterTable()">
 <table id="dataTable">
@@ -134,18 +143,35 @@
         </tr>
     </thead>
     <tbody>
-        <tr onclick="window.location.href='../employee-profile.php'">
-            <td>1</td>
-            <td>John Doe</td>
+        
+    <?php 
+
+foreach ($docResult as $key => $value) {
+?>
+
+<tr onclick="window.location.href='employee-profile.php?id_num=<?php echo $value['id_num']?>&tname=registered_mlt'">
+            <td><?php echo $value['id_num']?></td>
+           
+                <?php 
+                if(empty($value['name'])){
+                    ?>
+                   <td style="color: #ff5959;">Profile has not been updated yet</td>
+                    <?php 
+                }else{
+                    ?>
+                    <td><?php echo $value["name"] ?></td>
+                    <?php 
+                }
+                
+                ?>
+            
         </tr>
-        <tr onclick="window.location.href='../employee-profile.php'">
-            <td>2</td>
-            <td>Jane Smith</td>
-        </tr>
-        <tr onclick="window.location.href='../employee-profile.php'">
-            <td>3</td>
-            <td>Michael Johnson</td>
-        </tr>
+
+  <?php  
+}
+
+    ?>
+
     </tbody>
 </table>
 <div class="email-form-container">

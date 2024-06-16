@@ -19,55 +19,99 @@ $date = $d->format('Y-m-d H:i:s');
 
 if ($status == "add") {
 
-$name = $patientDetails->name;
-$nic = $patientDetails->nic;
-$age = $patientDetails->age;
-$email = $patientDetails->email;
-$address = $patientDetails->address;
-$contact = $patientDetails->contact;
-$symptoms = $patientDetails->symptoms;
 
-    Database::iud("INSERT INTO `registered_patients` (`name`,`mobile`,`email`,`id_num`,`address`,`age`,`register_date`,`reception_id`) 
-VALUES('" . $name . "','" . $contact . "','" . $email . "','" . $nic . "','" . $address . "','" . $age . "','" . $date . "','".$_SESSION["idnum"]."') ");
+    if (empty($patientDetails->name)) {
+        echo "please enter patient name";
+        exit();
+    } else if (empty($patientDetails->age)) {
+        echo "please enter patient age";
+        exit();
+    } else if (empty($patientDetails->address)) {
+        echo "please enter patient address";
+        exit();
+    } else if (empty($patientDetails->contact)) {
+        echo "please enter patient contact number";
+        exit();
+    } else if (empty($patientDetails->symptoms)) {
+        echo "please enter patient symptoms";
+        exit();
+    } else {
 
-$patienResult = Database::search("SELECT * FROM `registered_patients` WHERE `register_date` = '$date' AND `name` = '$name'");
-$numrow = $patienResult->num_rows;
+        $name = $patientDetails->name;
+        $nic = $patientDetails->nic;
+        $age = $patientDetails->age;
+        $email = $patientDetails->email;
+        $address = $patientDetails->address;
+        $contact = $patientDetails->contact;
+        $symptoms = $patientDetails->symptoms;
 
-if ($numrow > 0) {
-    $pd = $patienResult->fetch_assoc();
-    $p_id = $pd["p_id"];
+        Database::iud("INSERT INTO `registered_patients` (`name`,`mobile`,`email`,`id_num`,`address`,`age`,`register_date`,`reception_id`) 
+VALUES('" . $name . "','" . $contact . "','" . $email . "','" . $nic . "','" . $address . "','" . $age . "','" . $date . "','" . $_SESSION["idnum"] . "') ");
+
+        $patienResult = Database::search("SELECT * FROM `registered_patients` WHERE `register_date` = '$date' AND `name` = '$name'");
+        $numrow = $patienResult->num_rows;
+
+        if ($numrow > 0) {
+            $pd = $patienResult->fetch_assoc();
+            $p_id = $pd["p_id"];
 
 
-    Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`,`medical_report`)
-VALUES('" . $p_id . "','".$_SESSION["idnum"]."','" . $symptoms . "','','785645v','" . $date . "','" . $age . "','no') ");
-    echo "success";
-    exit();
-}else{
+            Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`,`medical_report`)
+VALUES('" . $p_id . "','" . $_SESSION["idnum"] . "','" . $symptoms . "','','0000000000','" . $date . "','" . $age . "','no') ");
+            echo "success";
+            exit();
+        } else {
 
-    echo "some Insert process is not working";
-
-}
-   
+            echo "some Insert process is not working";
+            exit();
+        }
+    }
 } elseif ($status == "update") {
 
-$age = $patientDetails->age;
-$email = $patientDetails->email;
-$address = $patientDetails->address;
-$contact = $patientDetails->contact;
 
-$patientProfile_id = $patientDetails->patientProfile_id;
 
-    Database::iud("UPDATE `registered_patients` SET `age` = '".$age."', `address` = '".$address."', `email` = '".$email."', `mobile` = '".$contact."' , `register_date` = '".$date."' WHERE `p_id` = '" . $patientProfile_id . "' ");
+    if (empty($patientDetails->age)) {
+        echo "please enter patient age";
+        exit();
+    } else if (empty($patientDetails->address)) {
+        echo "please enter patient address";
+        exit();
+    } else if (empty($patientDetails->contact)) {
+        echo "please enter patient contact number";
+        exit();
+    } else {
 
-}else{
+        $age = $patientDetails->age;
+        $email = $patientDetails->email;
+        $address = $patientDetails->address;
+        $contact = $patientDetails->contact;
 
-$age = $patientDetails->age;
-$symptoms = $patientDetails->symptoms;
+        $patientProfile_id = $patientDetails->patientProfile_id;
 
-$patientProfile_id = $patientDetails->patientProfile_id;
-    
-    Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`,`medical_report`)
-    VALUES('" . $patientProfile_id . "','".$_SESSION["idnum"]."','" . $symptoms . "','','785645v','" . $date . "','" . $age . "','no') ");
+        Database::iud("UPDATE `registered_patients` SET `age` = '" . $age . "', `address` = '" . $address . "', `email` = '" . $email . "', `mobile` = '" . $contact . "' , `register_date` = '" . $date . "' WHERE `p_id` = '" . $patientProfile_id . "' ");
         echo "success";
         exit();
+    }
+} else {
+
+
+    if (empty($patientDetails->age)) {
+        echo "please enter patient age";
+        exit();
+    }    else if (empty($patientDetails->symptoms)) {
+            echo "please enter patient symptoms";
+            exit();
+        
+    } else {
+
+        $age = $patientDetails->age;
+        $symptoms = $patientDetails->symptoms;
+
+        $patientProfile_id = $patientDetails->patientProfile_id;
+
+        Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`,`medical_report`)
+    VALUES('" . $patientProfile_id . "','" . $_SESSION["idnum"] . "','" . $symptoms . "','','0000000000','" . $date . "','" . $age . "','no') ");
+        echo "success";
+        exit();
+    }
 }

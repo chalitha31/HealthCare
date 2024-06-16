@@ -29,7 +29,8 @@ else {
    $d->setTimezone($tz);
    $date = $d->format('Y-m-d H:i:s');
 
-   Database::iud("INSERT INTO `user` (`fname`,`lname`,`email`, `password`, `register_Date`) VALUES ('".$userLoginDetails->firstName."','".$userLoginDetails->lastName."','" . $userLoginDetails->email . "', '" . $hashPW . "', '" . $date . "')");
+   Database::iud("INSERT INTO `user` (`fname`,`lname`,`email`, `password`, `register_Date`,`mobile`) 
+   VALUES ('".$userLoginDetails->firstName."','".$userLoginDetails->lastName."','" . $userLoginDetails->email . "', '" . $hashPW . "', '" . $date . "','".$userLoginDetails->contact."')");
    echo "success";
    exit();
 

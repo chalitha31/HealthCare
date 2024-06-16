@@ -28,7 +28,6 @@ if ($numRow > 0) {
     <body>
 
 
-
         <header class="header">
             <div class="logo">Healthcare</div>
             <div class="header-username"><?php if (isset($_SESSION["name"])) {
@@ -49,10 +48,18 @@ if ($numRow > 0) {
                     <div class="image-preview" id="imagePreview">
                         <?php
                         if (isset($_SESSION["name"])) {
+                            if (isset($userData["image"])) {
                         ?>
                             <img id="imageDisplay" src="assets/images/Employe_profile/<?php echo $userData["image"] ?>" alt="Employee Image">
                             <!-- <input type="hidden" id="currentImage" name="currentImage" value="<?php echo $userData["image"] ?>" /> -->
                         <?php
+                            }else{
+
+                                ?>
+                                <img id="imageDisplay" src="assets/images/Employe_profile/emptyprofile.jpg" alt="Employee Image">
+                                <!-- <input type="hidden" id="currentImage" name="currentImage" value="<?php echo $userData["image"] ?>" /> -->
+                            <?php  
+                            }
                         } else {
                         ?>
                             <img id="imageDisplay" src="" alt="Employee Image" style="display: none;">

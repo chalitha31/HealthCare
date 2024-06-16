@@ -4,11 +4,38 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
     const fname = document.getElementById('firstName').value;
     const lname = document.getElementById('lastName').value;
     const email = document.getElementById('email').value;
+    const contact = document.getElementById('contact').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
+    if (password.length <= 5) {
+        // alert('password must be at least 5 characters!');
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            // color: "#22252c",
+            background: "#fff",
+            // text: "Something went wrong!",
+            text: "password must be at least 5 characters!",
+            customClass: {
+                popup: 'swal2-dark',
+            }
+        });
 
-    if (password !== confirmPassword) {
-        alert('Passwords do not match!');
+        return;
+    } else if (password !== confirmPassword) {
+
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            // color: "#22252c",
+            background: "#fff",
+            // text: "Something went wrong!",
+            text: "Passwords do not match!",
+            customClass: {
+                popup: 'swal2-dark',
+            }
+        });
+
         return;
     }
 
@@ -16,6 +43,7 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
         "firstName": fname,
         "lastName": lname,
         "email": email,
+        "contact": contact,
         "password": password
     };
 

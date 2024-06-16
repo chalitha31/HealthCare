@@ -102,10 +102,39 @@ function registerPatient() {
     .then(function(data) {
 
         if (data === "success") {
-            alert("success");
-            window.location.reload();
+            // alert("success");
+            Swal.fire({
+                icon: "success",
+                title: "Patient Registration Successful!",
+                background: "#fff",
+                text: "patient symptoms added",
+                showConfirmButton: true,
+                customClass: {
+                    popup: 'swal2-dark'
+                }
+
+                // timer: 2000
+            }).then(() => {
+                window.location.reload();
+                // window.location = "index.php";
+            });
+
+
         } else {
             console.log(data);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                // color: "#22252c",
+                background: "#fff",
+                // text: "Something went wrong!",
+                text: data,
+                customClass: {
+                    popup: 'swal2-dark'
+                }
+
+                // footer: '<a href="#">Why do I have this issue?</a>'
+            });
         }
 
     })

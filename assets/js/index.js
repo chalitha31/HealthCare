@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('loginForm');
-    const btn = document.getElementById('loginBtn');
+    // const btn = document.getElementById('loginBtn');
     const span = document.getElementsByClassName('close')[0];
 
-    btn.onclick = function() {
-        modal.style.display = 'block';
-    }
+    // btn.onclick = function() {
+    //     modal.style.display = 'block';
+    // }
+
 
     span.onclick = function() {
         modal.style.display = 'none';
@@ -17,6 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+function loginbutton() {
+    const modal = document.getElementById('loginForm');
+    modal.style.display = 'block';
+}
 
 window.addEventListener('load', (e) => {
     if (localStorage.getItem('examined') == null || localStorage.getItem('examined') == 'true') {
@@ -48,8 +54,8 @@ function login() {
         .then(data => {
             if (data === "user") {
                 // console.log("Success");
-                // window.location = "reception.php";
-                location.reload();
+                window.location = "index.php?name=" + data;
+                // location.reload();
             } else if (data === "registered_doctor") {
 
                 window.location = "doctor/doctor.php?name=" + data;
@@ -74,7 +80,7 @@ function login() {
                     // color: "#22252c",
                     background: "#fff",
                     // text: "Something went wrong!",
-                    text: "invalid login details!",
+                    text: data,
                     customClass: {
                         popup: 'swal2-dark'
                     }

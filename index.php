@@ -1,5 +1,10 @@
 <?php
 session_start();
+ 
+// if(isset($_SESSION["fname"])){
+
+//     $Tname = $_GET["name"];
+// }
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +32,7 @@ session_start();
             <div class="dropdown">
                 <button class="dropbtn">Hi, <?php echo $_SESSION["fname"]; ?></button>
                 <div class="dropdown-content">
-                    <a href="#">profile</a>
+                    <a href="user-profile.php">profile</a>
                     <a style="color:  #ec5630;" href="logout.php"><b>logout</b></a>
                 </div>
             </div>
@@ -35,7 +40,7 @@ session_start();
         <?php
         } else {
         ?>
-            <button id="loginBtn">Login</button>
+            <button onclick="loginbutton();" id="loginBtn">Login</button>
         <?php
         }
 
@@ -141,6 +146,7 @@ session_start();
 
     <footer>
         <p>&copy; 2024 Healthcare. All rights reserved.</p>
+      
     </footer>
 
     <script src="assets/js/index.js"></script>

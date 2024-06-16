@@ -19,6 +19,7 @@
             font-size: 16px;
             outline: none;
         }
+
         #searchBar:focus {
             border-color: var(--base-color);
         }
@@ -28,7 +29,8 @@
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px 15px;
             border: 1px solid var(--medium-gray);
             text-align: left;
@@ -52,40 +54,45 @@
             background-color: var(--medium-gray);
             color: white;
         }
-
     </style>
 
-<script>
-    
+    <script>
 
-</script>
+
+    </script>
 </head>
-<h2 class="content-title">Patients</h2>
-    <input type="text" id="searchBar" placeholder="Search..." onkeyup="filterTable()">
-    <table id="dataTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Checked Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr onclick="window.location.href='#'">
-                <td>1</td>
-                <td>John Doe</td>
-                <td>2024-06-12</td>
-                </tr>
-                <tr onclick="window.location.href='#'">
-                    <td>2</td>
-                    <td>Jane Smith</td>
-                    <td>2024-06-12</td>
-                    </tr>
-                    <tr onclick="window.location.href='#'">
-                        <td>3</td>
-                        <td>Michael Johnson</td>
-                        <td>2024-06-12</td>
-            </tr>
-        </tbody>
-    </table>
 
+
+
+<h2 class="content-title">Patients</h2>
+<input type="text" id="searchBar" placeholder="Search..." onkeyup="filterTable()">
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Checked Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        require_once "../connection.php";
+        session_start();
+
+        $docresSet = Database::search("SELECT * FROM `patients_details` INNER JOIN `registered_patients` ON `registered_patients`.`p_id` = `patients_details`.`patients_id` WHERE `patients_details`.`doctor_id` = '" . $_SESSION["idnum"] . "'");
+        $numr = $docresSet->num_rows;
+
+        if ($numr > 0) {
+            while ($docRes = $docresSet->fetch_assoc()) {
+        ?>
+                <tr onclick="window.location.href='#'">
+                    <td><?php echo $docRes["id"] ?></td>
+                    <td><?php echo $docRes["name"] ?></td>
+                    <td><?php echo $docRes["Prescriptions_date"] ?></td>
+                </tr>
+        <?php
+            }
+        }
+        ?>
+    </tbody>
+</table>
