@@ -1,0 +1,123 @@
+<head>
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: var(--base-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .queue-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .queue-info h3 {
+            color: var(--base-color);
+        }
+
+        .patient-cards {
+            display: flex;
+            flex-wrap: wrap;
+            height: max-content;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .patient-card {
+            background-color: #fff;
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: calc(25% - 20px);
+            /* text-align: center; */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .patient-card h3 {
+            text-align: center;
+            color: var(--dark-gray);
+            margin-bottom: 10px;
+        }
+
+        .patient-card p {
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+        }
+
+        .examine-btn {
+            padding: 10px 15px;
+            background-color: var(--base-color);
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: auto;
+        }
+
+        .examine-btn:hover {
+            background-color: var(--second-base-color);
+        }
+
+        @media (max-width: 768px) {
+            .patient-card {
+                width: calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .patient-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Patients accepting Reports</h1>
+
+        <div class="queue-info">
+            <h3>Number of Patients in Queue: <span id="queueCount">4</span></h3>
+        </div>
+
+        <div class="patient-cards">
+            <div class="patient-card">
+                <h3>John Doe</h3>
+                <p><strong>Age:</strong> 30</p>
+                <p><strong>Type:</strong>CBC Report</p>
+                <button class="examine-btn" onclick="examinePatient()">Produce</button>
+            </div>
+            <div class="patient-card">
+                <h3>Jane Smith</h3>
+                <p><strong>Age:</strong> 25</p>
+                <p><strong>Type:</strong>CBC Report</p>
+                <button class="examine-btn" onclick="examinePatient()">Produce</button>
+            </div>
+            <div class="patient-card">
+                <h3>Michael Johnson</h3>
+                <p><strong>Age:</strong> 45</p>
+                <p><strong>Type:</strong>CBC Report</p>
+                <button class="examine-btn" onclick="examinePatient()">Produce</button>
+            </div>
+            <div class="patient-card">
+                <h3>Emily Davis</h3>
+                <p><strong>Age:</strong> 35</p>
+                <p><strong>Type:</strong>CBC Report</p>
+                <button class="examine-btn" onclick="examinePatient()">Produce</button>
+            </div>
+        </div>
+    </div>
+</body>

@@ -7,7 +7,7 @@
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
@@ -16,16 +16,16 @@
 
 
 -- Dumping database structure for healthcare
-CREATE DATABASE IF NOT EXISTS `healthcare` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `healthcare` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `healthcare`;
 
 -- Dumping structure for table healthcare.admin
 CREATE TABLE IF NOT EXISTS `admin` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `password` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `mobile` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 
@@ -37,12 +37,12 @@ INSERT INTO `admin` (`id`, `name`, `password`, `mobile`, `email`) VALUES
 CREATE TABLE IF NOT EXISTS `patients_details` (
   `id` int NOT NULL AUTO_INCREMENT,
   `patients_id` int DEFAULT NULL,
-  `reception_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `symptoms` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `medical_report` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `Prescriptions` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `reception_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `symptoms` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `medical_report` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `Prescriptions` text CHARACTER SET utf8 COLLATE utf8_general_ci,
   `Prescriptions_date` datetime DEFAULT NULL,
-  `doctor_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `doctor_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `age` int DEFAULT NULL,
   `symptoms_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -52,46 +52,25 @@ CREATE TABLE IF NOT EXISTS `patients_details` (
   CONSTRAINT `FK_patients_details_register_patients` FOREIGN KEY (`patients_id`) REFERENCES `registered_patients` (`p_id`),
   CONSTRAINT `FK_patients_details_register_reception` FOREIGN KEY (`reception_id`) REFERENCES `registered_reception` (`id_num`),
   CONSTRAINT `FK_patients_details_registered_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `registered_doctor` (`id_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table healthcare.patients_details: ~22 rows (approximately)
+-- Dumping data for table healthcare.patients_details: ~1 rows (approximately)
 INSERT INTO `patients_details` (`id`, `patients_id`, `reception_id`, `symptoms`, `medical_report`, `Prescriptions`, `Prescriptions_date`, `doctor_id`, `age`, `symptoms_date`) VALUES
-	(1, 3, '1542658v', 'Patient is experiencing severe headaches and dizziness.', 'no', 'sdsdsdasda', '2024-06-17 00:56:19', '1969719008', 25, '2024-06-05 22:00:24'),
-	(2, 6, '1542658v', 'Patient is experiencing severe headaches and dizziness.', 'no', '', NULL, '446541231348v', 35, '2024-06-05 22:00:24'),
-	(4, 8, '1542658v', 'abnd kfhie kdlke odk', 'no', 'penadol  20mg', '2024-06-17 00:56:21', '785645v', 26, '2024-06-05 22:02:06'),
-	(5, 9, '1542658v', 'fdfha uefn ', 'a', '', NULL, '785645v', 56, '2024-06-05 22:02:25'),
-	(6, 7, '1542658v', 'abnd kfhie kfdfffffff33', 'no', 'penadol  20mg', '2024-06-17 00:56:23', '1969719008', 27, '2024-06-05 22:04:11'),
-	(7, 2, '1542658v', 'head problems\neye problems\nhand problems', 'no', '', NULL, '1969719008', 23, '2024-06-07 19:36:54'),
-	(8, 2, '1542658v', 'Patient is experiencing severe headaches and dizziness.', 'no', '', NULL, '1969719008', 25, '2024-06-07 19:39:12'),
-	(9, 2, '1542658v', 'abc deg ghi', 'no', '', NULL, '785645v', 25, '2024-06-07 19:39:26'),
-	(10, 2, '1542658v', 'aaaaaaaaaaaaaaaaaaaaa', 'no', '', NULL, '1969719008', 30, '2024-06-07 21:24:05'),
-	(11, 10, '1542658v', 'fdjsp kjdpfmk[p kfkfls ', 'no', '', NULL, '785645v', 5, '2024-06-07 21:25:07'),
-	(12, 5, '1542658v', 'gklgl pgl [[ ]. ggfg', 'no', '', NULL, '785645v', 16, '2024-06-07 21:25:58'),
-	(13, 10, '1542658v', 'Patient is experiencing severe headaches and dizziness.', 'no', '', NULL, '785645v', 20, '2024-06-07 21:27:02'),
-	(14, 11, '5468421v', 'abc\ndef', 'no', '', NULL, '1969719008', 60, '2024-06-11 21:21:18'),
-	(15, 12, '196971900830', 'asfffrrrrggg greeeeeeeeeg           reeeeeeeeeeee', 'no', '', NULL, '0000000000', 53, '2024-06-12 00:24:06'),
-	(16, 13, '196971900830', 'abc deg ghi jklm nop qrst uvw xyz', 'no', '', NULL, '785645v', 50, '2024-06-15 18:41:35'),
-	(17, 13, '196971900830', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaa       aaaaaaaaaaaa', 'no', '', NULL, '785645v', 50, '2024-06-15 18:45:53'),
-	(18, 13, '196971900830', '', 'no', '', NULL, '0000000000', 50, '2024-06-15 18:52:14'),
-	(19, 13, '196971900830', '', 'no', '', NULL, '0000000000', 50, '2024-06-15 18:52:54'),
-	(20, 13, '196971900830', '2047 kopkd i[pfd pf kjm kopf k kl fkjs dik fmmfdikf fk \nj\njjosd\nsdps \nksd\nosds\n', 'no', '', NULL, '785645v', 50, '2024-06-15 18:54:58'),
-	(21, 13, '196971900830', 'b', 'no', '', NULL, '785645v', 52, '2024-06-15 18:59:13'),
-	(23, 15, '196971900830', 'ffd', 'no', '', NULL, '0000000000', 43, '2024-06-17 00:40:38'),
-	(24, 3, '196971900830', 'loji hohih ihi ', 'no', '', NULL, '0000000000', 12, '2024-06-17 00:55:32');
+	(25, 5, '156879245v', 'tyhtfhfgh', 'no', 'fgd', '2024-06-17 21:43:45', '1969719008', 56, '2024-06-17 12:12:34');
 
 -- Dumping structure for table healthcare.registered_doctor
 CREATE TABLE IF NOT EXISTS `registered_doctor` (
-  `id_num` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `verification_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `id_num` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `mobile` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `password` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `verification_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `register_date` datetime DEFAULT NULL,
   `status` int DEFAULT '1',
   `age` int DEFAULT NULL,
-  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `image` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `address` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `image` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_num`) USING BTREE,
   KEY `FK_registered_doctor_ststus_type` (`status`),
   CONSTRAINT `FK_registered_doctor_ststus_type` FOREIGN KEY (`status`) REFERENCES `status_type` (`id`)
@@ -110,17 +89,17 @@ INSERT INTO `registered_doctor` (`id_num`, `name`, `email`, `mobile`, `password`
 
 -- Dumping structure for table healthcare.registered_mlt
 CREATE TABLE IF NOT EXISTS `registered_mlt` (
-  `id_num` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `verification_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `id_num` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `mobile` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `password` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `verification_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `register_date` datetime DEFAULT NULL,
   `status` int DEFAULT '1',
   `age` int DEFAULT NULL,
-  `address` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `image` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `address` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `image` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_num`) USING BTREE,
   KEY `FK_mlt_status_type` (`status`) USING BTREE,
   CONSTRAINT `FK_mlt_status_type` FOREIGN KEY (`status`) REFERENCES `status_type` (`id`)
@@ -131,14 +110,14 @@ CREATE TABLE IF NOT EXISTS `registered_mlt` (
 -- Dumping structure for table healthcare.registered_patients
 CREATE TABLE IF NOT EXISTS `registered_patients` (
   `p_id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `mobile` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `id_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `mobile` varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `id_num` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `address` text CHARACTER SET utf8 COLLATE utf8_general_ci,
   `age` int DEFAULT NULL,
   `register_date` datetime DEFAULT NULL,
-  `reception_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `reception_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`p_id`),
   KEY `FK_register_patients_register_reception` (`reception_id`),
   CONSTRAINT `FK_register_patients_register_reception` FOREIGN KEY (`reception_id`) REFERENCES `registered_reception` (`id_num`)
@@ -163,17 +142,17 @@ INSERT INTO `registered_patients` (`p_id`, `name`, `mobile`, `email`, `id_num`, 
 
 -- Dumping structure for table healthcare.registered_pharmacists
 CREATE TABLE IF NOT EXISTS `registered_pharmacists` (
-  `id_num` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `verification_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `id_num` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `mobile` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `password` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `verification_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `register_date` datetime DEFAULT NULL,
   `status` int DEFAULT '1',
   `age` int DEFAULT NULL,
-  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `image` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `address` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `image` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_num`) USING BTREE,
   KEY `FK_registered_pharmacists_status_type` (`status`),
   CONSTRAINT `FK_registered_pharmacists_status_type` FOREIGN KEY (`status`) REFERENCES `status_type` (`id`)
@@ -186,15 +165,15 @@ INSERT INTO `registered_pharmacists` (`id_num`, `name`, `email`, `mobile`, `pass
 
 -- Dumping structure for table healthcare.registered_reception
 CREATE TABLE IF NOT EXISTS `registered_reception` (
-  `id_num` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `verification_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `id_num` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `address` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `mobile` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `password` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `verification_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `register_date` datetime DEFAULT NULL,
-  `image` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `image` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `status` int DEFAULT '1',
   `age` int DEFAULT NULL,
   PRIMARY KEY (`id_num`),
@@ -213,7 +192,7 @@ INSERT INTO `registered_reception` (`id_num`, `address`, `name`, `email`, `mobil
 -- Dumping structure for table healthcare.status_type
 CREATE TABLE IF NOT EXISTS `status_type` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 
@@ -224,10 +203,10 @@ INSERT INTO `status_type` (`id`, `name`) VALUES
 
 -- Dumping structure for table healthcare.user
 CREATE TABLE IF NOT EXISTS `user` (
-  `fname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `lname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `fname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `lname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `password` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `register_Date` datetime DEFAULT NULL,
   `mobile` varchar(12) DEFAULT NULL,
   PRIMARY KEY (`email`)
