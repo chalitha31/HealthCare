@@ -96,6 +96,9 @@
 </head>
 
 <body>
+
+
+
     <div class="medicine-inventory">
         <h2>Reports History</h2>
         <table id="medicineTable">
@@ -109,27 +112,33 @@
                 </tr>
             </thead>
             <tbody>
+
+            <?php
+require_once "../connection.php";
+session_start();
+
+$patiientResultSet = Database::search("SELECT  `bloodtest`.`issued_Date` AS `isdate`,`bloodtest`.`id` AS `bid`, `registered_patients`.`name` AS `name`,`patients_details`.`age` AS `age`,`bloodtest`.`test_type` AS `test_type` 
+FROM `patients_details` 
+INNER JOIN  `registered_patients` ON `registered_patients`.`p_id` = `patients_details`.`patients_id`
+INNER JOIN  `bloodtest` ON `bloodtest`.`patientDetails_id` = `patients_details`.`id`
+WHERE `bloodtest`.`mlt_id` = '".$_SESSION["idnum"]."' AND  `patients_details`.`id` NOT IN (SELECT `patientDetails_id` FROM `bloodtest` WHERE (`reportName` is null or `reportName` = '') )");
+
+    $numRows = $patiientResultSet->num_rows;
+
+    if ($numRows > 0) {
+        while ($patientDetails = $patiientResultSet->fetch_assoc()) {
+    ?>
+
                 <tr>
-                    <td>11</td>
-                    <td>John Doe</td>
-                    <td>23</td>
-                    <td>CBC Report</td>
-                    <td>2024-06-12</td>
+                    <td><?php echo $patientDetails["bid"] ?></td>
+                    <td><?php echo $patientDetails["name"] ?></td>
+                    <td><?php echo $patientDetails["age"] ?></td>
+                    <td><?php echo $patientDetails["test_type"] ?> Report</td>
+                    <td><?php echo $patientDetails["isdate"] ?></td>
                 </tr>
-                <tr>
-                    <td>31</td>
-                    <td>Jane Smith</td>
-                    <td>44</td>
-                    <td>CBC Report</td>
-                    <td>2025-06-15</td>
-                </tr>
-                <tr>
-                    <td>23</td>
-                    <td>Michael Johnson</td>
-                    <td>25</td>
-                    <td>CBC Report</td>
-                    <td>2023-09-30</td>
-                </tr>
+                <?php 
+    }}
+                ?>
             </tbody>
 
         </table>

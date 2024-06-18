@@ -79,6 +79,6 @@ function filterTable() {
 
 
 
-function examinePatient() {
-    window.location.href = 'blood-report.php';
+function examinePatient(pdi) {
+    window.location.href = 'blood-report.php?pdi=' + pdi;
 }

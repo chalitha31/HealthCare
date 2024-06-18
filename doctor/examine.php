@@ -307,10 +307,26 @@
 
                 <select name="test" id="test">
                     <option value="cbc">CBC</option>
+                    <option value="abc">ABC</option>
+                    <option value="def">DEF</option>
                 </select>
-                <button class="submit-records">Sumbit</button>
-                <button class="submit-records" onclick="viewReport()">View Test Report</button>
+                <button onclick="mltBloodRequest(<?php echo $pid ?>);" class="submit-records">Sumbit</button>
 
+                <?php 
+                
+                $mltBloodResultSet = Database::search("SELECT * FROM `bloodtest` WHERE `patientDetails_id` = '" . $pid . "'");
+                $mltBloodRow = $mltBloodResultSet->num_rows;
+if($mltBloodRow == 1){
+    $mltBloodData = $mltBloodResultSet->fetch_assoc();
+
+    if($mltBloodData['reportName'] != '' || $mltBloodData['reportName'] != null){
+                ?>
+
+                <button  class="submit-records" >View Test Report</button>
+
+                <?php 
+}}
+                ?>
             </div>
 
             <br />
@@ -590,6 +606,7 @@
                                 // timer: 2000
                             }).then(() => {
                                 // alert(data);
+                                
                                 location.reload();
                                 // window.location = "index.php";
                             });
@@ -616,6 +633,74 @@
                     })
 
             }
+
+
+// blood Request
+
+function  mltBloodRequest(pdi) {
+
+    let testType = document.getElementById("test").value;
+
+    // alert (testType + pdi);
+
+    fetch("http://localhost/HealthCare/doctor/bloodRequestProcess.php?pdi=" + pdi + "&testType=" + testType, {
+
+            method: 'GET',
+
+        })
+
+        .then(responce => {
+            return responce.text();
+        })
+        .then(data => {
+                        // alert(data);
+                        // location.reload();
+
+                        // if (data == "success") {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Complete!",
+                                background: "#fff",
+                                text : "blood test request sent successfully",
+                                showConfirmButton: true,
+                                customClass: {
+                                    popup: 'swal2-dark'
+                                }
+
+                                // timer: 2000
+                            }).then(() => {
+                                // alert(data);
+                                // location.reload();  
+                                window.location.href = 'doctor.php?name=registered_doctor';
+                                // window.location = "index.php";
+                            });
+                        // } 
+                        // else {
+                        //     Swal.fire({
+                        //         icon: "error",
+                        //         title: "Oops...",
+                        //         // color: "#22252c",
+                        //         background: "#fff",
+                        //         // text: "Something went wrong!",
+                        //         text: data,
+                        //         customClass: {
+                        //             popup: 'swal2-dark'
+                        //         }
+
+                        //         // footer: '<a href="#">Why do I have this issue?</a>'
+                        //     });
+                        // }
+
+                    })
+
+                    .catch(error => {
+                        console.log(error);
+                    })
+
+           
+
+}
+
         </script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>

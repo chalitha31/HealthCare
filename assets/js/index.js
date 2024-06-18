@@ -62,7 +62,7 @@ function login() {
 
             } else if (data === "registered_mlt") {
 
-                // window.location = "reception.php";
+                window.location = "mlt/mlt.php?name=" + data;
             } else if (data === "registered_pharmacists") {
 
                 // window.location = "reception.php";

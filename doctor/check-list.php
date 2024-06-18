@@ -93,7 +93,7 @@
     require_once "../connection.php";
 
     $totalResultSet = Database::search("SELECT COUNT(*) AS total FROM `patients_details` 
-     WHERE `Prescriptions` = '' ");
+     WHERE `Prescriptions` = '' AND  `id` NOT IN (SELECT `patientDetails_id` FROM `bloodtest`  WHERE (`reportName` is null or `reportName` = ''))");
 
     $totalRow = $totalResultSet->fetch_assoc();
     $totalPatients = $totalRow['total'];
@@ -110,8 +110,13 @@
 
             <?php
 
-            $patiientResultSet = Database::search("SELECT  `patients_details`.`id` AS `pid`, `registered_patients`.`name` AS `name`,`patients_details`.`age` AS `age` FROM `patients_details` 
-INNER JOIN  `registered_patients` ON `registered_patients`.`p_id` = `patients_details`.`patients_id` WHERE `patients_details`.`Prescriptions` = ''  LIMIT 8");
+            //             $patiientResultSet = Database::search("SELECT  `patients_details`.`id` AS `pid`, `registered_patients`.`name` AS `name`,`patients_details`.`age` AS `age` FROM `patients_details` 
+            // INNER JOIN  `registered_patients` ON `registered_patients`.`p_id` = `patients_details`.`patients_id` WHERE `patients_details`.`Prescriptions` = ''  LIMIT 4");
+
+        $patiientResultSet = Database::search("SELECT  `patients_details`.`id` AS `pid`, `registered_patients`.`name` AS `name`,`patients_details`.`age` AS `age` 
+        FROM `patients_details` 
+        INNER JOIN  `registered_patients` ON `registered_patients`.`p_id` = `patients_details`.`patients_id`
+        WHERE `patients_details`.`Prescriptions` = '' AND `patients_details`.`id` NOT IN (SELECT `patientDetails_id` FROM `bloodtest` WHERE (`reportName` is null or `reportName` = '') )   LIMIT 4");
 
             $numRows = $patiientResultSet->num_rows;
 
@@ -132,4 +137,72 @@ INNER JOIN  `registered_patients` ON `registered_patients`.`p_id` = `patients_de
 
         </div>
     </div>
+
+    <!-- wating Test Report list -->
+    <?php 
+//    $totalTestResultSet = Database::search("SELECT COUNT(*) AS total FROM `patients_details` 
+//    WHERE `Prescriptions` = '' AND  `id` NOT IN (SELECT `patientDetails_id` FROM `bloodtest`)");
+
+   $totalTestResultSet = Database::search("SELECT COUNT(*) AS total FROM `bloodtest`  WHERE  (`reportName` IS NULL OR `reportName` = '')");
+
+
+  $totalTestRow = $totalTestResultSet->fetch_assoc();
+  $totalTestPatients = $totalTestRow['total'];
+  ?>
+
+    <div class="container">
+        <h1>Blood test report waiting list</h1>
+
+        <div class="queue-info">
+            <h3>Number of Patients in Queue : <span style="color: red; font-weight: 900;" id="queueCount"><?php echo $totalTestPatients ?></span></h3>
+        </div>
+
+        <div class="patient-cards">
+
+            <?php
+
+            $patiientTestResultSet = Database::search("SELECT  `patients_details`.`id` AS `pid`, `registered_patients`.`name` AS `name`,`patients_details`.`age` AS `age`
+            FROM `patients_details` 
+            INNER JOIN  `registered_patients` ON `registered_patients`.`p_id` = `patients_details`.`patients_id` 
+            INNER JOIN `bloodtest` ON `bloodtest`.`patientDetails_id` = `patients_details`.`id`
+            WHERE `patients_details`.`Prescriptions` = '' AND (`bloodtest`.`reportName` IS NULL OR `bloodtest`.`reportName` = '')   LIMIT 4");
+
+            $numTestRows = $patiientTestResultSet->num_rows;
+
+            if ($numTestRows > 0) {
+                while ($patientTestDetails = $patiientTestResultSet->fetch_assoc()) {
+            ?>
+
+                    <div class="patient-card">
+                        <h3> <?php echo $patientTestDetails["name"] ?></h3>
+                        <p><strong>Age:</strong> <?php echo $patientTestDetails["age"] ?></p>
+
+                        <?php  
+                        if(empty($patientTestDetails["reportName"]) || $patientTestDetails["reportName"] === null){
+                        ?>
+
+                        <button style="cursor: not-allowed; background-color: #d98423;" class="examine-btn" onclick="examinePatient(<?php echo $patientTestDetails['pid'] ?>)" disabled>Waiting...</button>
+                    
+                        <?php
+                        }else{
+                            ?>
+
+                           <button  class="examine-btn" onclick="examinePatient(<?php echo $patientTestDetails['pid'] ?>)" >Examine</button>
+  
+  <?php
+                        }
+                        ?>
+                    
+                    </div>
+
+            <?php
+                }
+            }
+            ?>
+
+        </div>
+    </div>
+
+    <!-- wating Test Report list -->
+
 </body>

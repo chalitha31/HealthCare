@@ -86,38 +86,54 @@
 </head>
 
 <body>
+
+    <?php
+
+    session_start();
+
+    require_once "../connection.php";
+
+    $totalTestResultSet = Database::search("SELECT COUNT(*) AS total FROM `bloodtest`  WHERE  (`reportName` IS NULL OR `reportName` = '')");
+
+
+    $totalTestRow = $totalTestResultSet->fetch_assoc();
+    $totalTestPatients = $totalTestRow['total'];
+    ?>
+
+
     <div class="container">
         <h1>Patients accepting Reports</h1>
 
         <div class="queue-info">
-            <h3>Number of Patients in Queue: <span id="queueCount">4</span></h3>
+            <h3>Number of Patients in Queue: <span style="color: red; font-weight: 900;" id="queueCount"><?php echo $totalTestPatients ?></span></h3>
         </div>
-
+<br/><br/>
         <div class="patient-cards">
-            <div class="patient-card">
-                <h3>John Doe</h3>
-                <p><strong>Age:</strong> 30</p>
-                <p><strong>Type:</strong>CBC Report</p>
-                <button class="examine-btn" onclick="examinePatient()">Produce</button>
-            </div>
-            <div class="patient-card">
-                <h3>Jane Smith</h3>
-                <p><strong>Age:</strong> 25</p>
-                <p><strong>Type:</strong>CBC Report</p>
-                <button class="examine-btn" onclick="examinePatient()">Produce</button>
-            </div>
-            <div class="patient-card">
-                <h3>Michael Johnson</h3>
-                <p><strong>Age:</strong> 45</p>
-                <p><strong>Type:</strong>CBC Report</p>
-                <button class="examine-btn" onclick="examinePatient()">Produce</button>
-            </div>
-            <div class="patient-card">
-                <h3>Emily Davis</h3>
-                <p><strong>Age:</strong> 35</p>
-                <p><strong>Type:</strong>CBC Report</p>
-                <button class="examine-btn" onclick="examinePatient()">Produce</button>
-            </div>
+
+            <?php
+
+            $patiientTestResultSet = Database::search("SELECT `bloodtest`.`test_type` AS `tsType`,`patients_details`.`id` AS `pid`, `registered_patients`.`name` AS `name`,`patients_details`.`age` AS `age`
+  FROM `patients_details` 
+  INNER JOIN  `registered_patients` ON `registered_patients`.`p_id` = `patients_details`.`patients_id` 
+  INNER JOIN `bloodtest` ON `bloodtest`.`patientDetails_id` = `patients_details`.`id`
+  WHERE `patients_details`.`Prescriptions` = '' AND (`bloodtest`.`reportName` IS NULL OR `bloodtest`.`reportName` = '')   LIMIT 4");
+
+            $numTestRows = $patiientTestResultSet->num_rows;
+
+            if ($numTestRows > 0) {
+                while ($patientTestDetails = $patiientTestResultSet->fetch_assoc()) {
+            ?>
+
+                    <div class="patient-card">
+                        <h3><?php echo $patientTestDetails["name"] ?></h3>
+                        <p><strong>Age :</strong> <?php echo $patientTestDetails["age"] ?></p>
+                        <p><strong>Type:</strong> <?php echo $patientTestDetails["tsType"] ?></p>
+                        <button class="examine-btn" onclick="examinePatient(<?php echo $patientTestDetails['pid'] ?>)">Produce</button>
+                    </div>
+            <?php
+                }
+            }
+            ?>
         </div>
     </div>
 </body>

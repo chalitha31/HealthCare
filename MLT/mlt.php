@@ -1,3 +1,14 @@
+<?php 
+
+session_start();
+
+$Tname = $_GET["name"];
+
+
+if(isset($_SESSION["name"])){
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,14 +24,16 @@
 <body>
     <header>
         <div class="logo">Healthcare</div>
-        <div class="header-username">UserName</div>
+        <div class="header-username"><?php echo $_SESSION["name"] ?></div>
         <!-- <button id="loginBtn">Login</button> -->
     </header>
     <div class="main-container">
         <aside class="sidebar">
             <ul>
-                <li><a href="#" class="tab" data-target="produce-list.html">Produce Reports</a></li>
-                <li><a href="#" class="tab" data-target="report-history.html">Report History</a></li>
+                <li><a href="#" class="tab" data-target="produce-list.php">Produce Reports</a></li>
+                <li><a href="#" class="tab" data-target="report-history.php">Report History</a></li>
+                <li><a href="../employee-profile.php?name=<?php echo $Tname ?>" class="tabb">View Profile</a></li>
+                <li><a href="../logoutEmployee.php" class="tabb">Log Out</a></li>
             </ul>
         </aside>
         <div class="content" id="content">
@@ -32,6 +45,18 @@
         </div>
     </div>
     <script src="mlt.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
+
+
+<?php 
+
+}else{
+
+    header("Location: ../employee-profile.php?name=".$Tname);
+
+}
+
+?>
