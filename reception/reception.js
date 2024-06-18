@@ -72,6 +72,7 @@ function registerPatient() {
     const address = document.getElementById('address').value;
     const contact = document.getElementById('contact').value;
     const symptoms = document.getElementById('symptoms').value;
+    const medRep = document.getElementById('med-report').checked;
 
     patientDetails = {
 
@@ -83,6 +84,7 @@ function registerPatient() {
         "contact": contact,
         "symptoms": symptoms,
         "status": "add",
+        "medicalReport": medRep,
 
     };
 

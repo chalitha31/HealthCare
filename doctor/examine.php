@@ -161,6 +161,22 @@
             color: white;
         }
 
+        .req-test {
+            display: flex;
+            flex-direction: column;
+            max-width: max-content;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .req-test select {
+            padding: 5px;
+        }
+
+        .req-test .submit-records {
+            width: max-content;
+        }
+
         .popup-container {
             display: none;
             position: fixed;
@@ -232,26 +248,26 @@
 
 
 
-    $patiientResultSet = Database::search("SELECT `patients_details`.`id` AS `pdi`,`registered_patients`.`age` AS `age`, `registered_patients`.`name` AS `name`, `registered_patients`.`email` AS `email`,
-     `registered_patients`.`mobile` AS `mobile`, `registered_patients`.`address` AS `address`, `patients_details`.`symptoms` AS `symptoms`
-      FROM `registered_patients` INNER JOIN `patients_details` ON `registered_patients`.`p_id` =`patients_details`.`patients_id`  WHERE `p_id` = '" . $pid . "'");
+    $patiientResultSet = Database::search("SELECT `registered_patients`.`p_id` AS `p_id`,`patients_details`.`medical_report` AS `mediReport`,`patients_details`.`id` AS `pdi`,`patients_details`.`age` AS `age`, `registered_patients`.`name` AS `name`, `registered_patients`.`email` AS `email`,
+     `registered_patients`.`mobile` AS `mobile`, `registered_patients`.`address` AS `address`, `patients_details`.`symptoms` AS `symptoms`, `patients_details`.`Prescriptions` AS `prescriptions`
+      FROM `registered_patients` INNER JOIN `patients_details` ON `registered_patients`.`p_id` =`patients_details`.`patients_id`  WHERE `patients_details`.`id` = '" . $pid . "'");
 
     $numRows = $patiientResultSet->num_rows;
 
     if ($numRows == 1) {
         $pDetaila = $patiientResultSet->fetch_assoc();
- 
+
 
     ?>
 
-    <div class="container">
-        <div class="container-header">
-            <h1>Patient Examination</h1>
-            <!-- <button onclick="examined()" class="examined-btn">Examined</button> -->
-            <button onclick="examined(<?php echo $pDetaila['pdi'] ?>)" id="examined-btn" class="examined-btn">Examined</button>
-        </div>
+        <div class="container">
+            <div class="container-header">
+                <h1>Patient Examination</h1>
+                <!-- <button onclick="examined()" class="examined-btn">Examined</button> -->
+                <button onclick="examined(<?php echo $pDetaila['pdi'] ?>)" id="examined-btn" class="examined-btn">Examined</button>
+            </div>
 
-     
+
 
             <div class="patient-details">
                 <h3>Patient Details</h3>
@@ -282,23 +298,61 @@
                 <p><?php echo $pDetaila["symptoms"] ?></p>
             </div>
 
+            <br />
+            <br />
 
+            <div class="req-test">
+                <h3>Request a Test from MLT</h3>
+                <label for="test">Test Type:</label>
+
+                <select name="test" id="test">
+                    <option value="cbc">CBC</option>
+                </select>
+                <button class="submit-records">Sumbit</button>
+                <button class="submit-records" onclick="viewReport()">View Test Report</button>
+
+            </div>
+
+            <br />
+<!--p & m -->
+<?php
+                if ($pDetaila['prescriptions'] == '') {
+                ?>
 
             <div class="doctor-prescription">
                 <h3>Doctor's Prescription</h3>
                 <textarea id="prescription" rows="4" placeholder="Enter doctor's prescription here..."></textarea>
-                <button onclick="submitPrescription(<?php echo $pDetaila['pdi'] ?>)" class="submit-records">Sumbit</button>
+                <?php
+                if ($pDetaila['mediReport'] == 'no') {
+                ?>
+                    <button onclick="submitPrescription('<?php echo $pDetaila['pdi'] ?>','no')" class="submit-records">Sumbit</button>
+
+                <?php
+                }
+
+                ?>
             </div>
 
-            <div class="medical-report">
-                <h3>Patient Medical Report</h3>
-                <textarea id="medicalReport" rows="4" placeholder="Enter patient medical report here..."></textarea>
-                <button onclick="submitPrescription(<?php echo $pDetaila['pdi'] ?>)" class="submit-records">Sumbit</button>
-            </div>
+            <?php
+            if ($pDetaila['mediReport'] == 'yes') {
+            ?>
+
+                <div class="medical-report">
+                    <h3>Patient Medical Report</h3>
+                    <textarea id="medicalReport" rows="4" placeholder="Enter patient medical report here..."></textarea>
+                    <!-- <button onclick="submitPrescription(<?php echo $pDetaila['pdi'] ?>)" class="submit-records">Sumbit</button> -->
+                </div>
+
+                <button onclick="submitPrescription('<?php echo $pDetaila['pdi'] ?>','yes')" class="submit-records">Sumbit</button>
+
 
         <?php
-        }
+            }
+                }
         ?>
+
+
+<!--p & m -->
 
         <div class="symptoms-table-container">
             <h3>Patient Records</h3>
@@ -307,29 +361,78 @@
                     <tr>
                         <th>No</th>
                         <th>Symptoms Added Date and Time</th>
-                        <!-- <th>Age</th> -->
+                        <th>Age</th>
                         <th>Doctor Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr onclick="showPopup('details-popup')">
+                    <!-- <tr onclick="showPopup('details-popup')">
                         <td>1</td>
                         <td>2024-06-01 10:00 AM</td>
-                        <!-- <td>30</td> -->
+                       
                         <td><button class="status-btn pending">Pending</button></td>
                     </tr>
                     <tr onclick="showPopup('details-popup')">
                         <td>2</td>
                         <td>2024-06-02 11:00 AM</td>
-                        <!-- <td>30</td> -->
+                       
                         <td><button class="status-btn checked">Checked</button></td>
-                    </tr>
+                    </tr> -->
+
+
+                    <?php
+                    $patientDetailsResultSet = Database::search("SELECT * FROM `patients_details` WHERE `patients_id` = '" . $pDetaila['p_id'] . "' ORDER BY `id` DESC");
+                    $patientDetailsCount = $patientDetailsResultSet->num_rows;
+
+                    if ($patientDetailsCount > 0) {
+                        while ($patientDetailsResult = $patientDetailsResultSet->fetch_assoc()) {
+                            $recordId = $patientDetailsResult["id"]; // Assuming id is unique for each record
+                    ?>
+                            <tr onclick="showPopup('details-popup-<?php echo $recordId; ?>')">
+                                <td><?php echo $recordId; ?></td>
+                                <td><?php echo $patientDetailsResult["symptoms_date"]; ?></td>
+                                <td><?php echo $patientDetailsResult["age"]; ?></td>
+
+                                <?php if (empty($patientDetailsResult["Prescriptions"])) { ?>
+                                    <td><button class="status-btn pending">Pending</button></td>
+                                <?php } else { ?>
+                                    <td><button class="status-btn checked">Checked</button></td>
+                                <?php } ?>
+                            </tr>
+
+                            <!-- Popup Container for Details -->
+                            <div id="details-popup-<?php echo $recordId; ?>" class="popup-container" style="display: none;">
+                                <div class="popup-content">
+                                    <span class="close-btn" onclick="closePopup('details-popup-<?php echo $recordId; ?>')">&times;</span>
+                                    <h2>Record</h2>
+                                    <div class="details-columns">
+                                        <div class="details-column">
+                                            <h3>Symptoms</h3>
+                                            <div class="text-container">
+                                                <p class="symptoms-text"><?php echo $patientDetailsResult["symptoms"]; ?></p>
+                                            </div>
+                                        </div>
+                                        <div class="details-column">
+                                            <h3>Prescriptions</h3>
+                                            <div class="text-container">
+                                                <p class="prescriptions-text"><?php echo $patientDetailsResult["Prescriptions"]; ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Popup Container for Details -->
+                    <?php
+                        }
+                    }
+                    ?>
+
                 </tbody>
             </table>
         </div>
 
         <!-- Popup Container for Details -->
-        <div id="details-popup" class="popup-container">
+        <!-- <div id="details-popup" class="popup-container">
             <div class="popup-content">
                 <span class="close-btn" onclick="closePopup('details-popup')">&times;</span>
                 <h2>Details</h2>
@@ -344,84 +447,177 @@
                     </div>
                 </div>
             </div>
+        </div> -->
         </div>
-    </div>
+        <?php
+            }
+        
+        ?>
 
 
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const rows = document.querySelectorAll('#symptomsTable tbody tr');
+                const symptomsText = document.getElementById('symptoms-text');
+                const prescriptionsText = document.getElementById('prescriptions-text');
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const rows = document.querySelectorAll('#symptomsTable tbody tr');
-            const symptomsText = document.getElementById('symptoms-text');
-            const prescriptionsText = document.getElementById('prescriptions-text');
+                rows.forEach(row => {
+                    row.addEventListener('click', function() {
+                        // Example data - in a real application, you would fetch this data
+                        const symptomsData = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+                        const prescriptionsData = "Nullam dictum felis eu pede mollis pretium.";
 
-            rows.forEach(row => {
-                row.addEventListener('click', function() {
-                    // Example data - in a real application, you would fetch this data
-                    const symptomsData = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-                    const prescriptionsData = "Nullam dictum felis eu pede mollis pretium.";
+                        symptomsText.textContent = symptomsData;
+                        prescriptionsText.textContent = prescriptionsData;
 
-                    symptomsText.textContent = symptomsData;
-                    prescriptionsText.textContent = prescriptionsData;
-
-                    showPopup('details-popup');
+                        showPopup('details-popup');
+                    });
                 });
             });
-        });
 
-        function showPopup(popupId) {
-            document.getElementById(popupId).style.display = 'flex';
-        }
-
-        function closePopup(popupId) {
-            document.getElementById(popupId).style.display = 'none';
-        }
-
-        // examinedBtn = document.getElementById('examined-btn');
-        // examinedBtn.addEventListener('click', (e) =>
-       function examined(pdi)  {
-            console.log('examine btn', localStorage.getItem('examined'));
-            if (localStorage.getItem('examined') == null || localStorage.getItem('examined') == 'false') {
-                localStorage.setItem('examined', 'true');
+            function showPopup(popupId) {
+                document.getElementById(popupId).style.display = 'flex';
             }
-            submitPrescription(pdi);
-            window.location.href = 'doctor.php?name=registered_doctor';
-        }
-        // )
 
-        function submitPrescription(pid) {
-            // http://localhost/HealthCare/doctor/prescriptionProcess.php
+            function closePopup(popupId) {
+                document.getElementById(popupId).style.display = 'none';
+            }
 
-            const prescription = document.getElementById("prescription").value;
-            const medicalReport = document.getElementById("medicalReport").value;
+            // examinedBtn = document.getElementById('examined-btn');
+            // examinedBtn.addEventListener('click', (e) =>
+            function examined(pdi) {
+                console.log('examine btn', localStorage.getItem('examined'));
+                if (localStorage.getItem('examined') == null || localStorage.getItem('examined') == 'false') {
+                    localStorage.setItem('examined', 'true');
+                }
+                // submitPrescription(pdi);
+                fetch("http://localhost/HealthCare/doctor/examineProcess.php?pdi=" + pdi, {
 
-            const f = new FormData();
+                        method: 'GET',
 
-            f.append("prescription", prescription);
-            f.append("medicalReport", medicalReport);
-            f.append("pid", pid);
+                    })
 
-            fetch("http://localhost/HealthCare/doctor/prescriptionProcess.php", {
+                    .then(responce => {
+                        return responce.text();
+                    })
+                    .then(data => {
+                        // alert(data);
+                        // location.reload();
 
-                    method: 'POST',
-                    body: f,
+                        if (data == "success") {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Your work has been saved",
+                                background: "#fff",
+                                text: "patient examined successfully!",
+                                showConfirmButton: true,
+                                customClass: {
+                                    popup: 'swal2-dark'
+                                }
 
-                })
+                                // timer: 2000
+                            }).then(() => {
+                                // alert(data);
+                                window.location.href = 'doctor.php?name=registered_doctor';
+                                // window.location = "index.php";
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                // color: "#22252c",
+                                background: "#fff",
+                                // text: "Something went wrong!",
+                                text: data,
+                                customClass: {
+                                    popup: 'swal2-dark'
+                                }
 
-                .then(responce => {
-                    return responce.text();
-                })
-                .then(data => {
-                    alert(data);
-                    location.reload();
-                })
+                                // footer: '<a href="#">Why do I have this issue?</a>'
+                            });
+                        }
 
-                .catch(error => {
-                    console.log(error);
-                })
+                    })
 
-        }
-    </script>
+                    .catch(error => {
+                        console.log(error);
+                    })
+
+                // window.location.href = 'doctor.php?name=registered_doctor';
+            }
+            // )
+
+            function submitPrescription(pid, mediReport) {
+                // http://localhost/HealthCare/doctor/prescriptionProcess.php
+
+                const prescription = document.getElementById("prescription").value;
+                let medicalReport = '';
+                if (mediReport == 'yes') {
+                    medicalReport = document.getElementById("medicalReport").value;
+                }
+                const f = new FormData();
+
+                f.append("prescription", prescription);
+                if (mediReport == 'yes') {
+                    f.append("medicalReport", medicalReport);
+                }
+                f.append("pid", pid);
+
+                fetch("http://localhost/HealthCare/doctor/prescriptionProcess.php", {
+
+                        method: 'POST',
+                        body: f,
+
+                    })
+
+                    .then(responce => {
+                        return responce.text();
+                    })
+                    .then(data => {
+                        // alert(data);
+                        // location.reload();
+
+                        if (data == "success") {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Your work has been saved",
+                                background: "#fff",
+                                showConfirmButton: true,
+                                customClass: {
+                                    popup: 'swal2-dark'
+                                }
+
+                                // timer: 2000
+                            }).then(() => {
+                                // alert(data);
+                                location.reload();
+                                // window.location = "index.php";
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                // color: "#22252c",
+                                background: "#fff",
+                                // text: "Something went wrong!",
+                                text: data,
+                                customClass: {
+                                    popup: 'swal2-dark'
+                                }
+
+                                // footer: '<a href="#">Why do I have this issue?</a>'
+                            });
+                        }
+
+                    })
+
+                    .catch(error => {
+                        console.log(error);
+                    })
+
+            }
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

@@ -51,6 +51,31 @@ body {
     color: var(--base-color);
 }
 
+.rep-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.rep-box p {
+    margin-bottom: 10px;
+}
+
+.check {
+    display: flex;
+    gap: 10px;
+    width: max-content;
+}
+
+.check span {
+    text-wrap: nowrap;
+    color: var(--base-color);
+    font-weight: bold;
+}
+
+.check input {
+    width: 20px;
+}
+
 .profile-details .form-row {
     display: flex;
     flex-wrap: wrap;

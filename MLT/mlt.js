@@ -13,26 +13,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function loadTabContent(tab) {
         const target = tab.getAttribute('data-target');
-        if(target == 'produce-list.html'){
+        if (target == 'produce-list.html') {
             if (localStorage.getItem('pharlog') == null || localStorage.getItem('pharlog') == 'false') {
                 localStorage.setItem('pharlog', 'true');
                 console.log(localStorage.getItem('pharlog'));
             }
         }
         fetch(target)
-        .then(response => response.text())
-        .then(data => {
-            content.innerHTML = data;
-            tabs.forEach(colorTab => {
+            .then(response => response.text())
+            .then(data => {
+                content.innerHTML = data;
+                tabs.forEach(colorTab => {
                     colorTab.style.backgroundColor = mediumgrey;
                 });
                 tab.style.backgroundColor = basecolor;
-                })
+            })
             .catch(error => {
                 console.error('Error loading content:', error);
             });
     }
-    
+
     tabs.forEach(tab => {
         tab.addEventListener('click', function(e) {
             // try {
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    
+
 });
 
 
@@ -80,7 +80,5 @@ function filterTable() {
 
 
 function examinePatient() {
-    window.location.href = 'blood-report.html';
+    window.location.href = 'blood-report.php';
 }
-
-

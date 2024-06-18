@@ -120,12 +120,16 @@ function exsitsPatientAddSymptoms(p_id) {
     let age = document.getElementById('age').value;
     let symptoms = document.getElementById('symptoms').value;
 
+    let medRep = document.getElementById('med-report').checked;
+
+
     const addNewsymptoms = {
 
         "age": age,
         "symptoms": symptoms,
         "status": "addSymptoms",
         "patientProfile_id": p_id,
+        "medicalReport": medRep,
     }
 
     fetch("http://localhost/HealthCare/reception/receptionProcess.php", {

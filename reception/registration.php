@@ -1,5 +1,30 @@
 <head>
     <style>
+        .rep-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .rep-box p {
+            margin-bottom: 10px;
+        }
+
+        .check {
+            display: flex;
+            gap: 10px;
+            width: max-content;
+        }
+
+        .check span {
+            text-wrap: nowrap;
+            color: var(--base-color);
+            font-weight: bold;
+        }
+
+        .check input {
+            width: 20px;
+        }
+
         .registration-form {
             display: flex;
             flex-direction: column;
@@ -70,7 +95,6 @@
                 min-width: 100%;
             }
         }
-
     </style>
 </head>
 <h2 class="content-title">Patient Registration</h2>
@@ -108,6 +132,14 @@
     <div class="form-group">
         <label for="symptoms">Symptoms:</label>
         <textarea id="symptoms" name="symptoms" rows="4" required></textarea>
+    </div>
+    <div class="rep-box">
+        <p>Only If you need a medical report</p>
+        <div class="check">
+            <span>Medical Report</span>
+            <input type="checkbox" name="med-report" id="med-report">
+        </div>
+                  
     </div>
     <button type="submit" onclick="registerPatient()">Register</button>
 </div>

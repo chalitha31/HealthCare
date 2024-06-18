@@ -76,7 +76,7 @@
     require_once "../connection.php";
 
 
-    $patientResultSet = Database::search("SELECT * FROM `registered_patients`");
+    $patientResultSet = Database::search("SELECT * FROM `registered_patients` ORDER BY `p_id` DESC");
 
     $patientCount = $patientResultSet->num_rows;
 

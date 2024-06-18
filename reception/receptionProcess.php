@@ -44,6 +44,7 @@ if ($status == "add") {
         $address = $patientDetails->address;
         $contact = $patientDetails->contact;
         $symptoms = $patientDetails->symptoms;
+        $medicalReport = $patientDetails->medicalReport;
 
         Database::iud("INSERT INTO `registered_patients` (`name`,`mobile`,`email`,`id_num`,`address`,`age`,`register_date`,`reception_id`) 
 VALUES('" . $name . "','" . $contact . "','" . $email . "','" . $nic . "','" . $address . "','" . $age . "','" . $date . "','" . $_SESSION["idnum"] . "') ");
@@ -56,10 +57,19 @@ VALUES('" . $name . "','" . $contact . "','" . $email . "','" . $nic . "','" . $
             $p_id = $pd["p_id"];
 
 
-            Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`,`medical_report`)
-VALUES('" . $p_id . "','" . $_SESSION["idnum"] . "','" . $symptoms . "','','0000000000','" . $date . "','" . $age . "','no') ");
-            echo "success";
-            exit();
+            if ($medicalReport) {
+
+                Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`,`medical_report`)
+        VALUES('" . $p_id . "','" . $_SESSION["idnum"] . "','" . $symptoms . "','','0000000000','" . $date . "','" . $age . "','yes') ");
+                echo "success";
+                exit();
+            } else {
+
+                Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`,`medical_report`)
+        VALUES('" . $p_id . "','" . $_SESSION["idnum"] . "','" . $symptoms . "','','0000000000','" . $date . "','" . $age . "','no') ");
+                echo "success";
+                exit();
+            }
         } else {
 
             echo "some Insert process is not working";
@@ -98,20 +108,33 @@ VALUES('" . $p_id . "','" . $_SESSION["idnum"] . "','" . $symptoms . "','','0000
     if (empty($patientDetails->age)) {
         echo "please enter patient age";
         exit();
-    }    else if (empty($patientDetails->symptoms)) {
-            echo "please enter patient symptoms";
-            exit();
-        
+    } else if (empty($patientDetails->symptoms)) {
+        echo "please enter patient symptoms";
+        exit();
     } else {
 
         $age = $patientDetails->age;
         $symptoms = $patientDetails->symptoms;
+        $medicalReport = $patientDetails->medicalReport;
 
         $patientProfile_id = $patientDetails->patientProfile_id;
 
-        Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`,`medical_report`)
-    VALUES('" . $patientProfile_id . "','" . $_SESSION["idnum"] . "','" . $symptoms . "','','0000000000','" . $date . "','" . $age . "','no') ");
-        echo "success";
-        exit();
+        if ($medicalReport) {
+
+            Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`,`medical_report`)
+            VALUES('" . $patientProfile_id . "','" . $_SESSION["idnum"] . "','" . $symptoms . "','','0000000000','" . $date . "','" . $age . "','yes') ");
+                echo "success";
+                exit();
+
+        }else{
+
+            Database::iud("INSERT INTO `patients_details` (`patients_id`,`reception_id`,`symptoms`,`Prescriptions`,`doctor_id`,`symptoms_date`,`age`,`medical_report`)
+            VALUES('" . $patientProfile_id . "','" . $_SESSION["idnum"] . "','" . $symptoms . "','','0000000000','" . $date . "','" . $age . "','no') ");
+                echo "success";
+                exit();
+
+        }
+
+ 
     }
 }

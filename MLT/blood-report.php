@@ -7,7 +7,14 @@
     <title>C.B.C. Examination Routine</title>
     <link rel="stylesheet" href="../assets/css/common.css">
     <link rel="stylesheet" href="../assets/css/header.css">
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
         .container {
             max-width: 800px;
             margin: 20px auto;
@@ -28,6 +35,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            padding: 5px;
         }
 
         .patient-info {
@@ -80,6 +88,11 @@
             color: #fff;
         }
 
+        .button-group {
+            align-self: center;
+            padding-bottom: 100px;
+        }
+
         button {
             padding: 10px 15px;
             background-color: var(--base-color);
@@ -105,7 +118,7 @@
         <!-- <button id="loginBtn">Login</button> -->
     </header>
 
-    <div class="container">
+    <div class="container" id="form-container">
         <h2 class="report-title">Complete Blood Count (CBC)</h2>
 
         <form id="cbcReportForm" class="cbc-report-form">
@@ -251,19 +264,24 @@
                 </tbody>
             </table>
 
-            <button type="button" id="dataFeedButton">Data Feed</button>
-            <button type="submit">Submit</button>
         </form>
     </div>
+    <div class="button-group">
+        <button type="button" id="dataFeedButton">Data Feed</button>
+        <button type="submit" class="submit-btn">Submit</button>
+        <button onclick="exportToJPG('form-container')">Export as JPG</button>
+    </div>
+
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const dataFeedButton = document.getElementById('dataFeedButton');
-            const submitButton = document.querySelector('form button[type="submit"]');
+            const submitButton = document.querySelector('.submit-btn');
 
             const form = document.getElementById('cbcReportForm');
+            let formObject = {};
 
-            dataFeedButton.addEventListener('click', function () {
+            dataFeedButton.addEventListener('click', function() {
                 document.getElementById('hemoglobin').value = (13 + Math.random() * 4).toFixed(1); // Hemoglobin 13-17 g/dL
                 document.getElementById('rbcCount').value = (4.5 + Math.random() * 1).toFixed(1); // RBC Count 4.5-5.5 mill/cumm
                 document.getElementById('pcv').value = (40 + Math.random() * 10).toFixed(1); // PCV 40-50%
@@ -280,8 +298,14 @@
                 document.getElementById('plateletCount').value = (150000 + Math.random() * 260000).toFixed(0); // Platelet Count 150000-410000 cumm
             });
 
-            submitButton.addEventListener('click', function (event) {
+            submitButton.addEventListener('click', function(event) {
                 event.preventDefault();
+
+                if (!formValidation()) {
+                    alert("cant't submit blank test report")
+                    return
+                }
+
                 let inputs = Array.from(form.querySelectorAll('input'));
 
                 for (const input of inputs) {
@@ -290,10 +314,43 @@
                     console.log(id, value)
                 }
             });
+
+
+
         });
 
+        function exportToJPG(divID) {
+            if (!formValidation()) {
+                alert("cant't Export a blank test report")
+                return
+            }
+            const div = document.getElementById(divID); // Replace 'report' with the ID of your div
 
+            html2canvas(div).then(canvas => {
+                const imageData = canvas.toDataURL('image/jpeg');
+                fetch('save_image.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: 'image=' + encodeURIComponent(imageData)
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        alert(data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        }
 
+        function formValidation() {
+            for (const input of Array.from(document.querySelectorAll('input'))) {
+                if (input.value == "") return false;
+            }
+            return true
+        }
     </script>
 </body>
 

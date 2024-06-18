@@ -125,7 +125,7 @@
     </script>
 </head>
 
-<?php 
+<?php
 require_once "../connection.php";
 $docResultSet = Database::search("SELECT  `id_num` , `name` FROM `registered_doctor`");
 $numRow = $docResultSet->num_rows;
@@ -144,36 +144,42 @@ $docResult = $docResultSet->fetch_all(MYSQLI_ASSOC);
     </thead>
     <tbody>
 
-    <?php 
+        <?php
 
-foreach ($docResult as $key => $value) {
-?>
+        foreach ($docResult as $key => $value) {
+        ?>
 
-<tr onclick="window.location.href='employee-profile.php?id_num=<?php echo $value['id_num']?>&tname=registered_doctor'">
-            <td><?php echo $value['id_num']?></td>
-           
-                <?php 
-                if(empty($value['name'])){
-                    ?>
-                   <td style="color: #ff5959;">Profile has not been updated yet</td>
-                    <?php 
-                }else{
-                    ?>
-                    <td><?php echo $value["name"] ?></td>
-                    <?php 
-                }
-                
+            <tr onclick="window.location.href='employee-profile.php?id_num=<?php echo $value['id_num'] ?>&tname=registered_doctor'">
+                <?php
+
+                if ($value['name'] != 'none') {
                 ?>
-            
-        </tr>
 
-  <?php  
-}
+                    <td><?php echo $value['id_num'] ?></td>
+
+                    <?php
+                    if (empty($value['name'])) {
+                    ?>
+                        <td style="color: #ff5959;">Profile has not been updated yet</td>
+                    <?php
+                    } else {
+                    ?>
+                        <td><?php echo $value["name"] ?></td>
+                    <?php
+                    }
+
+                    ?>
+
+            </tr>
+
+    <?php
+                }
+            }
 
     ?>
 
-     
-       
+
+
     </tbody>
 </table>
 <div class="email-form-container">

@@ -93,7 +93,7 @@
     require_once "../connection.php";
 
     $totalResultSet = Database::search("SELECT COUNT(*) AS total FROM `patients_details` 
-     WHERE `Prescriptions` = '' AND `medical_report` = 'no'");
+     WHERE `Prescriptions` = '' ");
 
     $totalRow = $totalResultSet->fetch_assoc();
     $totalPatients = $totalRow['total'];
@@ -110,8 +110,8 @@
 
             <?php
 
-            $patiientResultSet = Database::search("SELECT  `registered_patients`.`p_id` AS `pid`, `registered_patients`.`name` AS `name`,`patients_details`.`age` AS `age` FROM `patients_details` 
-INNER JOIN  `registered_patients` ON `registered_patients`.`p_id` = `patients_details`.`patients_id` WHERE `patients_details`.`Prescriptions` = '' AND `medical_report` = 'no' LIMIT 8");
+            $patiientResultSet = Database::search("SELECT  `patients_details`.`id` AS `pid`, `registered_patients`.`name` AS `name`,`patients_details`.`age` AS `age` FROM `patients_details` 
+INNER JOIN  `registered_patients` ON `registered_patients`.`p_id` = `patients_details`.`patients_id` WHERE `patients_details`.`Prescriptions` = ''  LIMIT 8");
 
             $numRows = $patiientResultSet->num_rows;
 

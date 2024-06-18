@@ -2,6 +2,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 1000;
     background-color: var(--base-color);
     padding: 10px 20px;
     color: white;
