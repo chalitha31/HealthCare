@@ -108,6 +108,12 @@
         button:hover {
             background-color: var(--second-base-color);
         }
+
+        input {
+            border: none;
+            /* font-size: 15px; */
+            font-weight: bold;
+        }
     </style>
 </head>
 

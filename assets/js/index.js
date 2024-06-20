@@ -29,6 +29,10 @@ window.addEventListener('load', (e) => {
         localStorage.setItem('examined', 'false');
         console.log(localStorage.getItem('examined'));
     }
+    if (localStorage.getItem('pharlog') == null || localStorage.getItem('pharlog') == 'true') {
+        localStorage.setItem('pharlog', 'false');
+        console.log(localStorage.getItem('pharlog'));    
+    }
 
 })
 
@@ -63,9 +67,10 @@ function login() {
             } else if (data === "registered_mlt") {
 
                 window.location = "mlt/mlt.php?name=" + data;
+
             } else if (data === "registered_pharmacists") {
 
-                // window.location = "reception.php";
+                window.location = "pharmasist/pharmasist.php?name=" + data;
 
             } else if (data === "registered_reception") {
 

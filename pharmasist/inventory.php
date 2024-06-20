@@ -130,7 +130,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <!-- <tr>
                     <td>Paracetamol</td>
                     <td>ABC Pharma</td>
                     <td>500</td>
@@ -153,7 +153,7 @@
                     <td>MediCare Ltd.</td>
                     <td>100</td>
                     <td>2024-03-22</td>
-                </tr>
+                </tr> -->
             </tbody>
 
         </table>

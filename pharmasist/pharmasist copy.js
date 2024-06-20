@@ -7,7 +7,51 @@ function getCustomPropertyValue(propertyName) {
 let basecolor = getCustomPropertyValue('--base-color');
 let mediumgrey = getCustomPropertyValue('--medium-gray');
 
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.tab');
+    const content = document.getElementById('content');
 
+    function loadTabContent(tab) {
+        const target = tab.getAttribute('data-target');
+        if (target == 'inventory.php') {
+            if (localStorage.getItem('pharlog') == null || localStorage.getItem('pharlog') == 'false') {
+                localStorage.setItem('pharlog', 'true');
+                console.log(localStorage.getItem('pharlog'));
+            }
+        }
+        fetch(target)
+            .then(response => response.text())
+            .then(data => {
+                content.innerHTML = data;
+                tabs.forEach(colorTab => {
+                    colorTab.style.backgroundColor = mediumgrey;
+                });
+                tab.style.backgroundColor = basecolor;
+            })
+            .catch(error => {
+                console.error('Error loading content:', error);
+            });
+    }
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            // try {
+            //     document.querySelector('.content-backdrop').style.display = 'none';
+            // } catch (error) {
+            //     console.log('couldnt block',error);
+            // }
+            e.preventDefault();
+            loadTabContent(tab);
+        });
+    });
+    let pharlog = localStorage.getItem('pharlog');
+    if (pharlog == 'true') {
+        loadTabContent(tabs[0]);
+    }
+
+
+
+});
 
 
 function filterTable() {
@@ -36,56 +80,39 @@ function filterTable() {
 
 
 function examinePatient() {
-    window.location.href = 'produce.php';
+    window.location.href = 'produce.html';
 }
 
 
+// pharmasist.js
 document.addEventListener('DOMContentLoaded', function() {
     const tabs = document.querySelectorAll('.tab');
-    const content = document.getElementById('content');
-
-    function loadTabContent(tab) {
-        const target = tab.getAttribute('data-target');
-        if (target == 'inventory.php') {
-            if (localStorage.getItem('pharlog') == null || localStorage.getItem('pharlog') == 'false') {
-                localStorage.setItem('pharlog', 'true');
-                console.log(localStorage.getItem('pharlog'));
-            }
-        }
-        fetch(target)
-            .then(response => response.text())
-            .then(data => {
-                content.innerHTML = data;
-                tabs.forEach(colorTab => {
-                    colorTab.style.backgroundColor = mediumgrey;
-                });
-                tab.style.backgroundColor = basecolor;
-                initForm();
-            })
-            .catch(error => {
-                console.error('Error loading content:', error);
-            });
-    }
 
     tabs.forEach(tab => {
         tab.addEventListener('click', function(e) {
             e.preventDefault();
-            loadTabContent(tab);
+
+            const target = e.target.getAttribute('data-target');
+
+            fetch(target)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('content').innerHTML = data;
+                    // Re-initialize form submission and data loading after content load
+                    initForm();
+                })
+                .catch(error => console.error('Error:', error));
         });
     });
-    let pharlog = localStorage.getItem('pharlog');
-    if (pharlog == 'true') {
-        loadTabContent(tabs[0]);
-    }
 
     function initForm() {
         const form = document.getElementById('medicineForm');
         if (form) {
-            let currentDate = new Date().toISOString().split('T')[0];
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
 
                 let expDate = document.getElementById('expirationDate').value;
+                let currentDate = new Date().toISOString().split('T')[0];
 
                 if (expDate < currentDate) {
                     // alert('This medicine is Expired')
@@ -122,10 +149,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                             // timer: 2000
                         }).then(() => {
-                            // window.location = "index.php";
-                            location.reload();
+                            window.location = "index.php";
                         });
-
                         // Refresh the table
                         loadMedicineData();
                     })
@@ -142,16 +167,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         tableBody.innerHTML = '';
 
                         data.forEach(medicine => {
-                            if (medicine.exp > currentDate) {
-                                const row = document.createElement('tr');
-                                row.innerHTML = `
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
                                 <td>${medicine.name}</td>
                                 <td>${medicine.brand}</td>
                                 <td>${medicine.quantity}</td>
                                 <td>${medicine.exp}</td>
-                                `;
-                                tableBody.appendChild(row);
-                            }
+                            `;
+                            tableBody.appendChild(row);
                         });
                     })
                     .catch(error => console.error('Error:', error));

@@ -85,6 +85,7 @@
 
         textarea {
             width: 100%;
+            white-space: pre-line;
             max-width: 100%;
             min-width: 100%;
             padding: 10px;
@@ -233,6 +234,118 @@
             align-items: first baseline;
             column-gap: 10px;
         }
+
+        /* image view model */
+
+        #myImg {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #myImg:hover {
+            opacity: 0.7;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.9);
+            /* Black w/ opacity */
+        }
+
+        /* Modal Content (image) */
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        /* Caption of Modal Image */
+        #caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
+        }
+
+        /* Add Animation */
+        .modal-content,
+        #caption {
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 0.6s;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        @-webkit-keyframes zoom {
+            from {
+                -webkit-transform: scale(0)
+            }
+
+            to {
+                -webkit-transform: scale(1)
+            }
+        }
+
+        @keyframes zoom {
+            from {
+                transform: scale(0)
+            }
+
+            to {
+                transform: scale(1)
+            }
+        }
+
+        /* The Close Button */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* 100% Image Width on Smaller Screens */
+        @media only screen and (max-width: 700px) {
+            .modal-content {
+                width: 100%;
+            }
+        }
+
+        /* image view model */
     </style>
 </head>
 
@@ -295,7 +408,8 @@
 
             <div class="health-issues">
                 <h3 style="color: red;">Current Health Issues</h3>
-                <p><?php echo $pDetaila["symptoms"] ?></p>
+                <!-- echo htmlspecialchars_decode($pDetaila["symptoms"]) ?> -->
+                <p style="white-space:pre-wrap;"><?php echo $pDetaila["symptoms"] ?></p>
             </div>
 
             <br />
@@ -312,77 +426,86 @@
                 </select>
                 <button onclick="mltBloodRequest(<?php echo $pid ?>);" class="submit-records">Sumbit</button>
 
-                <?php 
-                
+                <?php
+
                 $mltBloodResultSet = Database::search("SELECT * FROM `bloodtest` WHERE `patientDetails_id` = '" . $pid . "'");
                 $mltBloodRow = $mltBloodResultSet->num_rows;
-if($mltBloodRow == 1){
-    $mltBloodData = $mltBloodResultSet->fetch_assoc();
+                if ($mltBloodRow == 1) {
+                    $mltBloodData = $mltBloodResultSet->fetch_assoc();
 
-    if($mltBloodData['reportName'] != '' || $mltBloodData['reportName'] != null){
+                    if ($mltBloodData['reportName'] != '' || $mltBloodData['reportName'] != null) {
                 ?>
+                        <img id="myImg" src="../MLT/images/<?php echo $mltBloodData['reportName'] ?>" alt="Medical Report" style="width:50%;max-width:80px;border: 2px solid red;">
 
-                <button  class="submit-records" >View Test Report</button>
+                        <!-- The Modal -->
+                        <div id="myModal" class="modal">
+                            <span onclick="closeOpenImage()"  class="close">&times;</span>
+                            <img class="modal-content" id="img01">
+                            <div id="caption"></div>
+                        </div>
 
-                <?php 
-}}
+                        <button onclick="openReportImage()" class="submit-records">View Test Report</button>
+
+                <?php
+                    }
+                }
                 ?>
             </div>
 
             <br />
-<!--p & m -->
-<?php
-                if ($pDetaila['prescriptions'] == '') {
-                ?>
-
-            <div class="doctor-prescription">
-                <h3>Doctor's Prescription</h3>
-                <textarea id="prescription" rows="4" placeholder="Enter doctor's prescription here..."></textarea>
-                <?php
-                if ($pDetaila['mediReport'] == 'no') {
-                ?>
-                    <button onclick="submitPrescription('<?php echo $pDetaila['pdi'] ?>','no')" class="submit-records">Sumbit</button>
-
-                <?php
-                }
-
-                ?>
-            </div>
-
+            <!--p & m -->
             <?php
-            if ($pDetaila['mediReport'] == 'yes') {
+            if ($pDetaila['prescriptions'] == '') {
             ?>
 
-                <div class="medical-report">
-                    <h3>Patient Medical Report</h3>
-                    <textarea id="medicalReport" rows="4" placeholder="Enter patient medical report here..."></textarea>
-                    <!-- <button onclick="submitPrescription(<?php echo $pDetaila['pdi'] ?>)" class="submit-records">Sumbit</button> -->
+                <div class="doctor-prescription">
+                    <h3>Doctor's Prescription</h3>
+                    <textarea style="white-space: pre-line;" id="prescription" rows="4" placeholder="Enter doctor's prescription here..."></textarea>
+                    <?php
+                    if ($pDetaila['mediReport'] == 'no') {
+                    ?>
+                        <button onclick="submitPrescription('<?php echo $pDetaila['pdi'] ?>','no')" class="submit-records">Sumbit</button>
+
+                    <?php
+                    }
+
+                    ?>
                 </div>
 
-                <button onclick="submitPrescription('<?php echo $pDetaila['pdi'] ?>','yes')" class="submit-records">Sumbit</button>
+                <?php
+                if ($pDetaila['mediReport'] == 'yes') {
+                ?>
+
+                    <div class="medical-report">
+                        <h3>Patient Medical Report</h3>
+                        <textarea style="white-space: pre-line;" id="medicalReport" rows="4" placeholder="Enter patient medical report here..."></textarea>
+                        <!-- <button onclick="submitPrescription(<?php echo $pDetaila['pdi'] ?>)" class="submit-records">Sumbit</button> -->
+                    </div>
+
+                    <button onclick="submitPrescription('<?php echo $pDetaila['pdi'] ?>','yes')" class="submit-records">Sumbit</button>
 
 
-        <?php
-            }
+            <?php
                 }
-        ?>
+            }
+            ?>
 
 
-<!--p & m -->
+            <!--p & m -->
 
-        <div class="symptoms-table-container">
-            <h3>Patient Records</h3>
-            <table id="symptomsTable">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Symptoms Added Date and Time</th>
-                        <th>Age</th>
-                        <th>Doctor Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- <tr onclick="showPopup('details-popup')">
+            <div class="symptoms-table-container">
+                <h3>Patient Records</h3>
+                <table id="symptomsTable">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Symptoms Added Date and Time</th>
+                            <th>Age</th>
+                            <th>Doctor Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr onclick="showPopup('details-popup')">
                         <td>1</td>
                         <td>2024-06-01 10:00 AM</td>
                        
@@ -396,59 +519,59 @@ if($mltBloodRow == 1){
                     </tr> -->
 
 
-                    <?php
-                    $patientDetailsResultSet = Database::search("SELECT * FROM `patients_details` WHERE `patients_id` = '" . $pDetaila['p_id'] . "' ORDER BY `id` DESC");
-                    $patientDetailsCount = $patientDetailsResultSet->num_rows;
+                        <?php
+                        $patientDetailsResultSet = Database::search("SELECT * FROM `patients_details` WHERE `patients_id` = '" . $pDetaila['p_id'] . "' ORDER BY `id` DESC");
+                        $patientDetailsCount = $patientDetailsResultSet->num_rows;
 
-                    if ($patientDetailsCount > 0) {
-                        while ($patientDetailsResult = $patientDetailsResultSet->fetch_assoc()) {
-                            $recordId = $patientDetailsResult["id"]; // Assuming id is unique for each record
-                    ?>
-                            <tr onclick="showPopup('details-popup-<?php echo $recordId; ?>')">
-                                <td><?php echo $recordId; ?></td>
-                                <td><?php echo $patientDetailsResult["symptoms_date"]; ?></td>
-                                <td><?php echo $patientDetailsResult["age"]; ?></td>
+                        if ($patientDetailsCount > 0) {
+                            while ($patientDetailsResult = $patientDetailsResultSet->fetch_assoc()) {
+                                $recordId = $patientDetailsResult["id"]; // Assuming id is unique for each record
+                        ?>
+                                <tr onclick="showPopup('details-popup-<?php echo $recordId; ?>')">
+                                    <td><?php echo $recordId; ?></td>
+                                    <td><?php echo $patientDetailsResult["symptoms_date"]; ?></td>
+                                    <td><?php echo $patientDetailsResult["age"]; ?></td>
 
-                                <?php if (empty($patientDetailsResult["Prescriptions"])) { ?>
-                                    <td><button class="status-btn pending">Pending</button></td>
-                                <?php } else { ?>
-                                    <td><button class="status-btn checked">Checked</button></td>
-                                <?php } ?>
-                            </tr>
+                                    <?php if (empty($patientDetailsResult["Prescriptions"])) { ?>
+                                        <td><button class="status-btn pending">Pending</button></td>
+                                    <?php } else { ?>
+                                        <td><button class="status-btn checked">Checked</button></td>
+                                    <?php } ?>
+                                </tr>
 
-                            <!-- Popup Container for Details -->
-                            <div id="details-popup-<?php echo $recordId; ?>" class="popup-container" style="display: none;">
-                                <div class="popup-content">
-                                    <span class="close-btn" onclick="closePopup('details-popup-<?php echo $recordId; ?>')">&times;</span>
-                                    <h2>Record</h2>
-                                    <div class="details-columns">
-                                        <div class="details-column">
-                                            <h3>Symptoms</h3>
-                                            <div class="text-container">
-                                                <p class="symptoms-text"><?php echo $patientDetailsResult["symptoms"]; ?></p>
+                                <!-- Popup Container for Details -->
+                                <div id="details-popup-<?php echo $recordId; ?>" class="popup-container" style="display: none;">
+                                    <div class="popup-content">
+                                        <span class="close-btn" onclick="closePopup('details-popup-<?php echo $recordId; ?>')">&times;</span>
+                                        <h2>Record</h2>
+                                        <div class="details-columns">
+                                            <div class="details-column">
+                                                <h3>Symptoms</h3>
+                                                <div class="text-container">
+                                                    <p class="symptoms-text"><?php echo $patientDetailsResult["symptoms"]; ?></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="details-column">
-                                            <h3>Prescriptions</h3>
-                                            <div class="text-container">
-                                                <p class="prescriptions-text"><?php echo $patientDetailsResult["Prescriptions"]; ?></p>
+                                            <div class="details-column">
+                                                <h3>Prescriptions</h3>
+                                                <div class="text-container">
+                                                    <p class="prescriptions-text"><?php echo $patientDetailsResult["Prescriptions"]; ?></p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- End Popup Container for Details -->
-                    <?php
+                                <!-- End Popup Container for Details -->
+                        <?php
+                            }
                         }
-                    }
-                    ?>
+                        ?>
 
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
 
-        <!-- Popup Container for Details -->
-        <!-- <div id="details-popup" class="popup-container">
+            <!-- Popup Container for Details -->
+            <!-- <div id="details-popup" class="popup-container">
             <div class="popup-content">
                 <span class="close-btn" onclick="closePopup('details-popup')">&times;</span>
                 <h2>Details</h2>
@@ -465,244 +588,265 @@ if($mltBloodRow == 1){
             </div>
         </div> -->
         </div>
-        <?php
-            }
-        
-        ?>
+    <?php
+    }
+
+    ?>
 
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const rows = document.querySelectorAll('#symptomsTable tbody tr');
-                const symptomsText = document.getElementById('symptoms-text');
-                const prescriptionsText = document.getElementById('prescriptions-text');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('#symptomsTable tbody tr');
+            const symptomsText = document.getElementById('symptoms-text');
+            const prescriptionsText = document.getElementById('prescriptions-text');
 
-                rows.forEach(row => {
-                    row.addEventListener('click', function() {
-                        // Example data - in a real application, you would fetch this data
-                        const symptomsData = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-                        const prescriptionsData = "Nullam dictum felis eu pede mollis pretium.";
+            rows.forEach(row => {
+                row.addEventListener('click', function() {
+                    // Example data - in a real application, you would fetch this data
+                    const symptomsData = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+                    const prescriptionsData = "Nullam dictum felis eu pede mollis pretium.";
 
-                        symptomsText.textContent = symptomsData;
-                        prescriptionsText.textContent = prescriptionsData;
+                    symptomsText.textContent = symptomsData;
+                    prescriptionsText.textContent = prescriptionsData;
 
-                        showPopup('details-popup');
-                    });
+                    showPopup('details-popup');
                 });
             });
+        });
 
-            function showPopup(popupId) {
-                document.getElementById(popupId).style.display = 'flex';
+        function showPopup(popupId) {
+            document.getElementById(popupId).style.display = 'flex';
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+
+        // examinedBtn = document.getElementById('examined-btn');
+        // examinedBtn.addEventListener('click', (e) =>
+        function examined(pdi) {
+            console.log('examine btn', localStorage.getItem('examined'));
+            if (localStorage.getItem('examined') == null || localStorage.getItem('examined') == 'false') {
+                localStorage.setItem('examined', 'true');
             }
+            // submitPrescription(pdi);
+            fetch("http://localhost/HealthCare/doctor/examineProcess.php?pdi=" + pdi, {
 
-            function closePopup(popupId) {
-                document.getElementById(popupId).style.display = 'none';
+                    method: 'GET',
+
+                })
+
+                .then(responce => {
+                    return responce.text();
+                })
+                .then(data => {
+                    // alert(data);
+                    // location.reload();
+
+                    if (data == "success") {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Your work has been saved",
+                            background: "#fff",
+                            text: "patient examined successfully!",
+                            showConfirmButton: true,
+                            customClass: {
+                                popup: 'swal2-dark'
+                            }
+
+                            // timer: 2000
+                        }).then(() => {
+                            // alert(data);
+                            window.location.href = 'doctor.php?name=registered_doctor';
+                            // window.location = "index.php";
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            // color: "#22252c",
+                            background: "#fff",
+                            // text: "Something went wrong!",
+                            text: data,
+                            customClass: {
+                                popup: 'swal2-dark'
+                            }
+
+                            // footer: '<a href="#">Why do I have this issue?</a>'
+                        });
+                    }
+
+                })
+
+                .catch(error => {
+                    console.log(error);
+                })
+
+            // window.location.href = 'doctor.php?name=registered_doctor';
+        }
+        // )
+
+        function submitPrescription(pid, mediReport) {
+            // http://localhost/HealthCare/doctor/prescriptionProcess.php
+
+            const prescription = document.getElementById("prescription").value;
+            let medicalReport = '';
+            if (mediReport == 'yes') {
+                medicalReport = document.getElementById("medicalReport").value;
             }
+            const f = new FormData();
 
-            // examinedBtn = document.getElementById('examined-btn');
-            // examinedBtn.addEventListener('click', (e) =>
-            function examined(pdi) {
-                console.log('examine btn', localStorage.getItem('examined'));
-                if (localStorage.getItem('examined') == null || localStorage.getItem('examined') == 'false') {
-                    localStorage.setItem('examined', 'true');
-                }
-                // submitPrescription(pdi);
-                fetch("http://localhost/HealthCare/doctor/examineProcess.php?pdi=" + pdi, {
+            f.append("prescription", prescription);
+            if (mediReport == 'yes') {
+                f.append("medicalReport", medicalReport);
+            }
+            f.append("pid", pid);
 
-                        method: 'GET',
+            fetch("http://localhost/HealthCare/doctor/prescriptionProcess.php", {
 
-                    })
+                    method: 'POST',
+                    body: f,
 
-                    .then(responce => {
-                        return responce.text();
-                    })
-                    .then(data => {
-                        // alert(data);
-                        // location.reload();
+                })
 
-                        if (data == "success") {
-                            Swal.fire({
-                                icon: "success",
-                                title: "Your work has been saved",
-                                background: "#fff",
-                                text: "patient examined successfully!",
-                                showConfirmButton: true,
-                                customClass: {
-                                    popup: 'swal2-dark'
-                                }
+                .then(responce => {
+                    return responce.text();
+                })
+                .then(data => {
+                    // alert(data);
+                    // location.reload();
 
-                                // timer: 2000
-                            }).then(() => {
-                                // alert(data);
-                                window.location.href = 'doctor.php?name=registered_doctor';
-                                // window.location = "index.php";
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Oops...",
-                                // color: "#22252c",
-                                background: "#fff",
-                                // text: "Something went wrong!",
-                                text: data,
-                                customClass: {
-                                    popup: 'swal2-dark'
-                                }
+                    if (data == "success") {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Your work has been saved",
+                            background: "#fff",
+                            showConfirmButton: true,
+                            customClass: {
+                                popup: 'swal2-dark'
+                            }
 
-                                // footer: '<a href="#">Why do I have this issue?</a>'
-                            });
+                            // timer: 2000
+                        }).then(() => {
+                            // alert(data);
+
+                            location.reload();
+                            // window.location = "index.php";
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            // color: "#22252c",
+                            background: "#fff",
+                            // text: "Something went wrong!",
+                            text: data,
+                            customClass: {
+                                popup: 'swal2-dark'
+                            }
+
+                            // footer: '<a href="#">Why do I have this issue?</a>'
+                        });
+                    }
+
+                })
+
+                .catch(error => {
+                    console.log(error);
+                })
+
+        }
+
+
+        // blood Request
+
+        function mltBloodRequest(pdi) {
+
+            let testType = document.getElementById("test").value;
+
+            // alert (testType + pdi);
+
+            fetch("http://localhost/HealthCare/doctor/bloodRequestProcess.php?pdi=" + pdi + "&testType=" + testType, {
+
+                    method: 'GET',
+
+                })
+
+                .then(responce => {
+                    return responce.text();
+                })
+                .then(data => {
+                    // alert(data);
+                    // location.reload();
+
+                    // if (data == "success") {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Complete!",
+                        background: "#fff",
+                        text: "blood test request sent successfully",
+                        showConfirmButton: true,
+                        customClass: {
+                            popup: 'swal2-dark'
                         }
 
-                    })
-
-                    .catch(error => {
-                        console.log(error);
-                    })
-
-                // window.location.href = 'doctor.php?name=registered_doctor';
-            }
-            // )
-
-            function submitPrescription(pid, mediReport) {
-                // http://localhost/HealthCare/doctor/prescriptionProcess.php
-
-                const prescription = document.getElementById("prescription").value;
-                let medicalReport = '';
-                if (mediReport == 'yes') {
-                    medicalReport = document.getElementById("medicalReport").value;
-                }
-                const f = new FormData();
-
-                f.append("prescription", prescription);
-                if (mediReport == 'yes') {
-                    f.append("medicalReport", medicalReport);
-                }
-                f.append("pid", pid);
-
-                fetch("http://localhost/HealthCare/doctor/prescriptionProcess.php", {
-
-                        method: 'POST',
-                        body: f,
-
-                    })
-
-                    .then(responce => {
-                        return responce.text();
-                    })
-                    .then(data => {
+                        // timer: 2000
+                    }).then(() => {
                         // alert(data);
-                        // location.reload();
+                        // location.reload();  
+                        window.location.href = 'doctor.php?name=registered_doctor';
+                        // window.location = "index.php";
+                    });
+                    // } 
+                    // else {
+                    //     Swal.fire({
+                    //         icon: "error",
+                    //         title: "Oops...",
+                    //         // color: "#22252c",
+                    //         background: "#fff",
+                    //         // text: "Something went wrong!",
+                    //         text: data,
+                    //         customClass: {
+                    //             popup: 'swal2-dark'
+                    //         }
 
-                        if (data == "success") {
-                            Swal.fire({
-                                icon: "success",
-                                title: "Your work has been saved",
-                                background: "#fff",
-                                showConfirmButton: true,
-                                customClass: {
-                                    popup: 'swal2-dark'
-                                }
+                    //         // footer: '<a href="#">Why do I have this issue?</a>'
+                    //     });
+                    // }
 
-                                // timer: 2000
-                            }).then(() => {
-                                // alert(data);
-                                
-                                location.reload();
-                                // window.location = "index.php";
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Oops...",
-                                // color: "#22252c",
-                                background: "#fff",
-                                // text: "Something went wrong!",
-                                text: data,
-                                customClass: {
-                                    popup: 'swal2-dark'
-                                }
+                })
 
-                                // footer: '<a href="#">Why do I have this issue?</a>'
-                            });
-                        }
+                .catch(error => {
+                    console.log(error);
+                })
 
-                    })
+        }
 
-                    .catch(error => {
-                        console.log(error);
-                    })
+function openReportImage(){
+        // Get the modal
+        var modal = document.getElementById("myModal");
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+     
+            modal.style.display = "block";
+            modalImg.src = img.src;
+            captionText.innerHTML = img.alt;
+       
 
-            }
+    }
 
-
-// blood Request
-
-function  mltBloodRequest(pdi) {
-
-    let testType = document.getElementById("test").value;
-
-    // alert (testType + pdi);
-
-    fetch("http://localhost/HealthCare/doctor/bloodRequestProcess.php?pdi=" + pdi + "&testType=" + testType, {
-
-            method: 'GET',
-
-        })
-
-        .then(responce => {
-            return responce.text();
-        })
-        .then(data => {
-                        // alert(data);
-                        // location.reload();
-
-                        // if (data == "success") {
-                            Swal.fire({
-                                icon: "success",
-                                title: "Complete!",
-                                background: "#fff",
-                                text : "blood test request sent successfully",
-                                showConfirmButton: true,
-                                customClass: {
-                                    popup: 'swal2-dark'
-                                }
-
-                                // timer: 2000
-                            }).then(() => {
-                                // alert(data);
-                                // location.reload();  
-                                window.location.href = 'doctor.php?name=registered_doctor';
-                                // window.location = "index.php";
-                            });
-                        // } 
-                        // else {
-                        //     Swal.fire({
-                        //         icon: "error",
-                        //         title: "Oops...",
-                        //         // color: "#22252c",
-                        //         background: "#fff",
-                        //         // text: "Something went wrong!",
-                        //         text: data,
-                        //         customClass: {
-                        //             popup: 'swal2-dark'
-                        //         }
-
-                        //         // footer: '<a href="#">Why do I have this issue?</a>'
-                        //     });
-                        // }
-
-                    })
-
-                    .catch(error => {
-                        console.log(error);
-                    })
-
-           
-
-}
-
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    function closeOpenImage(){
+        // Get the <span> element that closes the modal
+      
+        var modal = document.getElementById("myModal");
+        // When the user clicks on <span> (x), close the modal
+       
+            modal.style.display = "none";
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

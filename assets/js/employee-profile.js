@@ -292,6 +292,8 @@ function changePassword(tablen) {
                     }
 
                     // footer: '<a href="#">Why do I have this issue?</a>'
+                }).then(() => {
+                    location.reload();
                 });
             } else {
                 Swal.fire({

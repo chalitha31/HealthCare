@@ -72,12 +72,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $mail->IsSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'chamodnadeeshan91@gmail.com';
-            $mail->Password = 'rkrypofcifmrzhjo';
+            $mail->Username = 'infohealthcare52@gmail.com';
+            $mail->Password = 'uidojzkhbrisftek';
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
-            $mail->setFrom('chamodnadeeshan91@gmail.com', 'HelathCare');
-            $mail->addReplyTo('chamodnadeeshan91@gmail.com', 'HelathCare');
+            $mail->setFrom('infohealthcare52@gmail.com', 'HelathCare');
+            $mail->addReplyTo('infohealthcare52@gmail.com', 'HelathCare');
             $mail->addAddress($email);
             $mail->isHTML(true);
             $mail->Subject = 'Welcome to Healthcare : Your Login Details and Next Steps.';

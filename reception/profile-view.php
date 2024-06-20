@@ -164,7 +164,7 @@ $patient_id = $_GET["p_id"];
                 <div class="addSymptomsForm" id="addSymptomsForm">
                     <div class="form-group">
                         <!-- <label for="symptoms">Symptoms:</label> -->
-                        <textarea id="symptoms" name="symptoms" rows="4" required></textarea>
+                        <textarea  style="white-space: pre-line;" id="symptoms" name="symptoms" rows="4" required></textarea>
                     </div>
                     <div class="rep-box">
                         <p>Only If you need a medical report</p>

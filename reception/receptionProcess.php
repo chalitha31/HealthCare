@@ -46,6 +46,8 @@ if ($status == "add") {
         $symptoms = $patientDetails->symptoms;
         $medicalReport = $patientDetails->medicalReport;
 
+        $symptoms =  htmlspecialchars($symptoms, ENT_QUOTES, 'UTF-8');
+
         Database::iud("INSERT INTO `registered_patients` (`name`,`mobile`,`email`,`id_num`,`address`,`age`,`register_date`,`reception_id`) 
 VALUES('" . $name . "','" . $contact . "','" . $email . "','" . $nic . "','" . $address . "','" . $age . "','" . $date . "','" . $_SESSION["idnum"] . "') ");
 
@@ -116,6 +118,8 @@ VALUES('" . $name . "','" . $contact . "','" . $email . "','" . $nic . "','" . $
         $age = $patientDetails->age;
         $symptoms = $patientDetails->symptoms;
         $medicalReport = $patientDetails->medicalReport;
+
+        $symptoms =  htmlspecialchars($symptoms, ENT_QUOTES, 'UTF-8');
 
         $patientProfile_id = $patientDetails->patientProfile_id;
 
