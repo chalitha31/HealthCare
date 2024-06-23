@@ -70,7 +70,7 @@ function login() {
 
             } else if (data === "registered_pharmacists") {
 
-                window.location = "pharmasist/pharmasist.php?name=" + data;
+                window.location = "pharmasist/pharmasist.php";
 
             } else if (data === "registered_reception") {
 

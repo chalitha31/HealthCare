@@ -84,35 +84,60 @@
     </style>
 </head>
 
+<?php 
+
+require_once "../connection.php";
+session_start();
+
+$totalResultSet = Database::search("SELECT COUNT(*) AS total FROM `patients_details` 
+WHERE `Prescriptions` != '' AND `medicine_status` = 'pending' ");
+
+// `id` NOT IN (SELECT `patientDetails_id` FROM `bloodtest`  WHERE (`reportName` is null or `reportName` = ''))
+
+$totalRow = $totalResultSet->fetch_assoc();
+$totalPatients = $totalRow['total'];
+
+?>
+
 <body>
     <div class="container">
         <h1>Patients accepting Medicine</h1>
 
         <div class="queue-info">
-            <h3>Number of Patients in Queue: <span id="queueCount">4</span></h3>
+            <!-- <h3>Number of Patients in Queue: <span id="queueCount">4</span></h3> -->
+            <h3>Number of Patients in Queue : <span style="color: red; font-weight: 900;" id="queueCount"><?php echo $totalPatients ?></span></h3>
         </div>
 
         <div class="patient-cards">
-            <div class="patient-card">
+<?php
+        $patiientResultSet = Database::search("SELECT  `patients_details`.`id` AS `pid`, `registered_patients`.`name` AS `name`,`patients_details`.`age` AS `age` 
+        FROM `patients_details` 
+        INNER JOIN  `registered_patients` ON `registered_patients`.`p_id` = `patients_details`.`patients_id`
+        WHERE `patients_details`.`Prescriptions` != '' AND `patients_details`.`medicine_status`  = 'pending'   LIMIT 8");
+
+            $numRows = $patiientResultSet->num_rows;
+
+            if ($numRows > 0) {
+                while ($patientDetails = $patiientResultSet->fetch_assoc()) {
+            ?>
+
+            <!-- <div class="patient-card">
                 <h3>John Doe</h3>
                 <p><strong>Age:</strong> 30</p>
                 <button class="examine-btn" onclick="examinePatient()">Produce</button>
-            </div>
+            </div> -->
+
             <div class="patient-card">
-                <h3>Jane Smith</h3>
-                <p><strong>Age:</strong> 25</p>
-                <button class="examine-btn" onclick="examinePatient()">Produce</button>
-            </div>
-            <div class="patient-card">
-                <h3>Michael Johnson</h3>
-                <p><strong>Age:</strong> 45</p>
-                <button class="examine-btn" onclick="examinePatient()">Produce</button>
-            </div>
-            <div class="patient-card">
-                <h3>Emily Davis</h3>
-                <p><strong>Age:</strong> 35</p>
-                <button class="examine-btn" onclick="examinePatient()">Produce</button>
-            </div>
+                        <h3><?php echo $patientDetails["name"] ?></h3>
+                        <p><strong>Age:</strong> <?php echo $patientDetails["age"] ?></p>
+                        <button class="examine-btn" onclick="examinePatient(<?php echo $patientDetails['pid'] ?>)">Produce</button>
+                    </div>
+
+            <?php
+                }
+            }
+            ?>
+            
         </div>
     </div>
 </body>

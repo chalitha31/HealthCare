@@ -97,76 +97,80 @@
 
 <body>
     <div class="medicine-inventory">
-        <h2>Medicine Inventory</h2>
-        <h3>Add Medicine</h3>
-        <form id="medicineForm" class="medicine-form">
-            <div class="form-group">
-                <label for="medicineName">Name:</label>
-                <input type="text" id="medicineName" name="medicineName" required>
-            </div>
-            <div class="form-group">
-                <label for="medicineBrand">Brand:</label>
-                <input type="text" id="medicineBrand" name="medicineBrand" required>
-            </div>
-            <div class="form-group">
-                <label for="medicineQuantity">Quantity (mg):</label>
-                <input type="number" id="medicineQuantity" name="medicineQuantity" required>
-            </div>
 
-            <?php 
-                       $d = new DateTime();
-                       $tz = new DateTimeZone("Asia/Colombo");
-                       $d->setTimezone($tz);
-                       // $date = $d->format('Y-m-d H:i:s');
-                       $date = $d->format('Y-m-d');
-            ?>
-            <div class="form-group">
-                <label for="expirationDate">Expiration Date:</label>
-                <input type="date" id="expirationDate" name="expirationDate" min="<?php echo $date ?>" required>
-            </div>
-            <button class="medic-add-btn" type="submit">Submit</button>
-        </form>
 
-        <h3>Medicine List</h3>
+        <h3>Out Of Stock Medicine List</h3>
         <table id="medicineTable">
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Brand</th>
-                    <th>Quantity (mg)</th>
                     <th>Expiration Date</th>
+                    <th>Total Usage Quantity (mg)</th>
+                    <th>medicines report count</th>
+                    <th>Estimate Stock for 6 months (mg) / [3 reports per day]</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr>
-                    <td>Paracetamol</td>
-                    <td>ABC Pharma</td>
-                    <td>500</td>
-                    <td>2024-12-01</td>
-                </tr>
-                <tr>
-                    <td>Ibuprofen</td>
-                    <td>XYZ Pharma</td>
-                    <td>200</td>
-                    <td>2025-06-15</td>
-                </tr>
-                <tr>
-                    <td>Amoxicillin</td>
-                    <td>HealthCare Inc.</td>
-                    <td>250</td>
-                    <td>2023-09-30</td>
-                </tr>
-                <tr>
-                    <td>Aspirin</td>
-                    <td>MediCare Ltd.</td>
-                    <td>100</td>
-                    <td>2024-03-22</td>
-                </tr> -->
+
+                <?php
+                require_once "../connection.php";
+
+                // $d = new DateTime();
+                // $tz = new DateTimeZone("Asia/Colombo");
+                // $d->setTimezone($tz);
+                // // $date = $d->format('Y-m-d H:i:s');
+                // $date = $d->format('Y-m-d');
+
+                // $mediResultSet = Database::search("SELECT * FROM `medicines` WHERE `exp`  > '" . $date . "' AND `quantity` > '0'");
+                $mediResultSet = Database::search("SELECT * FROM `medicines` WHERE  `quantity` = '0'");
+               
+                if ($mediResultSet->num_rows > 0) {
+                    // Fetch all results as an associative array
+                    $medicines = $mediResultSet->fetch_all(MYSQLI_ASSOC);
+
+                    foreach ($medicines as $medicine) {
+
+
+                        $mediRecResultSet = Database::search("SELECT * FROM `medicines_recode` WHERE  `medicine_id` = '" . $medicine["id"] . "'");
+
+                        $recNum = $mediRecResultSet->num_rows;
+                        $Usage = 0;
+
+                        if ($recNum > 0) {
+                            $recMediData = $mediRecResultSet->fetch_all(MYSQLI_ASSOC);
+
+                            foreach ($recMediData as $recmedicine) {
+                                // $recMediData = $mediRecResultSet->fetch_assoc();
+                                $qtyCount = $recmedicine["qty"];
+                                $Usage += $qtyCount;
+
+                         
+                            }
+                        }
+
+                ?>
+                        <tr class="dataRow" >
+                            <td class=""><?php echo $medicine['name'] ?></td>
+                            <td class=""><?php echo $medicine['brand'] ?></td>
+                            <td class=""><?php echo $medicine['exp'] ?></td>
+                            <td class=""><?php echo $Usage ?></td>
+                            <td class=""><?php echo $recNum ?></td>
+                            <td class=""></td>
+                         
+                        </tr>
+
+                <?php
+                    }
+                }
+                ?>
+
+
             </tbody>
 
         </table>
     </div>
 
 
-</body>
 
+</body>

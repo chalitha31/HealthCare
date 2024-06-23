@@ -20,11 +20,18 @@ function filterTable() {
 
 
 console.log("Produce Loaded")
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     const produceButton = document.getElementById('produceButton');
     const selectedTable = document.getElementById('selectedTable').getElementsByTagName('tbody')[0];
 
-    window.addToNewTable = function (row) {
+    let prodButton = true;
+    window.addToNewTable = function(row) {
+
+        if (prodButton) {
+            produceButton.style.display = 'block';
+            prodButton = false;
+        }
+
         const name = row.cells[0].textContent;
         const brand = row.cells[1].textContent;
         const quantity = row.cells[2].textContent;
@@ -40,19 +47,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
         nameCell.textContent = name;
         brandCell.textContent = brand;
-        quantityCell.innerHTML = `<input type="number" value="${quantity}" min="1">`;
+        quantityCell.innerHTML = `<input  class="qua-input" type="number" value="0" min="1">`;
         expirationDateCell.textContent = expirationDate;
 
         const removeButton = document.createElement('button');
         removeButton.textContent = 'Remove';
         removeButton.classList.add('remove-btn');
-        removeButton.onclick = function () {
+        removeButton.onclick = function() {
             selectedTable.deleteRow(newRow.rowIndex - 1);
         };
         actionCell.appendChild(removeButton);
+        quantityInput();
     };
 
-    produceButton.addEventListener('click', function () {
+    produceButton.addEventListener('click', function() {
         const rows = selectedTable.rows;
         for (let i = 0; i < rows.length; i++) {
             const name = rows[i].cells[0].textContent;
@@ -61,4 +69,21 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(`Medicine: ${name}, Brand: ${brand}, Quantity: ${quantity}`);
         }
     });
+
+    function quantityInput() {
+        let quantityInputs = Array.from(document.querySelectorAll('.qua-input'));
+        quantityInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.value < 0 || !Number.isInteger(parseFloat(input.value))) {
+                    input.value = input.value.slice(0, -1);
+                }
+            });
+
+            input.addEventListener('blur', () => {
+                if (input.value === '' || input.value < 0 || !Number.isInteger(parseFloat(input.value))) {
+                    input.value = 0;
+                }
+            });
+        });
+    }
 });

@@ -41,12 +41,16 @@ function examinePatient() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
+
+
+
+
     const tabs = document.querySelectorAll('.tab');
     const content = document.getElementById('content');
 
     function loadTabContent(tab) {
         const target = tab.getAttribute('data-target');
-        if (target == 'inventory.php') {
+        if (target == 'produce-list.php') {
             if (localStorage.getItem('pharlog') == null || localStorage.getItem('pharlog') == 'false') {
                 localStorage.setItem('pharlog', 'true');
                 console.log(localStorage.getItem('pharlog'));
@@ -61,6 +65,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 tab.style.backgroundColor = basecolor;
                 initForm();
+                if (target == 'stock-manage.php') {
+                    stockCalculation();
+                } else if (target == 'outofstock.php') {
+                    outstockCalculation();
+                }
             })
             .catch(error => {
                 console.error('Error loading content:', error);
@@ -81,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function initForm() {
         const form = document.getElementById('medicineForm');
         if (form) {
-            let currentDate = new Date().toISOString().split('T')[0];
+            let currentDate = new Date(new Date().setDate(new Date().getDate() + 14)).toISOString().split('T')[0];
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
 
@@ -91,8 +100,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     // alert('This medicine is Expired')
                     Swal.fire({
                         icon: "error",
-                        title: "This medicine is Expired",
+                        title: "About to expire!",
                         background: "#fff",
+                        text: "To expire, include medications that are more than 14 days old.",
                         showConfirmButton: true,
                         customClass: {
                             popup: 'swal2-dark'
@@ -153,6 +163,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 tableBody.appendChild(row);
                             }
                         });
+
+
                     })
                     .catch(error => console.error('Error:', error));
             }
@@ -162,6 +174,43 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function stockCalculation() {
+        let tableBody = document.querySelector('tbody')
+        let tableRows = Array.from(tableBody.querySelectorAll('tr'));
+        // console.log(tableRows);
+
+        tableRows.forEach(row => {
+            let tds = Array.from(row.querySelectorAll('td'));
+            let currentStock = tds[2].textContent;
+            let weeklyAverage = tds[3].textContent;
+            let availabilityDays = Math.ceil(currentStock / (weeklyAverage / 7));
+            let sixMonthStock = Math.ceil((weeklyAverage / 7) * 183);
+            tds[4].textContent = availabilityDays;
+            tds[6].textContent = sixMonthStock;
+        });
+    }
+
+    function outstockCalculation() {
+        let tableBody = document.querySelector('tbody')
+        let tableRows = Array.from(tableBody.querySelectorAll('tr'));
+        // console.log(tableRows);
+
+        tableRows.forEach(row => {
+            let tds = Array.from(row.querySelectorAll('td'));
+            let repcount = tds[4].textContent;
+            let totalUsage = tds[3].textContent;
+            // let availabilityDays = Math.ceil(currentStock / (weeklyAverage / 7));
+            let sixMonthStock = Math.ceil(((totalUsage / repcount) * 3) * 183);
+            // tds[1].textContent = availabilityDays;
+            tds[5].textContent = sixMonthStock;
+        });
+    }
     // Initial load for the current content
     initForm();
+
 });
+
+
+function examinePatient(pid) {
+    window.location.href = 'produce.php?pid=' + pid;
+}

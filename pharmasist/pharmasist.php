@@ -2,7 +2,7 @@
 
 session_start();
 
-$Tname = $_GET["name"];
+// $Tname = $_GET["name"];
 
 
 if(isset($_SESSION["name"])){
@@ -28,10 +28,13 @@ if(isset($_SESSION["name"])){
     </header>
     <div class="main-container">
         <aside class="sidebar">
-            <ul>
-                <li><a href="#" class="tab" data-target="inventory.php">Inventory Management</a></li>
+            <ul>            
                 <li><a href="#" class="tab" data-target="produce-list.php">produce medicine</a></li>
-                <li><a href="../employee-profile.php?name=<?php echo $Tname ?>" class="tabb">View Profile</a></li>
+                <li><a href="#" class="tab" data-target="inventory.php">Inventory Management</a></li>
+                <li><a href="#" class="tab" data-target="stock-manage.php">Stock Management</a></li>
+                <li><a href="#" class="tab" data-target="outofstock.php">Out of Stock</a></li>
+                <li><a href="#" class="tab" data-target="expireStock.php">Expire Stock</a></li>
+                <li><a href="../employee-profile.php?name=registered_pharmacists" class="tabb">View Profile</a></li>
                 <li><a href="../logoutEmployee.php" class="tabb" data-target="patients.php">Log Out</a></li>
             </ul>
         </aside>
@@ -53,7 +56,7 @@ if(isset($_SESSION["name"])){
 <?php 
 }else{
 
-header("Location: ../employee-profile.php?name=".$Tname);
+header("Location: ../employee-profile.php?name=registered_pharmacists");
 
 }
 
