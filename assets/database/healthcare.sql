@@ -47,11 +47,60 @@ CREATE TABLE IF NOT EXISTS `bloodtest` (
   PRIMARY KEY (`id`),
   KEY `FK_bloodtest_patients_details` (`patientDetails_id`),
   CONSTRAINT `FK_bloodtest_patients_details` FOREIGN KEY (`patientDetails_id`) REFERENCES `patients_details` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table healthcare.bloodtest: ~1 rows (approximately)
+-- Dumping data for table healthcare.bloodtest: ~2 rows (approximately)
 INSERT INTO `bloodtest` (`id`, `patientDetails_id`, `reportName`, `test_type`, `issued_Date`, `mlt_id`) VALUES
-	(7, 36, 'medical_report_36_kumarsanga_2024-06-18_22-08-14.jpg', 'cbs', '2024-06-19 01:38:14', '1969719008');
+	(7, 36, 'medical_report_36_kumarsanga_2024-06-19_08-10-54.jpg', 'cbs', '2024-06-19 11:40:54', '1969719008'),
+	(17, 29, 'medical_report_29_jjfddr_2024-06-19_08-05-04.jpg', 'cbc', '2024-06-19 11:35:04', '1969719008');
+
+-- Dumping structure for table healthcare.medicines
+CREATE TABLE IF NOT EXISTS `medicines` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `brand` varchar(50) DEFAULT NULL,
+  `quantity` int DEFAULT NULL,
+  `exp` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table healthcare.medicines: ~7 rows (approximately)
+INSERT INTO `medicines` (`id`, `name`, `brand`, `quantity`, `exp`) VALUES
+	(1, 'Zithrocin', 'Zetra pvt ltd', 9800, '2025-02-28'),
+	(2, 'Paracetamol', 'ABC Pharma', 400, '2024-10-24'),
+	(3, 'Amoxicillin', 'Amox pvt', 439, '2023-07-18'),
+	(4, 'Aspirin', 'Aspirin', 3600, '2026-07-03'),
+	(5, 'zithrocin', 'Zetra pvt ltd', 150, '2024-07-06'),
+	(6, 'pirition', 'zetra pvt ltd', 500, '2024-08-28'),
+	(7, 'sdo iosaf', 'refei sdji', 0, '2025-06-23');
+
+-- Dumping structure for table healthcare.medicines_recode
+CREATE TABLE IF NOT EXISTS `medicines_recode` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `patientDetails_id` int DEFAULT NULL,
+  `medicine_id` int DEFAULT NULL,
+  `qty` int DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK__patients_details` (`patientDetails_id`),
+  KEY `FK__medicines` (`medicine_id`),
+  CONSTRAINT `FK__medicines` FOREIGN KEY (`medicine_id`) REFERENCES `medicines` (`id`),
+  CONSTRAINT `FK__patients_details` FOREIGN KEY (`patientDetails_id`) REFERENCES `patients_details` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table healthcare.medicines_recode: ~11 rows (approximately)
+INSERT INTO `medicines_recode` (`id`, `patientDetails_id`, `medicine_id`, `qty`, `date`) VALUES
+	(4, 27, 2, 50, '2024-06-21'),
+	(5, 27, 1, 1000, '2024-06-23'),
+	(6, 27, 5, 2, '2024-06-23'),
+	(7, 27, 1, 100, '2024-06-23'),
+	(8, 27, 4, 500, '2024-06-23'),
+	(9, 35, 3, 61, '2024-06-23'),
+	(10, 35, 7, 20, '2024-06-16'),
+	(11, 26, 2, 30, '2024-06-23'),
+	(12, 26, 7, 5, '2024-06-24'),
+	(13, 30, 1, 100, '2024-06-24'),
+	(14, 30, 4, 400, '2024-06-24');
 
 -- Dumping structure for table healthcare.patients_details
 CREATE TABLE IF NOT EXISTS `patients_details` (
@@ -65,6 +114,7 @@ CREATE TABLE IF NOT EXISTS `patients_details` (
   `Prescriptions_date` datetime DEFAULT NULL,
   `doctor_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `symptoms_date` datetime DEFAULT NULL,
+  `medicine_status` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT 'pending',
   PRIMARY KEY (`id`),
   KEY `FK_patients_details_register_patients` (`patients_id`),
   KEY `FK_patients_details_register_reception` (`reception_id`),
@@ -72,20 +122,21 @@ CREATE TABLE IF NOT EXISTS `patients_details` (
   CONSTRAINT `FK_patients_details_register_patients` FOREIGN KEY (`patients_id`) REFERENCES `registered_patients` (`p_id`),
   CONSTRAINT `FK_patients_details_register_reception` FOREIGN KEY (`reception_id`) REFERENCES `registered_reception` (`id_num`),
   CONSTRAINT `FK_patients_details_registered_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `registered_doctor` (`id_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table healthcare.patients_details: ~10 rows (approximately)
-INSERT INTO `patients_details` (`id`, `patients_id`, `age`, `reception_id`, `symptoms`, `medical_report`, `Prescriptions`, `Prescriptions_date`, `doctor_id`, `symptoms_date`) VALUES
-	(25, 5, 56, '156879245v', 'tyhtfhfgh', 'no', 'dffe', '2024-06-18 16:37:11', '48946454555', '2024-06-17 12:12:34'),
-	(26, 4, 34, '196971900830', 'asdsadsa dsadas dasd sa d', 'no', 'dfsfsf', '2024-06-18 16:38:13', '48946454555', '2024-06-18 13:30:13'),
-	(27, 4, 34, '196971900830', 'aaabbccddee', 'no', 'fsdsadsd', '2024-06-18 16:48:26', '48946454555', '2024-06-18 13:30:30'),
-	(28, 16, 45, '196971900830', 'hfghfghdg', 'no', 'dfdfgdg', '2024-06-18 20:17:22', '48946454555', '2024-06-18 13:41:28'),
-	(29, 16, 45, '196971900830', 'new seek', 'no', '', NULL, '0000000000', '2024-06-18 13:42:12'),
-	(30, 2, 30, '196971900830', 'new medic no', 'no', '', NULL, '0000000000', '2024-06-18 15:05:49'),
-	(31, 10, 20, '196971900830', 'new medical yes', 'sdfewf', 'dfgfdsf', '2024-06-18 16:47:05', '48946454555', '2024-06-18 15:06:05'),
-	(34, 19, 54, '196971900830', 'new  reg med yes', 'yes', '', NULL, '0000000000', '2024-06-18 15:11:24'),
-	(35, 20, 54, '196971900830', 'new reg no med', 'no', 'hfgfdg', '2024-06-18 16:50:13', '48946454555', '2024-06-18 15:11:54'),
-	(36, 21, 12, '196971900830', 'new patie incluede  reprt', 'yes', '', NULL, '0000000000', '2024-06-18 18:24:45');
+-- Dumping data for table healthcare.patients_details: ~11 rows (approximately)
+INSERT INTO `patients_details` (`id`, `patients_id`, `age`, `reception_id`, `symptoms`, `medical_report`, `Prescriptions`, `Prescriptions_date`, `doctor_id`, `symptoms_date`, `medicine_status`) VALUES
+	(25, 5, 56, '156879245v', 'tyhtfhfgh', 'no', 'dffe', '2024-06-18 16:37:11', '48946454555', '2024-06-17 12:12:34', 'pending'),
+	(26, 4, 34, '196971900830', 'asdsadsa dsadas dasd sa d', 'no', 'dfsfsf', '2024-06-18 16:38:13', '48946454555', '2024-06-18 13:30:13', 'true'),
+	(27, 4, 34, '196971900830', 'aaabbccddee', 'no', 'fsdsadsd dkfs kodkf ksd fkdskf \r\npkpfs\r\nppsd\r\npdfp\r\npppdf kpspdfp pdskf jiofj sih hsa dihjas djias di dasd asda asf asf asf sajid jisajdias jisajdi jifsjf \r\npkds pd\r\npsdf\r\npsd[fpdkfp kpdskf[ kpdkfpskdfpskf[\r\npkdsp[', '2024-06-18 16:48:26', '48946454555', '2024-06-18 13:30:30', 'true'),
+	(28, 16, 45, '196971900830', 'hfghfghdg', 'no', 'dfdfgdg', '2024-06-18 20:17:22', '48946454555', '2024-06-18 13:41:28', 'Medication cancelled'),
+	(29, 16, 45, '196971900830', 'new seek', 'no', '', NULL, '0000000000', '2024-06-18 13:42:12', 'pending'),
+	(30, 2, 30, '196971900830', 'new medic no', 'no', 'niifggdg', '2024-06-20 00:14:54', '353544353434', '2024-06-18 15:05:49', 'true'),
+	(31, 10, 20, '196971900830', 'new medical yes', 'sdfewf', 'dfgfdsf', '2024-06-18 16:47:05', '48946454555', '2024-06-18 15:06:05', 'pending'),
+	(34, 19, 54, '196971900830', 'new  reg med yes', 'yes', '', NULL, '0000000000', '2024-06-18 15:11:24', 'pending'),
+	(35, 20, 54, '196971900830', 'new reg no med', 'no', 'hfgfdg', '2024-06-18 16:50:13', '48946454555', '2024-06-18 15:11:54', 'true'),
+	(36, 21, 12, '196971900830', 'new patie incluede  reprt', 'yes', '', NULL, '0000000000', '2024-06-18 18:24:45', 'pending'),
+	(38, 10, 20, '196971900830', '1stline\ndek\nthun jaspd jfpoejf sf\n4line oodsjf josdofsdfoj sjdfoj sdjfojeofj sdjfjeojfosjf jsojfojsodjf sdojfosjdf jsdofj 6tkkoooooos', 'no', '', NULL, '0000000000', '2024-06-20 00:21:56', 'pending');
 
 -- Dumping structure for table healthcare.registered_doctor
 CREATE TABLE IF NOT EXISTS `registered_doctor` (
@@ -105,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `registered_doctor` (
   CONSTRAINT `FK_registered_doctor_ststus_type` FOREIGN KEY (`status`) REFERENCES `status_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table healthcare.registered_doctor: ~8 rows (approximately)
+-- Dumping data for table healthcare.registered_doctor: ~9 rows (approximately)
 INSERT INTO `registered_doctor` (`id_num`, `name`, `email`, `mobile`, `password`, `verification_code`, `register_date`, `status`, `age`, `address`, `image`) VALUES
 	('0000000000', 'none', 'none', 'none', NULL, NULL, '2024-06-17 00:38:59', 1, NULL, NULL, NULL),
 	('12345678912', NULL, 'abc@gmail.com', NULL, 'cc9fb108f1d9181b4eb4de8c21493875416f8ce6e462a29c1e380c94a6c6e6e2', NULL, '2024-06-16 14:58:37', 1, NULL, NULL, NULL),
@@ -113,6 +164,7 @@ INSERT INTO `registered_doctor` (`id_num`, `name`, `email`, `mobile`, `password`
 	('19697190083', NULL, 'abc@gmail.com', NULL, '7acc4ec32d7e307932dc42ea4073979a68d5a0ee4e441e268809c948eff65232', NULL, '2024-06-16 14:58:49', 1, NULL, NULL, NULL),
 	('196971900830', NULL, 'chamodnadeeshan91@gmail.com', NULL, '6666a437', NULL, '2024-06-16 14:58:49', 1, NULL, NULL, NULL),
 	('20912658453V', NULL, 'kawshalya20001025@gmail.com', NULL, '6667f99f', NULL, '2024-06-16 14:58:50', 1, NULL, NULL, NULL),
+	('353544353434', 'iro', 'irodhakashmi@gmail.com', '0713772006', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', NULL, '2024-06-20 00:14:38', 1, 32, 'tgsdg', NULL),
 	('446541231348v', 'kashmi ', 'irodhakashmi@gmail.com', '0713214698', '2a8610aefdd0028c6bf074dd18721c0ef8bc43241cc7a653d7aedf2036bdf6b3', NULL, '2024-06-12 12:23:38', 1, 25, 'pasyala', '66687ae7148a6.jpeg'),
 	('48946454555', 'kkaasshhmmii', 'irodhakashmi@gmail.com', '0716428659', 'f745b2d1a2118cf2e38b0c941166f9d81e201ff17dadea3c92ee464b370027ad', NULL, '2024-06-18 13:28:55', 1, 45, 'gdfgds efsd ', NULL),
 	('785645v', 'doc01', 'doc@gmail.com', '0716585698', '12342', NULL, '2024-06-05 17:32:06', 1, NULL, NULL, NULL);
@@ -155,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `registered_patients` (
   CONSTRAINT `FK_register_patients_register_reception` FOREIGN KEY (`reception_id`) REFERENCES `registered_reception` (`id_num`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table healthcare.registered_patients: ~14 rows (approximately)
+-- Dumping data for table healthcare.registered_patients: ~17 rows (approximately)
 INSERT INTO `registered_patients` (`p_id`, `name`, `mobile`, `email`, `id_num`, `address`, `age`, `register_date`, `reception_id`) VALUES
 	(2, 'abcd efg', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 30, '2024-06-07 03:24:00', '1542658v'),
 	(3, 'vvvvv', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 12, '2024-04-05 17:55:27', '1542658v'),
@@ -196,10 +248,11 @@ CREATE TABLE IF NOT EXISTS `registered_pharmacists` (
   CONSTRAINT `FK_registered_pharmacists_status_type` FOREIGN KEY (`status`) REFERENCES `status_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table healthcare.registered_pharmacists: ~2 rows (approximately)
+-- Dumping data for table healthcare.registered_pharmacists: ~3 rows (approximately)
 INSERT INTO `registered_pharmacists` (`id_num`, `name`, `email`, `mobile`, `password`, `verification_code`, `register_date`, `status`, `age`, `address`, `image`) VALUES
 	('1969719008', NULL, 'chalit031@gmail.com', NULL, '66da271138c20d5168a3b323107a668494098bd98aed42d8399b12b095be9fdd', NULL, NULL, 1, NULL, NULL, NULL),
-	('196971900830', NULL, 'chamodnadeeshan91@gmail.com', NULL, '6667f8fc', NULL, NULL, 1, NULL, NULL, NULL);
+	('196971900830', NULL, 'chamodnadeeshan91@gmail.com', NULL, '6667f8fc', NULL, NULL, 2, NULL, NULL, NULL),
+	('345465635333v', 'pharmists new', 'chamodnadeeshan91@gmail.com', '07165585952', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', NULL, '2024-06-23 19:58:49', 1, 36, 'fdsf fewgs', '6672fed9885af.jpeg');
 
 -- Dumping structure for table healthcare.registered_reception
 CREATE TABLE IF NOT EXISTS `registered_reception` (
@@ -225,7 +278,8 @@ INSERT INTO `registered_reception` (`id_num`, `address`, `name`, `email`, `mobil
 	('1542658v', NULL, 'recip_01', 'res@gmail.com', '0716584569', '12345', NULL, '2024-06-05 17:29:18', NULL, 1, NULL),
 	('156879245v', 'alawwa', 'tharaka', 'cchamod93@gmail.com', '0754568963', '8da41ee37bfc4a6afa809c4f9e59730fc2e45ca00fe7f3e2bd7d1b41b62184cb', NULL, '2024-06-11 21:06:56', '66686bfba9ab8.jpeg', 1, 55),
 	('196971900830', 'aaa bbb ccc', 'sanuka', 'chalithachamod3031@gmail.com', '0713658698', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', NULL, '2024-06-15 19:06:51', '6668688ec15c2.jpeg', 1, 35),
-	('5468421v', 'kurunegala', 'new rec', 'chamodnadeeshan91@gmail.com', '078456985', 'c0a779ff6d98ada508205607cae551d84b8273de27aa1cea77a093ccd18295e1', NULL, '2024-06-11 21:18:26', '666871ca0649b.jpeg', 1, 36);
+	('5468421v', 'kurunegala', 'new rec', 'chamodnadeeshan91@gmail.com', '078456985', 'c0a779ff6d98ada508205607cae551d84b8273de27aa1cea77a093ccd18295e1', NULL, '2024-06-11 21:18:26', '666871ca0649b.jpeg', 1, 36),
+	('58498456216', 'fdfsdgsd', 'chathuni', 'chathurangibandara05@gmail.com', '071648569', '5b66cc79629f6a3f37542fa2ce6bcf18339a524bf69d0e9090086dbf63ec20db', NULL, '2024-06-19 09:45:59', NULL, 1, 34);
 
 -- Dumping structure for table healthcare.status_type
 CREATE TABLE IF NOT EXISTS `status_type` (
@@ -250,7 +304,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table healthcare.user: ~4 rows (approximately)
+-- Dumping data for table healthcare.user: ~5 rows (approximately)
 INSERT INTO `user` (`fname`, `lname`, `email`, `password`, `register_Date`, `mobile`) VALUES
 	('abc', 'def', 'abc@gmail.com', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2024-06-04 01:32:47', NULL),
 	('abcd', 'efghi', 'chalithachamod3031@gmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2024-06-15 12:40:13', '0711234568'),
