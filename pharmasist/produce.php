@@ -1,3 +1,9 @@
+<?php 
+session_start();
+
+require_once "../connection.php";
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -247,8 +253,7 @@
 
 <body>
     <?php
-    include_once "../connection.php";
-    session_start();
+
     
     $pdi = $_GET["pid"];
 
@@ -529,6 +534,7 @@
             }
         }
     </script>
+    <script src="../assets/js/header.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 

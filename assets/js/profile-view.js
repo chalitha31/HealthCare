@@ -185,3 +185,7 @@ function exsitsPatientAddSymptoms(p_id) {
     });
 
 }
+
+function downloadmediReport() {
+    alert("download")
+}

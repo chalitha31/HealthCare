@@ -23,6 +23,9 @@ if(isset($_SESSION["name"])){
 <body>
     <header>
         <div class="logo">Healthcare</div>
+        <div class="header-time">
+            <span id="liveTime"></span>
+        </div>
         <div class="header-username"><?php echo $_SESSION["name"] ?></div>
         <!-- <button id="loginBtn">Login</button> -->
     </header>
@@ -48,6 +51,7 @@ if(isset($_SESSION["name"])){
         </div>
     </div>
     <script src="pharmasist.js"></script>
+    <script src="../assets/js/header.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 

@@ -128,7 +128,7 @@
                         <h3><?php echo $patientTestDetails["name"] ?></h3>
                         <p><strong>Age :</strong> <?php echo $patientTestDetails["age"] ?></p>
                         <p><strong>Type:</strong> <?php echo $patientTestDetails["tsType"] ?></p>
-                        <button class="examine-btn" onclick="examinePatient(<?php echo $patientTestDetails['pid'] ?>)">Produce</button>
+                        <button class="examine-btn" onclick="examinePatient('<?php echo $patientTestDetails['pid'] ?>','<?php echo $patientTestDetails['tsType'] ?>')">Produce</button>
                     </div>
             <?php
                 }

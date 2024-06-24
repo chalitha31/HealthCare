@@ -96,6 +96,7 @@ $patient_id = $_GET["p_id"];
                         <th>Symptoms Added Date and Time</th>
                         <th>Age</th>
                         <th>Doctor Status</th>
+                        <th>Medical Report</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -107,16 +108,25 @@ $patient_id = $_GET["p_id"];
                         while ($patientDetailsResult = $patientDetailsResultSet->fetch_assoc()) {
                             $recordId = $patientDetailsResult["id"]; // Assuming id is unique for each record
                     ?>
-                            <tr onclick="showPopup('details-popup-<?php echo $recordId; ?>')">
-                                <td><?php echo $recordId; ?></td>
-                                <td><?php echo $patientDetailsResult["symptoms_date"]; ?></td>
-                                <td><?php echo $patientDetailsResult["age"]; ?></td>
+                            <tr>
+                                <td onclick="showPopup('details-popup-<?php echo $recordId; ?>')"><?php echo $recordId; ?></td>
+                                <td onclick="showPopup('details-popup-<?php echo $recordId; ?>')"><?php echo $patientDetailsResult["symptoms_date"]; ?></td>
+                                <td onclick="showPopup('details-popup-<?php echo $recordId; ?>')"><?php echo $patientDetailsResult["age"]; ?></td>
 
                                 <?php if (empty($patientDetailsResult["Prescriptions"])) { ?>
                                     <td><button class="status-btn pending">Pending</button></td>
                                 <?php } else { ?>
                                     <td><button class="status-btn checked">Checked</button></td>
                                 <?php } ?>
+
+                                <?php if (($patientDetailsResult["medical_report"]) == 'no') { ?>
+                                    <td><button style="background-color: #85696D;" class="status-btn pending">No</button></td>
+                                <?php } else if (($patientDetailsResult["medical_report"]) == 'yes') { ?>
+                                    <td><button style="background-color: #f3b738;" class="status-btn checked">pending</button></td>
+                                <?php }else { ?>
+                                    <td><button onclick="downloadmediReport();" style="background-color: #ff2222;" class="status-btn checked">Download</button></td>
+                                <?php } ?>
+
                             </tr>
 
                             <!-- Popup Container for Details -->

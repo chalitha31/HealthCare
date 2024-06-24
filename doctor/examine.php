@@ -421,14 +421,17 @@
 
                 <select name="test" id="test">
                     <option value="cbc">CBC</option>
-                    <option value="abc">ABC</option>
-                    <option value="def">DEF</option>
+                    <option value="hdl">HDL</option>
+                    <option value="ldl">LDL</option>
+                    <option value="ppbs">PPBS</option>
+                    <option value="vldl">VLDL</option>
+                    <option value="fbs">FBS</option>
                 </select>
                 <button onclick="mltBloodRequest(<?php echo $pid ?>);" class="submit-records">Sumbit</button>
 
                 <?php
 
-                $mltBloodResultSet = Database::search("SELECT * FROM `bloodtest` WHERE `patientDetails_id` = '" . $pid . "'");
+                $mltBloodResultSet = Database::search("SELECT * FROM `bloodtest` WHERE `patientDetails_id` = '" . $pid . "'  ORDER BY `id` DESC LIMIT 1");
                 $mltBloodRow = $mltBloodResultSet->num_rows;
                 if ($mltBloodRow == 1) {
                     $mltBloodData = $mltBloodResultSet->fetch_assoc();

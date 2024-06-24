@@ -85,9 +85,9 @@
 </head>
 
 <?php 
-
-require_once "../connection.php";
 session_start();
+require_once "../connection.php";
+
 
 $totalResultSet = Database::search("SELECT COUNT(*) AS total FROM `patients_details` 
 WHERE `Prescriptions` != '' AND `medicine_status` = 'pending' ");

@@ -1,3 +1,9 @@
+<?php 
+session_start();
+
+require_once "../connection.php";
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -119,10 +125,8 @@
 
 <body>
     <?php
-    session_start();
 
-    require_once "../connection.php";
-
+$type = $_GET["type"];
     $pdi = $_GET["pdi"];
 
     $d = new DateTime();
@@ -136,11 +140,11 @@
  FROM `registered_patients` 
  INNER JOIN `patients_details` ON `registered_patients`.`p_id` =`patients_details`.`patients_id`  
  INNER JOIN `bloodtest` ON `bloodtest`.`patientDetails_id` =`patients_details`.`id`  
- WHERE `patients_details`.`id` = '" . $pdi . "'");
+ WHERE `patients_details`.`id` = '" . $pdi . "' ORDER BY `bloodtest`.`id` DESC LIMIT 1");
 
     $numRows = $patiientResultSet->num_rows;
 
-    if ($numRows == 1) {
+    if ($numRows > 0) {
         $pDetaila = $patiientResultSet->fetch_assoc();
 
 
@@ -306,7 +310,7 @@
         <div class="button-group">
             <button style="background-color: darkgoldenrod;" type="button" id="dataFeedButton">Data Feed</button>
             <!-- <button type="submit" class="submit-btn">Submit</button> -->
-            <button onclick="exportToJPG('form-container','<?php echo $pdi ?>','<?php echo $pDetaila['name'] ?>','<?php echo $pDetaila['bloodtest_id'] ?>')">Submit</button>
+            <button  id="export-btn" onclick="exportToJPG('form-container','<?php echo $pdi ?>','<?php echo $pDetaila['name'] ?>','<?php echo $pDetaila['bloodtest_id'] ?>')">Submit</button>
         </div>
     <?php
     }
@@ -404,7 +408,8 @@
                 const postData = 'image=' + encodeURIComponent(imageData) + 
                          '&pdi=' + encodeURIComponent(pdi) + 
                          '&name=' + encodeURIComponent(name) + 
-                         '&bloodtestId=' + encodeURIComponent(bloodtest_id);
+                         '&bloodtestId=' + encodeURIComponent(bloodtest_id)+
+                         '&type=' + encodeURIComponent('cbc');
 
                 // optional;
 

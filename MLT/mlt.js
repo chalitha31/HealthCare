@@ -79,6 +79,28 @@ function filterTable() {
 
 
 
-function examinePatient(pdi) {
-    window.location.href = 'blood-report.php?pdi=' + pdi;
+function examinePatient(pdi, type) {
+    // alert(type)
+
+    if (type == 'cbc') {
+        window.location.href = 'blood-report.php?pdi=' + pdi + '&type=' + type;
+
+    } else if (type == 'hdl') {
+        window.location.href = 'hdl-report.php?pdi=' + pdi + '&type=' + type;
+
+    } else if (type == 'ldl') {
+        window.location.href = 'ldl-report.php?pdi=' + pdi + '&type=' + type;
+
+    } else if (type == 'ppbs') {
+        window.location.href = 'ppbs-report.php?pdi=' + pdi + '&type=' + type;
+
+    } else if (type == 'vldl') {
+        window.location.href = 'vldl-report.php?pdi=' + pdi + '&type=' + type;
+
+    } else if (type == 'fbs') {
+        window.location.href = 'fbs-report.php?pdi=' + pdi + '&type=' + type;
+
+    }
+
+    // window.location.href = 'blood-report.php?pdi=' + pdi;
 }
