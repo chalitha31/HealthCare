@@ -47,12 +47,25 @@ CREATE TABLE IF NOT EXISTS `bloodtest` (
   PRIMARY KEY (`id`),
   KEY `FK_bloodtest_patients_details` (`patientDetails_id`),
   CONSTRAINT `FK_bloodtest_patients_details` FOREIGN KEY (`patientDetails_id`) REFERENCES `patients_details` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3;
 
--- Dumping data for table healthcare.bloodtest: ~2 rows (approximately)
+-- Dumping data for table healthcare.bloodtest: ~5 rows (approximately)
 INSERT INTO `bloodtest` (`id`, `patientDetails_id`, `reportName`, `test_type`, `issued_Date`, `mlt_id`) VALUES
 	(7, 36, 'medical_report_36_kumarsanga_2024-06-19_08-10-54.jpg', 'cbs', '2024-06-19 11:40:54', '1969719008'),
-	(17, 29, 'medical_report_29_jjfddr_2024-06-19_08-05-04.jpg', 'cbc', '2024-06-19 11:35:04', '1969719008');
+	(17, 29, 'medical_report_29_jjfddr_2024-06-19_08-05-04.jpg', 'cbc', '2024-06-19 11:35:04', '1969719008'),
+	(18, 28, 'cbc_medical_report_28_jjfddr_2024-06-24_08-26-43.jpg', 'cbc', '2024-06-24 11:56:43', '1969719008'),
+	(19, 38, NULL, 'vldl', NULL, NULL),
+	(20, 36, 'fbs_medical_report_36_kumarsanga_2024-06-24_18-01-36.jpg', 'ppbs', '2024-06-24 21:31:36', '1969719008'),
+	(21, 36, 'fbs_medical_report_36_kumarsanga_2024-06-24_18-18-14.jpg', 'hdl', '2024-06-24 21:48:14', '1969719008'),
+	(22, 36, 'fbs_medical_report_36_kumarsanga_2024-06-24_18-20-10.jpg', 'ldl', '2024-06-24 21:50:10', '1969719008'),
+	(23, 36, 'cbc_medical_report_36_kumarsanga_2024-06-24_18-43-16.jpg', 'cbc', '2024-06-24 22:13:16', '1969719008'),
+	(24, 36, 'cbc_medical_report_36_kumarsanga_2024-06-24_18-43-33.jpg', 'cbc', '2024-06-24 22:13:33', '1969719008'),
+	(25, 36, 'hdl_medical_report_36_kumarsanga_2024-06-24_18-44-01.jpg', 'hdl', '2024-06-24 22:14:01', '1969719008'),
+	(26, 36, 'ldl_medical_report_36_kumarsanga_2024-06-24_18-44-31.jpg', 'ldl', '2024-06-24 22:14:31', '1969719008'),
+	(27, 36, 'ppbs_medical_report_36_kumarsanga_2024-06-24_18-44-59.jpg', 'ppbs', '2024-06-24 22:14:59', '1969719008'),
+	(28, 36, 'vldl_medical_report_36_kumarsanga_2024-06-24_18-45-20.jpg', 'vldl', '2024-06-24 22:15:20', '1969719008'),
+	(29, 36, 'fbs_medical_report_36_kumarsanga_2024-06-24_18-45-42.jpg', 'fbs', '2024-06-24 22:15:42', '1969719008'),
+	(30, 36, 'cbc_medical_report_36_kumarsanga_2024-06-24_22-21-46.jpg', 'cbc', '2024-06-24 22:21:46', '1969719008');
 
 -- Dumping structure for table healthcare.medicines
 CREATE TABLE IF NOT EXISTS `medicines` (
@@ -129,10 +142,10 @@ INSERT INTO `patients_details` (`id`, `patients_id`, `age`, `reception_id`, `sym
 	(25, 5, 56, '156879245v', 'tyhtfhfgh', 'no', 'dffe', '2024-06-18 16:37:11', '48946454555', '2024-06-17 12:12:34', 'pending'),
 	(26, 4, 34, '196971900830', 'asdsadsa dsadas dasd sa d', 'no', 'dfsfsf', '2024-06-18 16:38:13', '48946454555', '2024-06-18 13:30:13', 'true'),
 	(27, 4, 34, '196971900830', 'aaabbccddee', 'no', 'fsdsadsd dkfs kodkf ksd fkdskf \r\npkpfs\r\nppsd\r\npdfp\r\npppdf kpspdfp pdskf jiofj sih hsa dihjas djias di dasd asda asf asf asf sajid jisajdias jisajdi jifsjf \r\npkds pd\r\npsdf\r\npsd[fpdkfp kpdskf[ kpdkfpskdfpskf[\r\npkdsp[', '2024-06-18 16:48:26', '48946454555', '2024-06-18 13:30:30', 'true'),
-	(28, 16, 45, '196971900830', 'hfghfghdg', 'no', 'dfdfgdg', '2024-06-18 20:17:22', '48946454555', '2024-06-18 13:41:28', 'Medication cancelled'),
-	(29, 16, 45, '196971900830', 'new seek', 'no', '', NULL, '0000000000', '2024-06-18 13:42:12', 'pending'),
+	(28, 16, 45, '196971900830', 'hfghfghdg', 'no', '', '2024-06-18 20:17:22', '48946454555', '2024-06-18 13:41:28', 'Medication cancelled'),
+	(29, 16, 45, '196971900830', 'new seek', 'rdg reutrs th  httij y\r\nrhtuj yuj y\r\ntuuu6yityk y7tk 7', 'hhrrrr hsdyh trrrwg eyyy ytehjt', '2024-06-25 01:24:26', '353544353434', '2024-06-18 13:42:12', 'pending'),
 	(30, 2, 30, '196971900830', 'new medic no', 'no', 'niifggdg', '2024-06-20 00:14:54', '353544353434', '2024-06-18 15:05:49', 'true'),
-	(31, 10, 20, '196971900830', 'new medical yes', 'sdfewf', 'dfgfdsf', '2024-06-18 16:47:05', '48946454555', '2024-06-18 15:06:05', 'pending'),
+	(31, 10, 20, '196971900830', 'new medical yes', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\r\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\r\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\r\noptio, eaque rerum! Provident similique accusantium nemo autem. Veritatis\r\nobcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam\r\nnihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,\r\ntenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,\r\nquia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos \r\nsapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam\r\nrecusandae alias error harum maxime adipisci amet laborum. Perspiciatis \r\nminima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit \r\nquibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur \r\nfugiat, temporibus enim commodi iusto libero magni deleniti quod quam \r\nconsequuntur! Commodi minima excepturi repudiandae velit hic maxime\r\ndoloremque. Quaerat provident commodi consectetur veniam similique ad \r\nearum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo \r\nfugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore \r\nsuscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium\r\nmodi minima sunt esse temporibus sint culpa, recusandae aliquam numquam \r\ntotam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam \r\nquasi aliquam eligendi, placeat qui corporis!', 'dfgfdsf', '2024-06-18 16:47:05', '48946454555', '2024-06-18 15:06:05', 'pending'),
 	(34, 19, 54, '196971900830', 'new  reg med yes', 'yes', '', NULL, '0000000000', '2024-06-18 15:11:24', 'pending'),
 	(35, 20, 54, '196971900830', 'new reg no med', 'no', 'hfgfdg', '2024-06-18 16:50:13', '48946454555', '2024-06-18 15:11:54', 'true'),
 	(36, 21, 12, '196971900830', 'new patie incluede  reprt', 'yes', '', NULL, '0000000000', '2024-06-18 18:24:45', 'pending'),
@@ -301,16 +314,19 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `register_Date` datetime DEFAULT NULL,
   `mobile` varchar(12) DEFAULT NULL,
-  PRIMARY KEY (`email`)
+  `status` int DEFAULT '1',
+  PRIMARY KEY (`email`),
+  KEY `FK_user_status_type` (`status`),
+  CONSTRAINT `FK_user_status_type` FOREIGN KEY (`status`) REFERENCES `status_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table healthcare.user: ~5 rows (approximately)
-INSERT INTO `user` (`fname`, `lname`, `email`, `password`, `register_Date`, `mobile`) VALUES
-	('abc', 'def', 'abc@gmail.com', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2024-06-04 01:32:47', NULL),
-	('abcd', 'efghi', 'chalithachamod3031@gmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2024-06-15 12:40:13', '0711234568'),
-	('kaws', 'disa', 'kaw@gmail.com', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', '2024-06-12 19:42:04', NULL),
-	('qwe', 'qwe', 'qwe@gmail.com', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', '2024-06-04 11:18:10', NULL),
-	('qwr', 'gtwe', 'qwwwe@gmail.com', '8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414', '2024-06-15 12:42:56', '0711234567');
+INSERT INTO `user` (`fname`, `lname`, `email`, `password`, `register_Date`, `mobile`, `status`) VALUES
+	('abc', 'def', 'abc@gmail.com', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '2024-06-04 01:32:47', NULL, 1),
+	('abcd', 'efghi', 'chalithachamod3031@gmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2024-06-15 12:40:13', '0711234568', 1),
+	('kaws', 'disa', 'kaw@gmail.com', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', '2024-06-12 19:42:04', NULL, 1),
+	('qwe', 'qwe', 'qwe@gmail.com', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', '2024-06-04 11:18:10', NULL, 1),
+	('qwr', 'gtwe', 'qwwwe@gmail.com', '8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414', '2024-06-15 12:42:56', '0711234567', 1);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
