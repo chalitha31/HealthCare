@@ -186,6 +186,6 @@ function exsitsPatientAddSymptoms(p_id) {
 
 }
 
-function downloadmediReport() {
-    alert("download")
+function downloadmediReport(pdi) {
+    window.location = "../createPdfFile.php?pdi=" + pdi;
 }

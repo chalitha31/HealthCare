@@ -128,6 +128,7 @@ if (empty($userLoginDetails->email) || empty($userLoginDetails->password)) {
             } else {
 
                 echo "Sorry.., Temporary blocked your account!";
+              
                 exit();
             }
             // else {

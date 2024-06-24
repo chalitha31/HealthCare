@@ -124,7 +124,7 @@ $patient_id = $_GET["p_id"];
                                 <?php } else if (($patientDetailsResult["medical_report"]) == 'yes') { ?>
                                     <td><button style="background-color: #f3b738;" class="status-btn checked">pending</button></td>
                                 <?php }else { ?>
-                                    <td><button onclick="downloadmediReport();" style="background-color: #ff2222;" class="status-btn checked">Download</button></td>
+                                    <td><button onclick="downloadmediReport(<?php echo $recordId; ?>);" style="background-color: #ff2222;" class="status-btn checked">Download</button></td>
                                 <?php } ?>
 
                             </tr>
