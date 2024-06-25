@@ -32,6 +32,8 @@ if(isset($_SESSION["name"])){
             <ul>
                 <li><a href="#" class="tab" data-target="produce-list.php">Produce Reports</a></li>
                 <li><a href="#" class="tab" data-target="report-history.php">Report History</a></li>
+                <li><a href="#" class="tab" data-target="inventory.php">Inventory</a></li>
+                <li><a href="#" class="tab" data-target="stock-manage.php">Stock Management</a></li>
                 <li><a href="../employee-profile.php?name=<?php echo $Tname ?>" class="tabb">View Profile</a></li>
                 <li><a href="../logoutEmployee.php" class="tabb">Log Out</a></li>
             </ul>

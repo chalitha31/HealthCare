@@ -27,6 +27,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     colorTab.style.backgroundColor = mediumgrey;
                 });
                 tab.style.backgroundColor = basecolor;
+                if (target == 'stock-manage.php') {
+                    loadEquipData();
+                    // stockCalculation();
+                }
+                if (target == 'inventory.php') {
+                    initForm();
+                }
             })
             .catch(error => {
                 console.error('Error loading content:', error);
@@ -50,6 +57,88 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
+
+    function initForm() {
+        console.log('initForm Function')
+        const form = document.getElementById('medicineForm');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+                fetch('submit_medicine.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+
+                        document.getElementById("medicineName").value = '';
+                        document.getElementById("medicineQuantity").value = '';
+                        alert(data);
+
+
+                        // Refresh the table
+                        loadMedicineData();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+
+            function loadMedicineData() {
+                fetch('get_medicine.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        const tableBody = document.querySelector('#medicineTable tbody');
+                        tableBody.innerHTML = '';
+
+                        data.forEach(medicine => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${medicine.name}</td>
+                                <td>${medicine.quantity}</td>
+                                `;
+                            tableBody.appendChild(row);
+                        });
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+
+
+            // Initial load
+            loadMedicineData();
+        }
+    }
+
+
+    function loadEquipData() {
+        fetch('get-stock.php')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector('#stockTable tbody');
+                tableBody.innerHTML = '';
+                let number = 1;
+                data.forEach(medicine => {
+                    const row = document.createElement('tr');
+                    let currentStock = medicine.quantity;
+                    let weeklyAverage = medicine.weekly;
+                    let availabilityDays = Math.ceil(currentStock / (weeklyAverage / 7));
+                    let sixMonthStock = Math.ceil((weeklyAverage / 7) * 183);
+                    row.innerHTML = `
+                        <td>${number++}</td>
+                        <td>${medicine.name}</td>
+                        <td>${currentStock}</td>
+                        <td>${weeklyAverage}</td>
+                        <td>${availabilityDays}</td>
+                        <td>${sixMonthStock}</td>
+                        `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
 
 });
 
@@ -102,5 +191,5 @@ function examinePatient(pdi, type) {
 
     }
 
-    // window.location.href = 'blood-report.php?pdi=' + pdi;
+    // window.location.href = 'blood-report.php?pdi=' + pdi;
 }

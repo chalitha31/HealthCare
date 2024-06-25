@@ -90,3 +90,11 @@ function filterTable() {
 function examinePatient(pid) {
     window.location.href = 'examine.php?pid=' + pid;
 }
+
+function showPopup(popupId) {
+    document.getElementById(popupId).style.display = 'flex';
+}
+
+function closePopup(popupId) {
+    document.getElementById(popupId).style.display = 'none';
+}
