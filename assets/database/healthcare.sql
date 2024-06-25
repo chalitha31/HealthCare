@@ -7,7 +7,7 @@
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
@@ -16,7 +16,7 @@
 
 
 -- Dumping database structure for healthcare
-CREATE DATABASE IF NOT EXISTS `healthcare` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `healthcare` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `healthcare`;
 
 -- Dumping structure for table healthcare.admin
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
   PRIMARY KEY (`id`),
   KEY `FK_admin_status_type` (`status`),
   CONSTRAINT `FK_admin_status_type` FOREIGN KEY (`status`) REFERENCES `status_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table healthcare.admin: ~0 rows (approximately)
 INSERT INTO `admin` (`id`, `name`, `password`, `mobile`, `email`, `status`) VALUES
@@ -47,14 +47,14 @@ CREATE TABLE IF NOT EXISTS `bloodtest` (
   PRIMARY KEY (`id`),
   KEY `FK_bloodtest_patients_details` (`patientDetails_id`),
   CONSTRAINT `FK_bloodtest_patients_details` FOREIGN KEY (`patientDetails_id`) REFERENCES `patients_details` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
--- Dumping data for table healthcare.bloodtest: ~5 rows (approximately)
+-- Dumping data for table healthcare.bloodtest: ~15 rows (approximately)
 INSERT INTO `bloodtest` (`id`, `patientDetails_id`, `reportName`, `test_type`, `issued_Date`, `mlt_id`) VALUES
 	(7, 36, 'medical_report_36_kumarsanga_2024-06-19_08-10-54.jpg', 'cbs', '2024-06-19 11:40:54', '1969719008'),
 	(17, 29, 'medical_report_29_jjfddr_2024-06-19_08-05-04.jpg', 'cbc', '2024-06-19 11:35:04', '1969719008'),
 	(18, 28, 'cbc_medical_report_28_jjfddr_2024-06-24_08-26-43.jpg', 'cbc', '2024-06-24 11:56:43', '1969719008'),
-	(19, 38, NULL, 'vldl', NULL, NULL),
+	(19, 38, 'vldl_medical_report_38_adeesha_2024-06-25_12-12-38.jpg', 'vldl', '2024-06-25 12:12:38', '1969719008'),
 	(20, 36, 'fbs_medical_report_36_kumarsanga_2024-06-24_18-01-36.jpg', 'ppbs', '2024-06-24 21:31:36', '1969719008'),
 	(21, 36, 'fbs_medical_report_36_kumarsanga_2024-06-24_18-18-14.jpg', 'hdl', '2024-06-24 21:48:14', '1969719008'),
 	(22, 36, 'fbs_medical_report_36_kumarsanga_2024-06-24_18-20-10.jpg', 'ldl', '2024-06-24 21:50:10', '1969719008'),
@@ -65,7 +65,7 @@ INSERT INTO `bloodtest` (`id`, `patientDetails_id`, `reportName`, `test_type`, `
 	(27, 36, 'ppbs_medical_report_36_kumarsanga_2024-06-24_18-44-59.jpg', 'ppbs', '2024-06-24 22:14:59', '1969719008'),
 	(28, 36, 'vldl_medical_report_36_kumarsanga_2024-06-24_18-45-20.jpg', 'vldl', '2024-06-24 22:15:20', '1969719008'),
 	(29, 36, 'fbs_medical_report_36_kumarsanga_2024-06-24_18-45-42.jpg', 'fbs', '2024-06-24 22:15:42', '1969719008'),
-	(30, 36, 'cbc_medical_report_36_kumarsanga_2024-06-24_22-21-46.jpg', 'cbc', '2024-06-24 22:21:46', '1969719008');
+	(30, 36, 'cbc_medical_report_36_kumarsanga_2024-06-25_13-23-17.jpg', 'cbc', '2024-06-25 13:23:17', '1969719008');
 
 -- Dumping structure for table healthcare.medicines
 CREATE TABLE IF NOT EXISTS `medicines` (
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `medicines` (
   `quantity` int DEFAULT NULL,
   `exp` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- Dumping data for table healthcare.medicines: ~7 rows (approximately)
 INSERT INTO `medicines` (`id`, `name`, `brand`, `quantity`, `exp`) VALUES
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `medicines_recode` (
   KEY `FK__medicines` (`medicine_id`),
   CONSTRAINT `FK__medicines` FOREIGN KEY (`medicine_id`) REFERENCES `medicines` (`id`),
   CONSTRAINT `FK__patients_details` FOREIGN KEY (`patientDetails_id`) REFERENCES `patients_details` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- Dumping data for table healthcare.medicines_recode: ~11 rows (approximately)
 INSERT INTO `medicines_recode` (`id`, `patientDetails_id`, `medicine_id`, `qty`, `date`) VALUES
@@ -115,17 +115,33 @@ INSERT INTO `medicines_recode` (`id`, `patientDetails_id`, `medicine_id`, `qty`,
 	(13, 30, 1, 100, '2024-06-24'),
 	(14, 30, 4, 400, '2024-06-24');
 
+-- Dumping structure for table healthcare.mlt_equipments
+CREATE TABLE IF NOT EXISTS `mlt_equipments` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `quantity` int DEFAULT NULL,
+  `weekly` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table healthcare.mlt_equipments: ~4 rows (approximately)
+INSERT INTO `mlt_equipments` (`id`, `name`, `quantity`, `weekly`) VALUES
+	(1, 'asf gre', 14, 3),
+	(2, 'gsyh', 84, 7),
+	(3, 'fdsg', 44, 9),
+	(4, 'hjgty', 499, 36);
+
 -- Dumping structure for table healthcare.patients_details
 CREATE TABLE IF NOT EXISTS `patients_details` (
   `id` int NOT NULL AUTO_INCREMENT,
   `patients_id` int DEFAULT NULL,
   `age` int DEFAULT NULL,
-  `reception_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `symptoms` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `medical_report` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `Prescriptions` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `reception_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `symptoms` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `medical_report` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `Prescriptions` text CHARACTER SET utf8 COLLATE utf8_general_ci,
   `Prescriptions_date` datetime DEFAULT NULL,
-  `doctor_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `doctor_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `symptoms_date` datetime DEFAULT NULL,
   `medicine_status` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT 'pending',
   PRIMARY KEY (`id`),
@@ -135,39 +151,39 @@ CREATE TABLE IF NOT EXISTS `patients_details` (
   CONSTRAINT `FK_patients_details_register_patients` FOREIGN KEY (`patients_id`) REFERENCES `registered_patients` (`p_id`),
   CONSTRAINT `FK_patients_details_register_reception` FOREIGN KEY (`reception_id`) REFERENCES `registered_reception` (`id_num`),
   CONSTRAINT `FK_patients_details_registered_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `registered_doctor` (`id_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table healthcare.patients_details: ~11 rows (approximately)
 INSERT INTO `patients_details` (`id`, `patients_id`, `age`, `reception_id`, `symptoms`, `medical_report`, `Prescriptions`, `Prescriptions_date`, `doctor_id`, `symptoms_date`, `medicine_status`) VALUES
 	(25, 5, 56, '156879245v', 'tyhtfhfgh', 'no', 'dffe', '2024-06-18 16:37:11', '48946454555', '2024-06-17 12:12:34', 'pending'),
 	(26, 4, 34, '196971900830', 'asdsadsa dsadas dasd sa d', 'no', 'dfsfsf', '2024-06-18 16:38:13', '48946454555', '2024-06-18 13:30:13', 'true'),
 	(27, 4, 34, '196971900830', 'aaabbccddee', 'no', 'fsdsadsd dkfs kodkf ksd fkdskf \r\npkpfs\r\nppsd\r\npdfp\r\npppdf kpspdfp pdskf jiofj sih hsa dihjas djias di dasd asda asf asf asf sajid jisajdias jisajdi jifsjf \r\npkds pd\r\npsdf\r\npsd[fpdkfp kpdskf[ kpdkfpskdfpskf[\r\npkdsp[', '2024-06-18 16:48:26', '48946454555', '2024-06-18 13:30:30', 'true'),
-	(28, 16, 45, '196971900830', 'hfghfghdg', 'no', '', '2024-06-18 20:17:22', '48946454555', '2024-06-18 13:41:28', 'Medication cancelled'),
+	(28, 16, 45, '196971900830', 'hfghfghdg', 'no', 'fghfhtrh ', '2024-06-25 12:13:03', '353544353434', '2024-06-18 13:41:28', 'Medication cancelled'),
 	(29, 16, 45, '196971900830', 'new seek', 'rdg reutrs th  httij y\r\nrhtuj yuj y\r\ntuuu6yityk y7tk 7', 'hhrrrr hsdyh trrrwg eyyy ytehjt', '2024-06-25 01:24:26', '353544353434', '2024-06-18 13:42:12', 'pending'),
 	(30, 2, 30, '196971900830', 'new medic no', 'no', 'niifggdg', '2024-06-20 00:14:54', '353544353434', '2024-06-18 15:05:49', 'true'),
 	(31, 10, 20, '196971900830', 'new medical yes', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\r\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\r\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\r\noptio, eaque rerum! Provident similique accusantium nemo autem. Veritatis\r\nobcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam\r\nnihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,\r\ntenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,\r\nquia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos \r\nsapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam\r\nrecusandae alias error harum maxime adipisci amet laborum. Perspiciatis \r\nminima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit \r\nquibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur \r\nfugiat, temporibus enim commodi iusto libero magni deleniti quod quam \r\nconsequuntur! Commodi minima excepturi repudiandae velit hic maxime\r\ndoloremque. Quaerat provident commodi consectetur veniam similique ad \r\nearum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo \r\nfugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore \r\nsuscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium\r\nmodi minima sunt esse temporibus sint culpa, recusandae aliquam numquam \r\ntotam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam \r\nquasi aliquam eligendi, placeat qui corporis!', 'dfgfdsf', '2024-06-18 16:47:05', '48946454555', '2024-06-18 15:06:05', 'pending'),
-	(34, 19, 54, '196971900830', 'new  reg med yes', 'yes', '', NULL, '0000000000', '2024-06-18 15:11:24', 'pending'),
+	(34, 19, 54, '196971900830', 'new  reg med yes', 'hfhtrhh ', 'tryhr', '2024-06-25 12:13:12', '353544353434', '2024-06-18 15:11:24', 'pending'),
 	(35, 20, 54, '196971900830', 'new reg no med', 'no', 'hfgfdg', '2024-06-18 16:50:13', '48946454555', '2024-06-18 15:11:54', 'true'),
-	(36, 21, 12, '196971900830', 'new patie incluede  reprt', 'yes', '', NULL, '0000000000', '2024-06-18 18:24:45', 'pending'),
-	(38, 10, 20, '196971900830', '1stline\ndek\nthun jaspd jfpoejf sf\n4line oodsjf josdofsdfoj sjdfoj sdjfojeofj sdjfjeojfosjf jsojfojsodjf sdojfosjdf jsdofj 6tkkoooooos', 'no', '', NULL, '0000000000', '2024-06-20 00:21:56', 'pending');
+	(36, 21, 12, '196971900830', 'new patie incluede  reprt', 'efwefwef', '', '2024-06-25 12:19:16', '353544353434', '2024-06-18 18:24:45', 'pending'),
+	(38, 10, 20, '196971900830', '1stline\ndek\nthun jaspd jfpoejf sf\n4line oodsjf josdofsdfoj sjdfoj sdjfojeofj sdjfjeojfosjf jsojfojsodjf sdojfosjdf jsdofj 6tkkoooooos', 'no', 'hf fdgh dfh df', '2024-06-25 12:12:51', '353544353434', '2024-06-20 00:21:56', 'pending');
 
 -- Dumping structure for table healthcare.registered_doctor
 CREATE TABLE IF NOT EXISTS `registered_doctor` (
-  `id_num` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `verification_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `id_num` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `mobile` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `password` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `verification_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `register_date` datetime DEFAULT NULL,
   `status` int DEFAULT '1',
   `age` int DEFAULT NULL,
-  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `image` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `address` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `image` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_num`) USING BTREE,
   KEY `FK_registered_doctor_ststus_type` (`status`),
   CONSTRAINT `FK_registered_doctor_ststus_type` FOREIGN KEY (`status`) REFERENCES `status_type` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table healthcare.registered_doctor: ~9 rows (approximately)
 INSERT INTO `registered_doctor` (`id_num`, `name`, `email`, `mobile`, `password`, `verification_code`, `register_date`, `status`, `age`, `address`, `image`) VALUES
@@ -198,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `registered_mlt` (
   PRIMARY KEY (`id_num`) USING BTREE,
   KEY `FK_mlt_status_type` (`status`) USING BTREE,
   CONSTRAINT `FK_mlt_status_type` FOREIGN KEY (`status`) REFERENCES `status_type` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table healthcare.registered_mlt: ~0 rows (approximately)
 INSERT INTO `registered_mlt` (`id_num`, `name`, `email`, `mobile`, `password`, `verification_code`, `register_date`, `status`, `age`, `address`, `image`) VALUES
@@ -207,18 +223,18 @@ INSERT INTO `registered_mlt` (`id_num`, `name`, `email`, `mobile`, `password`, `
 -- Dumping structure for table healthcare.registered_patients
 CREATE TABLE IF NOT EXISTS `registered_patients` (
   `p_id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `mobile` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `id_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `mobile` varchar(12) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `id_num` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `address` text CHARACTER SET utf8 COLLATE utf8_general_ci,
   `age` int DEFAULT NULL,
   `register_date` datetime DEFAULT NULL,
-  `reception_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `reception_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`p_id`),
   KEY `FK_register_patients_register_reception` (`reception_id`),
   CONSTRAINT `FK_register_patients_register_reception` FOREIGN KEY (`reception_id`) REFERENCES `registered_reception` (`id_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table healthcare.registered_patients: ~17 rows (approximately)
 INSERT INTO `registered_patients` (`p_id`, `name`, `mobile`, `email`, `id_num`, `address`, `age`, `register_date`, `reception_id`) VALUES
@@ -259,7 +275,7 @@ CREATE TABLE IF NOT EXISTS `registered_pharmacists` (
   PRIMARY KEY (`id_num`) USING BTREE,
   KEY `FK_registered_pharmacists_status_type` (`status`),
   CONSTRAINT `FK_registered_pharmacists_status_type` FOREIGN KEY (`status`) REFERENCES `status_type` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table healthcare.registered_pharmacists: ~3 rows (approximately)
 INSERT INTO `registered_pharmacists` (`id_num`, `name`, `email`, `mobile`, `password`, `verification_code`, `register_date`, `status`, `age`, `address`, `image`) VALUES
@@ -269,21 +285,21 @@ INSERT INTO `registered_pharmacists` (`id_num`, `name`, `email`, `mobile`, `pass
 
 -- Dumping structure for table healthcare.registered_reception
 CREATE TABLE IF NOT EXISTS `registered_reception` (
-  `id_num` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `verification_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `id_num` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `address` text CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `mobile` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `password` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `verification_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `register_date` datetime DEFAULT NULL,
-  `image` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `image` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `status` int DEFAULT '1',
   `age` int DEFAULT NULL,
   PRIMARY KEY (`id_num`),
   KEY `FK_registered_reception_status_type` (`status`),
   CONSTRAINT `FK_registered_reception_status_type` FOREIGN KEY (`status`) REFERENCES `status_type` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table healthcare.registered_reception: ~5 rows (approximately)
 INSERT INTO `registered_reception` (`id_num`, `address`, `name`, `email`, `mobile`, `password`, `verification_code`, `register_date`, `image`, `status`, `age`) VALUES
@@ -299,7 +315,7 @@ CREATE TABLE IF NOT EXISTS `status_type` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table healthcare.status_type: ~2 rows (approximately)
 INSERT INTO `status_type` (`id`, `name`) VALUES
@@ -318,7 +334,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`email`),
   KEY `FK_user_status_type` (`status`),
   CONSTRAINT `FK_user_status_type` FOREIGN KEY (`status`) REFERENCES `status_type` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Dumping data for table healthcare.user: ~5 rows (approximately)
 INSERT INTO `user` (`fname`, `lname`, `email`, `password`, `register_Date`, `mobile`, `status`) VALUES
