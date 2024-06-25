@@ -101,7 +101,7 @@ $patient_id = $_GET["p_id"];
                 </thead>
                 <tbody>
                     <?php
-                    $patientDetailsResultSet = Database::search("SELECT * FROM `patients_details` WHERE `patients_id` = '" . $patient_id . "'");
+                    $patientDetailsResultSet = Database::search("SELECT * FROM `patients_details` WHERE `patients_id` = '" . $patient_id . "' ORDER BY `id` DESC");
                     $patientDetailsCount = $patientDetailsResultSet->num_rows;
 
                     if ($patientDetailsCount > 0) {

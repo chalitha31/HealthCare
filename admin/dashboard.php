@@ -80,11 +80,13 @@ $resResultSet = Database::search("SELECT COUNT(*) AS total FROM `registered_rece
 $parmResultSet = Database::search("SELECT COUNT(*) AS total FROM `registered_pharmacists`");
 $mltResultSet = Database::search("SELECT COUNT(*) AS total FROM `registered_mlt`");
 $patientResultSet = Database::search("SELECT `register_date` AS `rdate` FROM `registered_patients`");
+$patientDetailsResultSet = Database::search("SELECT `symptoms_date` AS `sdate` FROM `patients_details`");
 // $dnumr = $docResultSet->num_rows;
 // $rnumr = $resResultSet->num_rows;
 // $pnumr = $parmResultSet->num_rows;
 // $mnumr = $mltResultSet->num_rows;
 $patientnumr = $patientResultSet->num_rows;
+$patienDetailstnumr = $patientDetailsResultSet->num_rows;
 
 $docResult = $docResultSet->fetch_assoc();
 $resResult = $resResultSet->fetch_assoc();
@@ -104,9 +106,15 @@ $tz = new DateTimeZone("Asia/colombo");
 $d->setTimezone($tz);
 $date = $d->format('Y-m-d H:i:s');
 
+// $d->modify('-7 days');
+// $date7daysAgo = $d->format('Y-m-d');
+
 $currntDate = new DateTime($date);
 
 $dailyVisitsPatient = 0;
+$lastWeekRegPatient = 0;
+$monthVisit = 0;
+
 if ($patientnumr > 0) {
 
     while ($patientResult = $patientResultSet->fetch_assoc()) {
@@ -117,10 +125,58 @@ if ($patientnumr > 0) {
 
         $interval = $currntDate->diff($pConverDate);
 
-        if ($interval->h <= 24 &&  $interval->d == 0 && $interval->m == 0 && $interval->f == 0 && $interval->y == 0) {
+        // if ($interval->h <= 24 &&  $interval->d == 0 && $interval->m == 0  && $interval->y == 0) {
+        //     $dailyVisitsPatient += 1;
+        // }
+
+        if ($interval->h <= 24 &&  $interval->d <= 7 && $interval->m == 0  && $interval->y == 0) {
+            $lastWeekRegPatient += 1;
+        }
+
+        // if ($interval->h <= 24 &&  $interval->d <= 30 && $interval->m == 0 && $interval->y == 0) {
+        //     $monthVisit += 1;
+        // }
+
+    }
+}
+
+if ($patienDetailstnumr > 0) {
+
+    while ($patientDetailsResult = $patientDetailsResultSet->fetch_assoc()) {
+
+
+        $patientDRegDate = $patientDetailsResult["sdate"];
+        $pDConverDate = new DateTime($patientDRegDate);
+
+        $Dinterval = $currntDate->diff($pDConverDate);
+
+        if ($Dinterval->h <= 24 &&  $Dinterval->d == 0 && $Dinterval->m == 0  && $Dinterval->y == 0) {
             $dailyVisitsPatient += 1;
         }
+
+        // if ($Dinterval->h <= 24 &&  $Dinterval->d <= 7 && $Dinterval->m == 0  && $Dinterval->y == 0) {
+        //     $lastWeekRegPatient += 1;
+        // }
+
+        if ($Dinterval->h <= 24 &&  $Dinterval->d <= 30 && $Dinterval->m == 0 && $Dinterval->y == 0) {
+            $monthVisit += 1;
+        }
+
     }
+
+    $dailyAvg = (int)$monthVisit/30;
+
+if($dailyAvg < 1){
+    $monthVisit = 0;
+
+}else {
+
+    $monthVisit = (int)$dailyAvg;
+
+}
+
+    // $monthVisit = $dailyAvg;
+
 }
 ?>
 
@@ -151,16 +207,16 @@ if ($patientnumr > 0) {
             <p id="patients-count"><?php echo $patientnumr ?></p>
         </div>
         <div class="stat-box">
-            <h3>Daily Visits</h3>
+            <h3>Today Visits</h3>
             <p id="patients-count"><?php echo $dailyVisitsPatient ?></p>
         </div>
         <div class="stat-box">
-            <h3>Avg New Patients/Day</h3>
-            <p id="avg-new-patients-per-day">5</p>
+            <h3>AVG Daily Visits</h3>
+            <p id="avg-new-patients-per-day"><?php echo $monthVisit ?></p>
         </div>
         <div class="stat-box">
             <h3>New Patients Last Week</h3>
-            <p id="new-patients-last-week">5</p>
+            <p id="new-patients-last-week"><?php echo $lastWeekRegPatient ?></p>
         </div>
     </div>
 </div>

@@ -47,9 +47,9 @@ CREATE TABLE IF NOT EXISTS `bloodtest` (
   PRIMARY KEY (`id`),
   KEY `FK_bloodtest_patients_details` (`patientDetails_id`),
   CONSTRAINT `FK_bloodtest_patients_details` FOREIGN KEY (`patientDetails_id`) REFERENCES `patients_details` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
--- Dumping data for table healthcare.bloodtest: ~15 rows (approximately)
+-- Dumping data for table healthcare.bloodtest: ~19 rows (approximately)
 INSERT INTO `bloodtest` (`id`, `patientDetails_id`, `reportName`, `test_type`, `issued_Date`, `mlt_id`) VALUES
 	(7, 36, 'medical_report_36_kumarsanga_2024-06-19_08-10-54.jpg', 'cbs', '2024-06-19 11:40:54', '1969719008'),
 	(17, 29, 'medical_report_29_jjfddr_2024-06-19_08-05-04.jpg', 'cbc', '2024-06-19 11:35:04', '1969719008'),
@@ -65,7 +65,11 @@ INSERT INTO `bloodtest` (`id`, `patientDetails_id`, `reportName`, `test_type`, `
 	(27, 36, 'ppbs_medical_report_36_kumarsanga_2024-06-24_18-44-59.jpg', 'ppbs', '2024-06-24 22:14:59', '1969719008'),
 	(28, 36, 'vldl_medical_report_36_kumarsanga_2024-06-24_18-45-20.jpg', 'vldl', '2024-06-24 22:15:20', '1969719008'),
 	(29, 36, 'fbs_medical_report_36_kumarsanga_2024-06-24_18-45-42.jpg', 'fbs', '2024-06-24 22:15:42', '1969719008'),
-	(30, 36, 'cbc_medical_report_36_kumarsanga_2024-06-25_13-23-17.jpg', 'cbc', '2024-06-25 13:23:17', '1969719008');
+	(30, 36, 'cbc_medical_report_36_kumarsanga_2024-06-25_13-23-17.jpg', 'cbc', '2024-06-25 13:23:17', '1969719008'),
+	(31, 36, 'ppbs_medical_report_36_kumarsanga_2024-06-25_16-05-14.jpg', 'ppbs', '2024-06-25 16:05:14', '4556456666'),
+	(32, 39, 'hdl_medical_report_39_rec1patient_2024-06-25_16-05-24.jpg', 'hdl', '2024-06-25 16:05:24', '4556456666'),
+	(33, 42, 'ppbs_medical_report_36_kumarsanga_2024-06-25_16-05-14.jpg', 'ldl', '2024-06-25 16:23:58', '4556456666'),
+	(34, 44, NULL, 'hdl', NULL, NULL);
 
 -- Dumping structure for table healthcare.medicines
 CREATE TABLE IF NOT EXISTS `medicines` (
@@ -80,10 +84,10 @@ CREATE TABLE IF NOT EXISTS `medicines` (
 -- Dumping data for table healthcare.medicines: ~7 rows (approximately)
 INSERT INTO `medicines` (`id`, `name`, `brand`, `quantity`, `exp`) VALUES
 	(1, 'Zithrocin', 'Zetra pvt ltd', 9800, '2025-02-28'),
-	(2, 'Paracetamol', 'ABC Pharma', 400, '2024-10-24'),
+	(2, 'Paracetamol', 'ABC Pharma', 396, '2024-10-24'),
 	(3, 'Amoxicillin', 'Amox pvt', 439, '2023-07-18'),
-	(4, 'Aspirin', 'Aspirin', 3600, '2026-07-03'),
-	(5, 'zithrocin', 'Zetra pvt ltd', 150, '2024-07-06'),
+	(4, 'Aspirin', 'Aspirin', 3543, '2026-07-03'),
+	(5, 'zithrocin', 'Zetra pvt ltd', 70, '2024-07-06'),
 	(6, 'pirition', 'zetra pvt ltd', 500, '2024-08-28'),
 	(7, 'sdo iosaf', 'refei sdji', 0, '2025-06-23');
 
@@ -99,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `medicines_recode` (
   KEY `FK__medicines` (`medicine_id`),
   CONSTRAINT `FK__medicines` FOREIGN KEY (`medicine_id`) REFERENCES `medicines` (`id`),
   CONSTRAINT `FK__patients_details` FOREIGN KEY (`patientDetails_id`) REFERENCES `patients_details` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- Dumping data for table healthcare.medicines_recode: ~11 rows (approximately)
 INSERT INTO `medicines_recode` (`id`, `patientDetails_id`, `medicine_id`, `qty`, `date`) VALUES
@@ -113,7 +117,11 @@ INSERT INTO `medicines_recode` (`id`, `patientDetails_id`, `medicine_id`, `qty`,
 	(11, 26, 2, 30, '2024-06-23'),
 	(12, 26, 7, 5, '2024-06-24'),
 	(13, 30, 1, 100, '2024-06-24'),
-	(14, 30, 4, 400, '2024-06-24');
+	(14, 30, 4, 400, '2024-06-24'),
+	(15, 38, 4, 57, '2024-06-25'),
+	(16, 38, 5, 75, '2024-06-25'),
+	(17, 40, 5, 5, '2024-06-25'),
+	(18, 40, 2, 4, '2024-06-25');
 
 -- Dumping structure for table healthcare.mlt_equipments
 CREATE TABLE IF NOT EXISTS `mlt_equipments` (
@@ -122,14 +130,15 @@ CREATE TABLE IF NOT EXISTS `mlt_equipments` (
   `quantity` int DEFAULT NULL,
   `weekly` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table healthcare.mlt_equipments: ~4 rows (approximately)
+-- Dumping data for table healthcare.mlt_equipments: ~0 rows (approximately)
 INSERT INTO `mlt_equipments` (`id`, `name`, `quantity`, `weekly`) VALUES
-	(1, 'asf gre', 14, 3),
-	(2, 'gsyh', 84, 7),
-	(3, 'fdsg', 44, 9),
-	(4, 'hjgty', 499, 36);
+	(1, 'asf gre', 12, 5),
+	(2, 'gsyh', 82, 9),
+	(3, 'fdsg', 42, 11),
+	(4, 'hjgty', 497, 38),
+	(5, 'fdsf', 34, NULL);
 
 -- Dumping structure for table healthcare.patients_details
 CREATE TABLE IF NOT EXISTS `patients_details` (
@@ -151,11 +160,11 @@ CREATE TABLE IF NOT EXISTS `patients_details` (
   CONSTRAINT `FK_patients_details_register_patients` FOREIGN KEY (`patients_id`) REFERENCES `registered_patients` (`p_id`),
   CONSTRAINT `FK_patients_details_register_reception` FOREIGN KEY (`reception_id`) REFERENCES `registered_reception` (`id_num`),
   CONSTRAINT `FK_patients_details_registered_doctor` FOREIGN KEY (`doctor_id`) REFERENCES `registered_doctor` (`id_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
--- Dumping data for table healthcare.patients_details: ~11 rows (approximately)
+-- Dumping data for table healthcare.patients_details: ~15 rows (approximately)
 INSERT INTO `patients_details` (`id`, `patients_id`, `age`, `reception_id`, `symptoms`, `medical_report`, `Prescriptions`, `Prescriptions_date`, `doctor_id`, `symptoms_date`, `medicine_status`) VALUES
-	(25, 5, 56, '156879245v', 'tyhtfhfgh', 'no', 'dffe', '2024-06-18 16:37:11', '48946454555', '2024-06-17 12:12:34', 'pending'),
+	(25, 5, 56, '156879245v', 'tyhtfhfgh', 'no', 'dffe', '2024-06-18 16:37:11', '48946454555', '2024-06-17 12:12:34', 'Medication cancelled'),
 	(26, 4, 34, '196971900830', 'asdsadsa dsadas dasd sa d', 'no', 'dfsfsf', '2024-06-18 16:38:13', '48946454555', '2024-06-18 13:30:13', 'true'),
 	(27, 4, 34, '196971900830', 'aaabbccddee', 'no', 'fsdsadsd dkfs kodkf ksd fkdskf \r\npkpfs\r\nppsd\r\npdfp\r\npppdf kpspdfp pdskf jiofj sih hsa dihjas djias di dasd asda asf asf asf sajid jisajdias jisajdi jifsjf \r\npkds pd\r\npsdf\r\npsd[fpdkfp kpdskf[ kpdkfpskdfpskf[\r\npkdsp[', '2024-06-18 16:48:26', '48946454555', '2024-06-18 13:30:30', 'true'),
 	(28, 16, 45, '196971900830', 'hfghfghdg', 'no', 'fghfhtrh ', '2024-06-25 12:13:03', '353544353434', '2024-06-18 13:41:28', 'Medication cancelled'),
@@ -165,7 +174,13 @@ INSERT INTO `patients_details` (`id`, `patients_id`, `age`, `reception_id`, `sym
 	(34, 19, 54, '196971900830', 'new  reg med yes', 'hfhtrhh ', 'tryhr', '2024-06-25 12:13:12', '353544353434', '2024-06-18 15:11:24', 'pending'),
 	(35, 20, 54, '196971900830', 'new reg no med', 'no', 'hfgfdg', '2024-06-18 16:50:13', '48946454555', '2024-06-18 15:11:54', 'true'),
 	(36, 21, 12, '196971900830', 'new patie incluede  reprt', 'efwefwef', '', '2024-06-25 12:19:16', '353544353434', '2024-06-18 18:24:45', 'pending'),
-	(38, 10, 20, '196971900830', '1stline\ndek\nthun jaspd jfpoejf sf\n4line oodsjf josdofsdfoj sjdfoj sdjfojeofj sdjfjeojfosjf jsojfojsodjf sdojfosjdf jsdofj 6tkkoooooos', 'no', 'hf fdgh dfh df', '2024-06-25 12:12:51', '353544353434', '2024-06-20 00:21:56', 'pending');
+	(38, 10, 20, '196971900830', '1stline\ndek\nthun jaspd jfpoejf sf\n4line oodsjf josdofsdfoj sjdfoj sdjfojeofj sdjfjeojfosjf jsojfojsodjf sdojfosjdf jsdofj 6tkkoooooos', 'no', 'hf fdgh dfh df', '2024-06-25 12:12:51', '353544353434', '2024-06-20 00:21:56', 'true'),
+	(39, 22, 56, '345465635333v', 'oluv ridnba daaaadpw', 'no', 'fghfgh', '2024-06-25 16:08:34', '568668652689854v', '2024-06-25 15:43:10', 'pending'),
+	(40, 7, 32, '345465635333v', 'dgtkn gujfgd rjfdgfgher', 'ergtreg regreg ergregef fefffew fewf ew ewf\r\neef\r\nwefwef', 'fgfg s\r\ndofopsd\r\nodkjfosd\r\nojdfpjsd\r\nokdf[osdk\r\n1 kdolskfs\r\n2 oksdfokds\r\n3 kpdfk[sd\r\n4j jopsdjf', '2024-06-25 16:09:29', '568668652689854v', '2024-06-25 15:44:15', 'true'),
+	(41, 21, 12, '345465635333v', 'no repoet fksfk \nsdksak \nskd[ska \naspkds[pakd \nsak[dka', 'no', 'sdfsdfew', '2024-06-25 16:28:10', '568668652689854v', '2024-06-25 15:45:02', 'pending'),
+	(42, 23, 66, '345465635333v', 'dshd\naosdpa\ndokasd\npsd\nada', 'fsdaf', 'fsafs\r\nsadfs\r\nasdad \r\nsadasdsadd adws dsawd wd sadwd wd sawsd', '2024-06-25 16:24:27', '568668652689854v', '2024-06-25 15:48:01', 'pending'),
+	(43, 24, 23, '345465635333v', 'fdsf dfewf wefffwef werffwefwwfw', 'dvfdddf', 'erwe   ', '2024-06-25 16:28:49', '568668652689854v', '2024-06-25 16:14:36', 'pending'),
+	(44, 25, 23, '345465635333v', 'fdfsgf', 'no', '', NULL, '0000000000', '2024-06-25 16:14:52', 'pending');
 
 -- Dumping structure for table healthcare.registered_doctor
 CREATE TABLE IF NOT EXISTS `registered_doctor` (
@@ -196,6 +211,7 @@ INSERT INTO `registered_doctor` (`id_num`, `name`, `email`, `mobile`, `password`
 	('353544353434', 'iro', 'irodhakashmi@gmail.com', '0713772006', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', NULL, '2024-06-20 00:14:38', 1, 32, 'tgsdg', NULL),
 	('446541231348v', 'kashmi ', 'irodhakashmi@gmail.com', '0713214698', '2a8610aefdd0028c6bf074dd18721c0ef8bc43241cc7a653d7aedf2036bdf6b3', NULL, '2024-06-12 12:23:38', 1, 25, 'pasyala', '66687ae7148a6.jpeg'),
 	('48946454555', 'kkaasshhmmii', 'irodhakashmi@gmail.com', '0716428659', 'f745b2d1a2118cf2e38b0c941166f9d81e201ff17dadea3c92ee464b370027ad', NULL, '2024-06-18 13:28:55', 1, 45, 'gdfgds efsd ', NULL),
+	('568668652689854v', 'doc', 'chalithachamod3031@gmail.com', '0713772006', '891890c808e66a1f2acf429267f383c96654c26d22d11b7c62d755eb9079eb53', NULL, '2024-06-25 15:49:52', 1, 45, 'dasdjoaspd', NULL),
 	('785645v', 'doc01', 'doc@gmail.com', '0716585698', '12342', NULL, '2024-06-05 17:32:06', 1, NULL, NULL, NULL);
 
 -- Dumping structure for table healthcare.registered_mlt
@@ -218,7 +234,8 @@ CREATE TABLE IF NOT EXISTS `registered_mlt` (
 
 -- Dumping data for table healthcare.registered_mlt: ~0 rows (approximately)
 INSERT INTO `registered_mlt` (`id_num`, `name`, `email`, `mobile`, `password`, `verification_code`, `register_date`, `status`, `age`, `address`, `image`) VALUES
-	('1969719008', 'mlt1', 'cchamod93@gmail.com', '0715684589', '2a8610aefdd0028c6bf074dd18721c0ef8bc43241cc7a653d7aedf2036bdf6b3', NULL, '2024-06-18 23:00:41', 1, 35, 'af fewf af', NULL);
+	('1969719008', 'mlt1', 'cchamod93@gmail.com', '0715684589', '2a8610aefdd0028c6bf074dd18721c0ef8bc43241cc7a653d7aedf2036bdf6b3', NULL, '2024-06-18 23:00:41', 1, 35, 'af fewf af', NULL),
+	('4556456666', 'mlt', 'cchamod93@gmail.com', '071658469', '51b1046249a850d2ca5294fccea504411734620fb20d0bb7d8fa6590ca65d522', NULL, '2024-06-25 15:51:24', 1, 65, 'safsdf', NULL);
 
 -- Dumping structure for table healthcare.registered_patients
 CREATE TABLE IF NOT EXISTS `registered_patients` (
@@ -234,16 +251,16 @@ CREATE TABLE IF NOT EXISTS `registered_patients` (
   PRIMARY KEY (`p_id`),
   KEY `FK_register_patients_register_reception` (`reception_id`),
   CONSTRAINT `FK_register_patients_register_reception` FOREIGN KEY (`reception_id`) REFERENCES `registered_reception` (`id_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
--- Dumping data for table healthcare.registered_patients: ~17 rows (approximately)
+-- Dumping data for table healthcare.registered_patients: ~20 rows (approximately)
 INSERT INTO `registered_patients` (`p_id`, `name`, `mobile`, `email`, `id_num`, `address`, `age`, `register_date`, `reception_id`) VALUES
 	(2, 'abcd efg', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 30, '2024-06-07 03:24:00', '1542658v'),
 	(3, 'vvvvv', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 12, '2024-04-05 17:55:27', '1542658v'),
 	(4, 'chalitha chamod', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 34, '2024-06-05 18:17:16', '1542658v'),
 	(5, 'cano', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 29, '2024-06-16 23:54:40', '1542658v'),
 	(6, 'nadee', '0713772006', 'chalithachamod3031@gmail.com', '196971900830', 'pinnagollawththa maharachchimulla alawwa', 34, '2024-06-05 18:18:53', '1542658v'),
-	(7, 'sanuka tharaka', '0711234567', 'sanuka@gmail.com', '254685v', 'galgamuwa alawwa', 30, '2024-06-07 12:26:29', '1542658v'),
+	(7, 'sanuka tharaka', '0711234567', 'sanuka@gmail.com', '254685v', 'galgamuwa alawwa', 32, '2024-06-25 15:44:07', '1542658v'),
 	(8, 'sanuka tharaka', '07165846895', 'sanuka@gmail.com', '254685v', 'galgamuwa alawwa', 26, '2024-06-05 22:02:06', '1542658v'),
 	(9, 'chalitha chamod', '0783772006', 'chalithachamod@gmail.com', '4564', 'maharachchimulla alawwa', 20, '2024-06-07 12:24:53', '1542658v'),
 	(10, 'adeesha', '07165984679', 'abcdeg@gmail.com', '24698752', 'alawwa kurunegala', 20, '2024-06-07 21:26:59', '1542658v'),
@@ -257,7 +274,11 @@ INSERT INTO `registered_patients` (`p_id`, `name`, `mobile`, `email`, `id_num`, 
 	(18, 'fqrtd ferf ', '0716585923', '', '', 'fds rgh fer wf', 23, '2024-06-18 15:08:36', '196971900830'),
 	(19, 'gdddg', '0716585923', '', '', 'fds rgh fer wf', 54, '2024-06-18 15:11:24', '196971900830'),
 	(20, 'jhgjgfhfgh', '0716585923', '', '', 'fds rgh fer wf', 54, '2024-06-18 15:11:54', '196971900830'),
-	(21, 'kumar sanga', '0716584569', '', '', 'new address adi ', 12, '2024-06-18 18:24:45', '196971900830');
+	(21, 'kumar sanga', '0716584569', '', '', 'new address adi ', 12, '2024-06-20 18:24:45', '196971900830'),
+	(22, 'rec1 patient', '0716584698', '', '', 'djfi dk', 56, '2024-06-25 15:43:10', '345465635333v'),
+	(23, 'pateint 3', '071658569', 'vhamo@gmail.com', '4787324779', 'dhsduhsdu huashd ', 66, '2024-06-25 15:48:01', '345465635333v'),
+	(24, '1111', '0713772006', 'chalithachamod3031@gmail.com', '433423', 'pinnagollawththa maharachchimulla alawwa', 23, '2024-06-25 16:14:36', '345465635333v'),
+	(25, '2222', '0713772006', 'chalithachamod3031@gmail.com', '43434', 'pinnagollawththa maharachchimulla alawwa', 23, '2024-06-25 16:14:52', '345465635333v');
 
 -- Dumping structure for table healthcare.registered_pharmacists
 CREATE TABLE IF NOT EXISTS `registered_pharmacists` (
@@ -281,7 +302,8 @@ CREATE TABLE IF NOT EXISTS `registered_pharmacists` (
 INSERT INTO `registered_pharmacists` (`id_num`, `name`, `email`, `mobile`, `password`, `verification_code`, `register_date`, `status`, `age`, `address`, `image`) VALUES
 	('1969719008', NULL, 'chalit031@gmail.com', NULL, '66da271138c20d5168a3b323107a668494098bd98aed42d8399b12b095be9fdd', NULL, NULL, 1, NULL, NULL, NULL),
 	('196971900830', NULL, 'chamodnadeeshan91@gmail.com', NULL, '6667f8fc', NULL, NULL, 2, NULL, NULL, NULL),
-	('345465635333v', 'pharmists new', 'chamodnadeeshan91@gmail.com', '07165585952', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', NULL, '2024-06-23 19:58:49', 1, 36, 'fdsf fewgs', '6672fed9885af.jpeg');
+	('345465635333v', 'pharmists new', 'chamodnadeeshan91@gmail.com', '07165585952', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', NULL, '2024-06-23 19:58:49', 1, 36, 'fdsf fewgs', '6672fed9885af.jpeg'),
+	('45346235345v', 'pham', 'irodhakashmi@gmail.com', '071648569', '4669590396f9689d0d3f8ed605b05ffeebfd511cce05b5fe4d57e9c21e7e8751', NULL, '2024-06-25 15:56:52', 1, 33, 'fdfsdgsd', '667a9b349f5ab.jpeg');
 
 -- Dumping structure for table healthcare.registered_reception
 CREATE TABLE IF NOT EXISTS `registered_reception` (
@@ -301,12 +323,13 @@ CREATE TABLE IF NOT EXISTS `registered_reception` (
   CONSTRAINT `FK_registered_reception_status_type` FOREIGN KEY (`status`) REFERENCES `status_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table healthcare.registered_reception: ~5 rows (approximately)
+-- Dumping data for table healthcare.registered_reception: ~6 rows (approximately)
 INSERT INTO `registered_reception` (`id_num`, `address`, `name`, `email`, `mobile`, `password`, `verification_code`, `register_date`, `image`, `status`, `age`) VALUES
 	('123456789V', NULL, NULL, 'cchamod93@gmail.com', NULL, '1a0726492bcbbfbd90dedf100497e9414cc1ed47ddad33cb60bcbbc9392883a6', NULL, NULL, NULL, 1, NULL),
 	('1542658v', NULL, 'recip_01', 'res@gmail.com', '0716584569', '12345', NULL, '2024-06-05 17:29:18', NULL, 1, NULL),
 	('156879245v', 'alawwa', 'tharaka', 'cchamod93@gmail.com', '0754568963', '8da41ee37bfc4a6afa809c4f9e59730fc2e45ca00fe7f3e2bd7d1b41b62184cb', NULL, '2024-06-11 21:06:56', '66686bfba9ab8.jpeg', 1, 55),
 	('196971900830', 'aaa bbb ccc', 'sanuka', 'chalithachamod3031@gmail.com', '0713658698', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5', NULL, '2024-06-15 19:06:51', '6668688ec15c2.jpeg', 1, 35),
+	('345465635333v', 'qwd qr ', 'rec1', 'chamodnadeeshan91@gmail.com', '0716584698', '7292d5933867caddd46f3c3674917146ecf8fc8162a22457e3fd13f6038855dc', NULL, '2024-06-25 15:42:18', '667a97bc93408.jpeg', 1, 56),
 	('5468421v', 'kurunegala', 'new rec', 'chamodnadeeshan91@gmail.com', '078456985', 'c0a779ff6d98ada508205607cae551d84b8273de27aa1cea77a093ccd18295e1', NULL, '2024-06-11 21:18:26', '666871ca0649b.jpeg', 1, 36),
 	('58498456216', 'fdfsdgsd', 'chathuni', 'chathurangibandara05@gmail.com', '071648569', '5b66cc79629f6a3f37542fa2ce6bcf18339a524bf69d0e9090086dbf63ec20db', NULL, '2024-06-19 09:45:59', NULL, 1, 34);
 

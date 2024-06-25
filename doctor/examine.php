@@ -414,7 +414,9 @@
 
             <br />
             <br />
-
+            <?php
+            if ($pDetaila['prescriptions'] == '') {
+            ?>
             <div class="req-test">
                 <h3>Request a Test from MLT</h3>
                 <label for="test">Test Type:</label>
@@ -458,6 +460,7 @@
             <br />
             <!--p & m -->
             <?php
+            }
             if ($pDetaila['prescriptions'] == '') {
             ?>
 
@@ -599,22 +602,22 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const rows = document.querySelectorAll('#symptomsTable tbody tr');
-            const symptomsText = document.getElementById('symptoms-text');
-            const prescriptionsText = document.getElementById('prescriptions-text');
+            // const rows = document.querySelectorAll('#symptomsTable tbody tr');
+            // const symptomsText = document.getElementById('symptoms-text');
+            // const prescriptionsText = document.getElementById('prescriptions-text');
 
-            rows.forEach(row => {
-                row.addEventListener('click', function() {
-                    // Example data - in a real application, you would fetch this data
-                    const symptomsData = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-                    const prescriptionsData = "Nullam dictum felis eu pede mollis pretium.";
+            // rows.forEach(row => {
+            //     row.addEventListener('click', function() {
+            //         // Example data - in a real application, you would fetch this data
+            //         const symptomsData = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+            //         const prescriptionsData = "Nullam dictum felis eu pede mollis pretium.";
 
-                    symptomsText.textContent = symptomsData;
-                    prescriptionsText.textContent = prescriptionsData;
+            //         symptomsText.textContent = symptomsData;
+            //         prescriptionsText.textContent = prescriptionsData;
 
-                    showPopup('details-popup');
-                });
-            });
+            //         showPopup('details-popup');
+            //     });
+            // });
         });
 
         function showPopup(popupId) {

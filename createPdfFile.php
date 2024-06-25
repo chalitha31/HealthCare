@@ -185,7 +185,7 @@ if ($pDetails) {
     $dompdf->loadHtml($html);
     $dompdf->setPaper('A4', 'portrait');
     $dompdf->render();
-    $dompdf->stream($pDetails['name'] . "_Medical_Report.pdf", array("Attachment" => 1));
+    $dompdf->stream($pDetails['name'] . "_Medical_Report.pdf", array("Attachment" => 0));
 } else {
     echo "Patient details not found.";
 }
