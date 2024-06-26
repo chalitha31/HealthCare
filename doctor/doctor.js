@@ -46,6 +46,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     colorTab.style.backgroundColor = mediumgrey;
                 });
                 tab.style.backgroundColor = basecolor;
+                if (target != 'check-list.php') {
+                    if (localStorage.getItem('doc-exmlist') == null || localStorage.getItem('doc-exmlist') == 'true') {
+                        localStorage.setItem('doc-exmlist', 'false');
+                        // console.log(localStorage.getItem('doc-exmlist'));
+                    }
+                }
             })
             .catch(error => {
                 console.error('Error loading content:', error);
@@ -59,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    let examinedStatus = localStorage.getItem('examined');
+    let examinedStatus = localStorage.getItem('doc-exmlist');
     if (examinedStatus == 'true') {
         loadTabContent(tabs[0]);
     }

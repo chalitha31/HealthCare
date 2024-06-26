@@ -151,7 +151,7 @@
   ?>
 
     <div class="container">
-        <h1>Blood test report waiting list</h1>
+        <h1>Test Report waiting list</h1>
 
         <div class="queue-info">
             <h3>Number of Patients in Queue : <span style="color: red; font-weight: 900;" id="queueCount"><?php echo $totalTestPatients ?></span></h3>

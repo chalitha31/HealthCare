@@ -631,9 +631,9 @@
         // examinedBtn = document.getElementById('examined-btn');
         // examinedBtn.addEventListener('click', (e) =>
         function examined(pdi) {
-            console.log('examine btn', localStorage.getItem('examined'));
-            if (localStorage.getItem('examined') == null || localStorage.getItem('examined') == 'false') {
-                localStorage.setItem('examined', 'true');
+            // console.log('examine btn', localStorage.getItem('examined'));
+            if (localStorage.getItem('doc-exmlist') == null || localStorage.getItem('doc-exmlist') == 'false') {
+                localStorage.setItem('doc-exmlist', 'true');
             }
             // submitPrescription(pdi);
             fetch("http://localhost/HealthCare/doctor/examineProcess.php?pdi=" + pdi, {

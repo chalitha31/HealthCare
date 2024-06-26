@@ -24,16 +24,30 @@ function loginbutton() {
     modal.style.display = 'block';
 }
 
-window.addEventListener('load', (e) => {
-    if (localStorage.getItem('examined') == null || localStorage.getItem('examined') == 'true') {
-        localStorage.setItem('examined', 'false');
-        console.log(localStorage.getItem('examined'));
-    }
-    if (localStorage.getItem('pharlog') == null || localStorage.getItem('pharlog') == 'true') {
-        localStorage.setItem('pharlog', 'false');
-        console.log(localStorage.getItem('pharlog'));    
-    }
+// window.addEventListener('load', (e) => {
+//     if (localStorage.getItem('examined') == null || localStorage.getItem('examined') == 'true') {
+//         localStorage.setItem('examined', 'false');
+//         console.log(localStorage.getItem('examined'));
+//     }
+//     if (localStorage.getItem('pharlog') == null || localStorage.getItem('pharlog') == 'true') {
+//         localStorage.setItem('pharlog', 'false');
+//         console.log(localStorage.getItem('pharlog'));    
+//     }
 
+// })
+
+function localVarToFalse(itemName) {
+    if (localStorage.getItem(itemName) == null || localStorage.getItem(itemName) == 'true') {
+        localStorage.setItem(itemName, 'false');
+        console.log(localStorage.getItem(itemName));
+    }
+}
+
+window.addEventListener('load', (e) => {
+    let localVariables = ['doc-exmlist', 'mlt-produce', 'mlt-inventory'];
+    for (const name of localVariables) {
+        localVarToFalse(name)
+    }
 })
 
 function login() {

@@ -11,13 +11,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabs = document.querySelectorAll('.tab');
     const content = document.getElementById('content');
 
+    function localVarToFalse(itemName) {
+        if (localStorage.getItem(itemName) == null || localStorage.getItem(itemName) == 'true') localStorage.setItem(itemName, 'false');
+    }
+
+    function localVarToTrue(itemName) {
+        if (localStorage.getItem(itemName) == null || localStorage.getItem(itemName) == 'false') localStorage.setItem(itemName, 'true');
+    }
+
     function loadTabContent(tab) {
         const target = tab.getAttribute('data-target');
-        if (target == 'produce-list.html') {
-            if (localStorage.getItem('pharlog') == null || localStorage.getItem('pharlog') == 'false') {
-                localStorage.setItem('pharlog', 'true');
-                console.log(localStorage.getItem('pharlog'));
-            }
+        if (target == 'produce-list.php') {
+            localVarToTrue('mlt-produce');
+            localVarToFalse('mlt-inventory')
+        }
+        if (target == 'inventory.php') {
+            localVarToTrue('mlt-inventory');
+            localVarToFalse('mlt-produce');
+        }
+        if (target != 'inventory.php' && target != 'produce-list.php') {
+            localVarToFalse('mlt-inventory');
+            localVarToFalse('mlt-produce');
         }
         fetch(target)
             .then(response => response.text())
@@ -51,15 +65,13 @@ document.addEventListener('DOMContentLoaded', function() {
             loadTabContent(tab);
         });
     });
-    let pharlog = localStorage.getItem('pharlog');
-    if (pharlog == 'true') {
-        loadTabContent(tabs[0]);
-    }
 
 
+    if (localStorage.getItem('mlt-produce') == 'true') loadTabContent(tabs[0]);
+    if (localStorage.getItem('mlt-inventory') == 'true') loadTabContent(tabs[2]);
 
     function initForm() {
-        console.log('initForm Function')
+        // console.log('initForm Function')
         const form = document.getElementById('medicineForm');
         if (form) {
             form.addEventListener('submit', function(e) {
