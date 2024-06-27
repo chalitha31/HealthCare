@@ -94,7 +94,7 @@ $parmResult = $parmResultSet->fetch_assoc();
 $mltResult = $mltResultSet->fetch_assoc();
 
 
-$docCount = $docResult["total"];
+$docCount = ($docResult["total"] - 1);
 $resCount = $resResult["total"];
 $parmCount = $parmResult["total"];
 $mltCount = $mltResult["total"];
@@ -161,19 +161,16 @@ if ($patienDetailstnumr > 0) {
         if ($Dinterval->h <= 24 &&  $Dinterval->d <= 30 && $Dinterval->m == 0 && $Dinterval->y == 0) {
             $monthVisit += 1;
         }
-
     }
 
-    $dailyAvg = (int)$monthVisit/30;
+    $dailyAvg = (int)$monthVisit / 30;
 
-if($dailyAvg < 1){
-    $monthVisit = 0;
+    if ($dailyAvg < 1) {
+        $monthVisit = 0;
+    } else {
 
-}else {
-
-    $monthVisit = (int)$dailyAvg;
-
-}
+        $monthVisit = (int)$dailyAvg;
+    }
 
     // $monthVisit = $dailyAvg;
 

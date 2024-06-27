@@ -33,7 +33,7 @@ if(isset($_SESSION["name"])){
                 <li><a href="#" class="tab" data-target="check-list.php">Examine List</a></li>
                 <li><a href="#" class="tab" data-target="patients.php">Checked History</a></li>
                 <li><a href="../employee-profile.php?name=<?php echo $Tname ?>" class="tabb">View Profile</a></li>
-                <li><a href="../logoutEmployee.php" class="tabb" data-target="patients.php">Log Out</a></li>
+                <li><a style="background-color: #ff4848;" href="../logoutEmployee.php" class="tabb" data-target="patients.php">Log Out</a></li>
                 <li><a href="#" class="tab" data-target="home-tab.php" style="visibility: hidden; pointer-events:none;">Home</a></li>
             </ul>
         </aside>

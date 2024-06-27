@@ -35,6 +35,7 @@ if (empty($userLoginDetails->email) || empty($userLoginDetails->password)) {
                         break;
                     case 'admin':
                         $_SESSION["name"] = $userData["name"];
+                        $_SESSION["mobile"] = $userData["mobile"];
                         break;
                     case 'registered_reception':
                     case 'registered_pharmacists':

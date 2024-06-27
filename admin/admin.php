@@ -33,6 +33,7 @@
                 <li><a href="#" class="tab" data-target="pharmacist.php">Pharmacists</a></li>
                 <li><a href="#" class="tab" data-target="mlt.php">MLTs</a></li>
                 <li><a href="#" class="tab" data-target="reception.php">Reception</a></li>
+                <li><a style="background-color: #ff4848;" href="adminLogout.php" class="tabb">Log Out</a></li>
             </ul>
         </aside>
 
