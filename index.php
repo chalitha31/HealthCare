@@ -66,7 +66,7 @@ session_start();
                     <input type="password" id="password" name="password" required>
                 </div>
                 <button type="submit" class="submit-btn" onclick="login()">Login</button>
-                <div class="register-link">
+                <div style="visibility: hidden; pointer-events: none;" class="register-link">
                     <p>Don't have an account? <a href="signup.php">Register here</a></p>
                 </div>
             </div>
@@ -85,29 +85,46 @@ session_start();
 
 
         <div class="what-we-do">
-            <h2>What We Do</h2>
-            <div class="services">
-                <div class="service-card">
-                    <img src="assets/images/do-icon(2).png" alt="Cardiology Icon">
-                    <h3>Cardiology</h3>
-                    <p>We provide comprehensive heart care and prevention services.</p>
+            <h1>- What We Do -</h1>
+            <div class="cards-container">
+                <div class="card">
+                    <div class="img-cont">
+                        <img src="assets/images/reseptionist.png" alt="doctor-image">
+                    </div>
+                    <div class="description">
+                        <h2>Welcoming Reception</h2>
+                        <p>Our friendly and efficient reception team is here to provide you with a warm welcome and assist you with all your needs. We ensure a seamless check-in and check-out process, making your visit as pleasant as possible.</p>
+                    </div>
                 </div>
-                <div class="service-card">
-                    <img src="assets/images/do-icon(2).png" alt="General Practice Icon">
-                    <h3>General Practice</h3>
-                    <p>Our general practitioners offer a wide range of primary care services.</p>
+                <div class="card">
+                    <div class="img-cont">
+                        <img src="assets/images/doctors-patch.png" alt="doctor-image">
+                    </div>
+                    <div class="description">
+                        <h2>Expert Doctors</h2>
+                        <p>Our highly qualified and experienced doctors are dedicated to providing top-notch medical care. From routine check-ups to specialized treatments, we are here to ensure your health and well-being.</p>
+                    </div>
                 </div>
-                <div class="service-card">
-                    <img src="assets/images/do-icon(2).png" alt="Neurology Icon">
-                    <h3>Neurology</h3>
-                    <p>Expert care for conditions affecting the brain and nervous system.</p>
+                <div class="card">
+                    <div class="img-cont">
+                        <img src="assets/images/phar2.png" alt="doctor-image">
+                    </div>
+                    <div class="description">
+                        <h2>Comprehensive Pharmacy</h2>
+                        <p>Our in-house pharmacy is stocked with a wide range of medications and health products. Our pharmacists are available to provide you with expert advice and ensure you get the right prescriptions and guidance.</p>
+                    </div>
                 </div>
-                <div class="service-card">
-                    <img src="assets/images/do-icon(2).png" alt="Pediatrics Icon">
-                    <h3>Pediatrics</h3>
-                    <p>Comprehensive healthcare services for infants, children, and adolescents.</p>
+                <div class="card">
+                    <div class="img-cont">
+                        <img src="assets/images/mlt.png" alt="doctor-image">
+                    </div>
+                    <div class="description">
+                        <h2>Advanced Laboratory Services</h2>
+                        <p>Our state-of-the-art Medical Laboratory Technologist (MLT) facilities offer accurate and timely diagnostic services. We provide a comprehensive range of tests to assist in the effective diagnosis and management of your health.</p>
+                    </div>
                 </div>
             </div>
+        </div>iv>
         </div>
 
 

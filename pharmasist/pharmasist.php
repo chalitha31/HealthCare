@@ -39,15 +39,11 @@ if(isset($_SESSION["name"])){
                 <li><a href="#" class="tab" data-target="expireStock.php">Expire Stock</a></li>
                 <li><a href="../employee-profile.php?name=registered_pharmacists" class="tabb">View Profile</a></li>
                 <li><a href="../logoutEmployee.php" class="tabb" data-target="patients.php">Log Out</a></li>
+                <li><a href="#" class="tab" data-target="home-tab.php" style="visibility: hidden; pointer-events:none;">Home</a></li>
             </ul>
         </aside>
         <div class="content" id="content">
-            <div class="content-backdrop">
-                <h1 class="backdrop-heading">Pharmasist Section</h1>
-                <p class="backdrop-phrase">Facilitating seamless interactions with medical staff, our team ensures a
-                    welcoming and hassle-free experience for all visitors.</p>
-                <img src="../assets/images/phar2.png" alt="reception-png" class="bacdrop-patch">
-            </div>
+            
         </div>
     </div>
     <script src="pharmasist.js"></script>

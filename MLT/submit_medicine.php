@@ -1,12 +1,8 @@
 <?php
-// submit_medicine.php
-$servername = "localhost"; // Your server name
-$username = "root"; // Your database username
-$password = "Chalithac*#3031"; // Your database password
-$dbname = "healthcare"; // Your database name
+require_once "../database_config.php";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
 
 // Check connection
 if ($conn->connect_error) {

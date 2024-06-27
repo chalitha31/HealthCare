@@ -67,8 +67,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
+    // if (localStorage.getItem('mlt-produce') == 'true') loadTabContent(tabs[0]);
+    // if (localStorage.getItem('mlt-inventory') == 'true') loadTabContent(tabs[2]);
+
     if (localStorage.getItem('mlt-produce') == 'true') loadTabContent(tabs[0]);
-    if (localStorage.getItem('mlt-inventory') == 'true') loadTabContent(tabs[2]);
+    else if (localStorage.getItem('mlt-inventory') == 'true') loadTabContent(tabs[2]);
+    else loadTabContent(tabs[4]);
 
     function initForm() {
         // console.log('initForm Function')

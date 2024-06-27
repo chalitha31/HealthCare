@@ -1,5 +1,5 @@
 <?php
-
+require_once "database_config.php";
 class Database
 {
 
@@ -9,7 +9,7 @@ class Database
     {
 
         if (!isset(Database::$connection)) {
-            Database::$connection = new mysqli("localhost", "root", "Chalithac*#3031", "healthcare", "3306");
+            Database::$connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
         }
     }
 

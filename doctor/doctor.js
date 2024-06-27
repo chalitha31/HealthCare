@@ -68,6 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let examinedStatus = localStorage.getItem('doc-exmlist');
     if (examinedStatus == 'true') {
         loadTabContent(tabs[0]);
+    } else {
+        loadTabContent(tabs[2]);
     }
 });
 

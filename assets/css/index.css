@@ -42,15 +42,62 @@ main {
 
 .what-we-do {
     background-color: #333333;
+    background-image: radial-gradient(circle at 50% 140%,#4d4d4d,#333333);
+    height: 100vh;
     color: #FFFFFF;
-    padding: 60px 20px;
+    padding: 50px 20px;
     text-align: center;
 }
 
-.what-we-do h2 {
+.what-we-do h1{
     color: var(--base-color);
-    font-size: 2.5em;
-    margin-bottom: 40px;
+    margin-top: 50px;
+}
+
+.what-we-do h2{
+    color: var(--base-color);
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.what-we-do p{
+    text-align: justify;
+}
+
+.what-we-do .cards-container {
+    margin: 0px auto;   
+    width: max-content; 
+    margin-top: 50px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(2,1fr);
+    gap: 15px;
+}
+
+.what-we-do .card {
+    display: grid;
+    max-width: 650px;
+    grid-template-columns: 1fr 1fr;
+    padding: 20px 10px;
+    margin: 0px auto;
+    border-radius: 10px;
+    background-color: #272727;
+    background-image: radial-gradient(circle at 100% 100%, #333333,#444444);
+    box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.137),2px 2px 5px rgba(255, 255, 255, 0.137);
+}
+.what-we-do .description {
+    padding: 20px 10px;
+    overflow: hidden;
+}
+
+.img-cont{
+    height: 300px;
+    width: 300px;
+}
+.img-cont img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 .services {

@@ -98,7 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     if (localStorage.getItem('mlt-produce') == 'true') loadTabContent(tabs[0]);
-    if (localStorage.getItem('mlt-inventory') == 'true') loadTabContent(tabs[1]);
+    else if (localStorage.getItem('mlt-inventory') == 'true') loadTabContent(tabs[1]);
+    else loadTabContent(tabs[5]);
 
     function initForm() {
         const form = document.getElementById('medicineForm');

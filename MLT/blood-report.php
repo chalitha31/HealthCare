@@ -164,9 +164,10 @@ $type = $_GET["type"];
                 <div class="patient-info">
                     <div>
                         <strong>Patient Details</strong>
+                        <p style="visibility: hidden;">Sex: Male</p>
                         <p><?php echo $pDetaila["name"] ?></p>
                         <p>Age: <?php echo $pDetaila["age"] ?> Years</p>
-                        <p>Sex: Male</p>
+                        
                         <p>PID: 55</p>
                     </div>
                     <div class="report-header-right">
