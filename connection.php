@@ -1,5 +1,5 @@
 <?php
-require_once "database_config.php"; // Change database config.php to your database details
+require_once "database_config.php"; // Change database_config.php to your database details
 
 class Database
 {
