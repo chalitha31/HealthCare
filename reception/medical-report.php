@@ -213,19 +213,6 @@ $pdi = 31;
 
     <?php } ?>
 
-    <!-- <script>
-
-document.addEventListener('DOMContentLoaded', function() {
-
-    window.onload = function() {
-             
-                window.location.href = "../createPdfFile.php"
-            };
-
-});
-
-
-    </script> -->
 </body>
 
 </html>

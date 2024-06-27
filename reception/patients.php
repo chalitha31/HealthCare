@@ -89,16 +89,7 @@
                     <td><?php echo $patientResult['p_id'] ?></td>
                     <td><?php echo $patientResult['name'] ?></td>
                 </tr>
-                <!-- <tr onclick="window.location.href='#'">
-                <td>2</td>
-                <td>Jane Smith</td>
-            </tr>
-            <tr onclick="window.location.href='#'">
-                <td>3</td>
-                <td>Michael Johnson</td>
-            </tr> -->
-           
-
+               
     <?php
         }
     }

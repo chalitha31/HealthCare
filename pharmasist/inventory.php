@@ -138,30 +138,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr>
-                    <td>Paracetamol</td>
-                    <td>ABC Pharma</td>
-                    <td>500</td>
-                    <td>2024-12-01</td>
-                </tr>
-                <tr>
-                    <td>Ibuprofen</td>
-                    <td>XYZ Pharma</td>
-                    <td>200</td>
-                    <td>2025-06-15</td>
-                </tr>
-                <tr>
-                    <td>Amoxicillin</td>
-                    <td>HealthCare Inc.</td>
-                    <td>250</td>
-                    <td>2023-09-30</td>
-                </tr>
-                <tr>
-                    <td>Aspirin</td>
-                    <td>MediCare Ltd.</td>
-                    <td>100</td>
-                    <td>2024-03-22</td>
-                </tr> -->
+              
             </tbody>
 
         </table>

@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
         $d = new DateTime();
-        $tz =new DateTimeZone("Asia/colombo");
+        $tz = new DateTimeZone("Asia/colombo");
         $d->setTimezone($tz);
         $date = $d->format('Y-m-d H:i:s');
 
@@ -145,16 +145,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Process data based on the source
                 switch ($source) {
                     case 'doctor':
-                        Database::iud("INSERT INTO `registered_doctor` (`id_num`,`email`,`password`,`register_date`) VALUES ('" . $nic . "','" . $email . "','" . $code . "','".$date."')");
+                        Database::iud("INSERT INTO `registered_doctor` (`id_num`,`email`,`password`,`register_date`) VALUES ('" . $nic . "','" . $email . "','" . $code . "','" . $date . "')");
                         break;
                     case 'receptionist':
-                        Database::iud("INSERT INTO `registered_reception` (`id_num`,`email`,`password`,`register_date`) VALUES ('" . $nic . "','" . $email . "','" . $code . "','".$date."')");
+                        Database::iud("INSERT INTO `registered_reception` (`id_num`,`email`,`password`,`register_date`) VALUES ('" . $nic . "','" . $email . "','" . $code . "','" . $date . "')");
                         break;
                     case 'mlt':
-                        Database::iud("INSERT INTO `registered_mlt` (`id_num`,`email`,`password`,`register_date`) VALUES ('" . $nic . "','" . $email . "','" . $code . "','".$date."')");
+                        Database::iud("INSERT INTO `registered_mlt` (`id_num`,`email`,`password`,`register_date`) VALUES ('" . $nic . "','" . $email . "','" . $code . "','" . $date . "')");
                         break;
                     case 'pharmacist':
-                        Database::iud("INSERT INTO `registered_pharmacists` (`id_num`,`email`,`password`,`register_date`) VALUES ('" . $nic . "','" . $email . "','" . $code . "','".$date."')");
+                        Database::iud("INSERT INTO `registered_pharmacists` (`id_num`,`email`,`password`,`register_date`) VALUES ('" . $nic . "','" . $email . "','" . $code . "','" . $date . "')");
                         break;
                     default:
                         $subject = "Unknown Source";

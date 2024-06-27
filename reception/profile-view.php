@@ -1,9 +1,7 @@
 <?php
-require_once "../connection.php";
 session_start();
+require_once "../connection.php";
 $patient_id = $_GET["p_id"];
-
-
 ?>
 
 <!DOCTYPE html>
@@ -123,7 +121,7 @@ $patient_id = $_GET["p_id"];
                                     <td><button style="background-color: #85696D;" class="status-btn pending">No</button></td>
                                 <?php } else if (($patientDetailsResult["medical_report"]) == 'yes') { ?>
                                     <td><button style="background-color: #f3b738;" class="status-btn checked">pending</button></td>
-                                <?php }else { ?>
+                                <?php } else { ?>
                                     <td><button onclick="downloadmediReport(<?php echo $recordId; ?>);" style="background-color: #ff2222;" class="status-btn checked">Download</button></td>
                                 <?php } ?>
 
@@ -174,7 +172,7 @@ $patient_id = $_GET["p_id"];
                 <div class="addSymptomsForm" id="addSymptomsForm">
                     <div class="form-group">
                         <!-- <label for="symptoms">Symptoms:</label> -->
-                        <textarea  style="white-space: pre-line;" id="symptoms" name="symptoms" rows="4" required></textarea>
+                        <textarea style="white-space: pre-line;" id="symptoms" name="symptoms" rows="4" required></textarea>
                     </div>
                     <div class="rep-box">
                         <p>Only If you need a medical report</p>
@@ -182,7 +180,7 @@ $patient_id = $_GET["p_id"];
                             <span>Medical Report</span>
                             <input type="checkbox" name="med-report" id="med-report">
                         </div>
-                        
+
                     </div>
                     <button onclick="exsitsPatientAddSymptoms(<?php echo $patient_id ?>)" type="submit">Add Symptoms</button>
                 </div>

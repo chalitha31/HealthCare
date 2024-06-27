@@ -122,8 +122,8 @@
                 $date = $d->format('Y-m-d');
 
                 // $mediResultSet = Database::search("SELECT * FROM `medicines` WHERE `exp`  > '" . $date . "' AND `quantity` > '0'");
-                $mediResultSet = Database::search("SELECT * FROM `medicines` WHERE `exp` <= '".$date."' ");
-               
+                $mediResultSet = Database::search("SELECT * FROM `medicines` WHERE `exp` <= '" . $date . "' ");
+
                 if ($mediResultSet->num_rows > 0) {
                     // Fetch all results as an associative array
                     $medicines = $mediResultSet->fetch_all(MYSQLI_ASSOC);
@@ -143,8 +143,6 @@
                                 // $recMediData = $mediRecResultSet->fetch_assoc();
                                 $qtyCount = $recmedicine["qty"];
                                 $Usage += $qtyCount;
-
-                         
                             }
                         }
 

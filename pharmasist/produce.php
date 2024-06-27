@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 
 require_once "../connection.php";
@@ -246,7 +246,7 @@ require_once "../connection.php";
 
     .no-med-needed:hover {
         background-color: var(--error-color);
-}
+    }
 </style>
 
 
@@ -254,7 +254,7 @@ require_once "../connection.php";
 <body>
     <?php
 
-    
+
     $pdi = $_GET["pid"];
 
     $res = Database::search("SELECT * FROM `patients_details` INNER JOIN `registered_patients` ON `registered_patients`.`p_id` =`patients_details`.`patients_id` WHERE `id` = '$pdi'");
@@ -264,8 +264,8 @@ require_once "../connection.php";
     <header>
         <div class="logo">Healthcare</div>
         <div class="header-username"><?php if (isset($_SESSION["name"])) {
-                                                echo $_SESSION["name"];
-                                            } ?></div>
+                                            echo $_SESSION["name"];
+                                        } ?></div>
         <!-- <button id="loginBtn">Login</button> -->
     </header>
     <div class="main-container">
@@ -379,105 +379,105 @@ require_once "../connection.php";
             let tableRows = Array.from(tableBody.querySelectorAll('tr'));
             // console.log(tableRows);
 
-        
 
-                let patientMediData = [];
 
-                for (let i = 0; i < tableRows.length; i++) {
-                    let row = tableRows[i];
-                    let tds = Array.from(row.querySelectorAll('td'));
-                    let mname = tds[0].textContent;
-                    let mbrand = tds[1].textContent;
-                    let mexdate = tds[3].textContent;
-                    let minput = tds[2].querySelector('input');
-                    let mqty = minput ? minput.value : null;
+            let patientMediData = [];
 
-                    if (mqty == 0 || mqty == null) {
+            for (let i = 0; i < tableRows.length; i++) {
+                let row = tableRows[i];
+                let tds = Array.from(row.querySelectorAll('td'));
+                let mname = tds[0].textContent;
+                let mbrand = tds[1].textContent;
+                let mexdate = tds[3].textContent;
+                let minput = tds[2].querySelector('input');
+                let mqty = minput ? minput.value : null;
 
-                        alert('Please Enter ' + mname + ' Quantity (mg)');
-                        patientMediData = [];
-                        break;
-                    } else {
+                if (mqty == 0 || mqty == null) {
 
-                        let medicientrow = {
-                            mname: mname,
-                            mbrand: mbrand,
-                            mqty: mqty,
-                            mexdate: mexdate,
-                            // pdi: pdi
-                        };
-                        patientMediData.push(medicientrow);
-                    }
-                }
-                if (patientMediData.length > 0) {
-                    // alert('Data stored successfully!');
-                    // console.log(patientMediData); // You can see the array in the browser console
+                    alert('Please Enter ' + mname + ' Quantity (mg)');
+                    patientMediData = [];
+                    break;
+                } else {
 
-                    let AldataMedic = {
-                        pdi: pdi,
-                        medicines: patientMediData
+                    let medicientrow = {
+                        mname: mname,
+                        mbrand: mbrand,
+                        mqty: mqty,
+                        mexdate: mexdate,
+                        // pdi: pdi
                     };
-
-                    fetch('patientMedicineProcess.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(AldataMedic)
-                        })
-                        .then(response => response.text())
-                        .then(data => {
-                            if (data == "success") {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Your work has been saved",
-                            background: "#fff",
-                            text: "Medicines release is successful!",
-                            showConfirmButton: true,
-                            customClass: {
-                                popup: 'swal2-dark'
-                            }
-
-                            // timer: 2000
-                        }).then(() => {
-                            // alert(data);
-                            window.location = "pharmasist.php"
-                            // window.location = "index.php";
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Oops...",
-                            // color: "#22252c",
-                            background: "#fff",
-                            // text: "Something went wrong!",
-                            text: data,
-                            customClass: {
-                                popup: 'swal2-dark'
-                            }
-
-                            // footer: '<a href="#">Why do I have this issue?</a>'
-                        });
-                    }
-                        })
-                        .catch((error) => {
-                            console.error('Error:', error);
-                            alert('An error occurred');
-                        });
-
-
+                    patientMediData.push(medicientrow);
                 }
-            
+            }
+            if (patientMediData.length > 0) {
+                // alert('Data stored successfully!');
+                // console.log(patientMediData); // You can see the array in the browser console
+
+                let AldataMedic = {
+                    pdi: pdi,
+                    medicines: patientMediData
+                };
+
+                fetch('patientMedicineProcess.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(AldataMedic)
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        if (data == "success") {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Your work has been saved",
+                                background: "#fff",
+                                text: "Medicines release is successful!",
+                                showConfirmButton: true,
+                                customClass: {
+                                    popup: 'swal2-dark'
+                                }
+
+                                // timer: 2000
+                            }).then(() => {
+                                // alert(data);
+                                window.location = "pharmasist.php"
+                                // window.location = "index.php";
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                // color: "#22252c",
+                                background: "#fff",
+                                // text: "Something went wrong!",
+                                text: data,
+                                customClass: {
+                                    popup: 'swal2-dark'
+                                }
+
+                                // footer: '<a href="#">Why do I have this issue?</a>'
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('An error occurred');
+                    });
+
+
+            }
+
         }
 
-        function cancelMedicine(pdi){
+        function cancelMedicine(pdi) {
 
             let tableBody = document.querySelector('.issumeditable');
             let tableRows = Array.from(tableBody.querySelectorAll('tr'));
 
             if (tableRows.length == 0) {
 
-            Swal.fire({
+                Swal.fire({
                     title: "Are you sure?",
                     text: "Are you sure the medication doesn't need to be dispensed?",
                     icon: "warning",

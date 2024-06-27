@@ -14,19 +14,19 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadTabContent(tab) {
         const target = tab.getAttribute('data-target');
         fetch(target)
-        .then(response => response.text())
-        .then(data => {
-            content.innerHTML = data;
-            tabs.forEach(colorTab => {
+            .then(response => response.text())
+            .then(data => {
+                content.innerHTML = data;
+                tabs.forEach(colorTab => {
                     colorTab.style.backgroundColor = mediumgrey;
                 });
                 tab.style.backgroundColor = basecolor;
-                })
+            })
             .catch(error => {
                 console.error('Error loading content:', error);
             });
     }
-    
+
     tabs.forEach(tab => {
         tab.addEventListener('click', function(e) {
             e.preventDefault();
@@ -62,6 +62,6 @@ function filterTable() {
     }
 }
 
-function travelPage(file){
+function travelPage(file) {
     window.location.href = file;
 }

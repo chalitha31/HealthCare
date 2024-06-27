@@ -125,7 +125,7 @@
     </script>
 </head>
 
-<?php 
+<?php
 require_once "../connection.php";
 $docResultSet = Database::search("SELECT  `id_num` , `name` FROM `registered_pharmacists`");
 $numRow = $docResultSet->num_rows;
@@ -143,42 +143,42 @@ $docResult = $docResultSet->fetch_all(MYSQLI_ASSOC);
         </tr>
     </thead>
     <tbody>
-      
-    <?php 
 
-foreach ($docResult as $key => $value) {
-?>
+        <?php
 
-<tr onclick="window.location.href='employee-profile.php?id_num=<?php echo $value['id_num']?>&tname=registered_pharmacists'">
-            <td><?php echo $value['id_num']?></td>
-           
-                <?php 
-                if(empty($value['name'])){
-                    ?>
-                   <td style="color: #ff5959;">Profile has not been updated yet</td>
-                    <?php 
-                }else{
-                    ?>
-                    <td><?php echo $value["name"] ?></td>
-                    <?php 
-                }
-                
+        foreach ($docResult as $key => $value) {
+        ?>
+
+            <tr onclick="window.location.href='employee-profile.php?id_num=<?php echo $value['id_num'] ?>&tname=registered_pharmacists'">
+                <td><?php echo $value['id_num'] ?></td>
+
+                <?php
+                if (empty($value['name'])) {
                 ?>
-            
-        </tr>
+                    <td style="color: #ff5959;">Profile has not been updated yet</td>
+                <?php
+                } else {
+                ?>
+                    <td><?php echo $value["name"] ?></td>
+                <?php
+                }
 
-  <?php  
-}
+                ?>
 
-    ?>
+            </tr>
+
+        <?php
+        }
+
+        ?>
 
     </tbody>
 </table>
 <div class="email-form-container">
     <h3>Add new pharmacist</h3>
-   
+
     <div class="emailForm" id="emailForm">
-        <input type="hidden" name="source" id="source"  value="pharmacist">
+        <input type="hidden" name="source" id="source" value="pharmacist">
         <div class="form-group">
             <label for="nic">Nic/Passport no :</label>
             <input type="text" id="nic" name="nic" required>

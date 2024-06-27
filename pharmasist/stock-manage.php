@@ -156,46 +156,7 @@
 
                 ?>
 
-                <!-- <tr class="data-row">
-                    <td>2</td>
-                    <td>Ibuprofen</td>
-                    <td>220</td>
-                    <td>30</td>
-                    <td>51</td>
-                    <td>780</td>
-                </tr>
-                <tr class="data-row">
-                    <td>3</td>
-                    <td>Amoxicillin</td>
-                    <td>180</td>
-                    <td>20</td>
-                    <td>63</td>
-                    <td>520</td>
-                </tr>
-                <tr class="data-row">
-                    <td>4</td>
-                    <td>Cetirizine</td>
-                    <td>90</td>
-                    <td>10</td>
-                    <td>63</td>
-                    <td>260</td>
-                </tr>
-                <tr class="data-row">
-                    <td>5</td>
-                    <td>Omeprazole</td>
-                    <td>300</td>
-                    <td>35</td>
-                    <td>60</td>
-                    <td>910</td>
-                </tr>
-                <tr class="data-row">
-                    <td>6</td>
-                    <td>Metformin</td>
-                    <td>120</td>
-                    <td>15</td>
-                    <td>56</td>
-                    <td>390</td>
-                </tr> -->
+             
             </tbody>
         </table>
     </div>

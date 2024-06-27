@@ -125,7 +125,7 @@
     </script>
 </head>
 
-<?php 
+<?php
 require_once "../connection.php";
 $docResultSet = Database::search("SELECT  `id_num` , `name` FROM `registered_reception`");
 $numRow = $docResultSet->num_rows;
@@ -143,32 +143,32 @@ $docResult = $docResultSet->fetch_all(MYSQLI_ASSOC);
     </thead>
     <tbody>
         <tr onclick="window.location.href='../employee-profile.php'">
-      
-    <?php 
 
-foreach ($docResult as $key => $value) {
-?>
+            <?php
 
-<tr onclick="window.location.href='employee-profile.php?id_num=<?php echo $value['id_num']?>&tname=registered_reception'">
-            <td><?php echo $value['id_num']?></td>
-           
-                <?php 
-                if(empty($value['name'])){
-                    ?>
-                   <td style="color: #ff5959;">Profile has not been updated yet</td>
-                    <?php 
-                }else{
-                    ?>
-                    <td><?php echo $value["name"] ?></td>
-                    <?php 
+            foreach ($docResult as $key => $value) {
+            ?>
+
+        <tr onclick="window.location.href='employee-profile.php?id_num=<?php echo $value['id_num'] ?>&tname=registered_reception'">
+            <td><?php echo $value['id_num'] ?></td>
+
+            <?php
+                if (empty($value['name'])) {
+            ?>
+                <td style="color: #ff5959;">Profile has not been updated yet</td>
+            <?php
+                } else {
+            ?>
+                <td><?php echo $value["name"] ?></td>
+            <?php
                 }
-                
-                ?>
-            
+
+            ?>
+
         </tr>
 
-  <?php  
-}
+    <?php
+            }
 
     ?>
 
@@ -190,7 +190,7 @@ foreach ($docResult as $key => $value) {
     </form> -->
 
     <div class="emailForm" id="emailForm">
-    <input type="hidden" name="source" id="source"  value="receptionist">
+        <input type="hidden" name="source" id="source" value="receptionist">
         <div class="form-group">
             <label for="nic">Nic/Passport no :</label>
             <input type="text" id="nic" name="nic" required>
@@ -200,6 +200,6 @@ foreach ($docResult as $key => $value) {
             <input type="email" id="email" name="email" required>
         </div>
         <button onclick="sendemail()" type="submit">Send</button>
-      
+
     </div>
 </div>

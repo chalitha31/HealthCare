@@ -84,7 +84,7 @@
     </style>
 </head>
 
-<?php 
+<?php
 session_start();
 require_once "../connection.php";
 
@@ -109,8 +109,8 @@ $totalPatients = $totalRow['total'];
         </div>
 
         <div class="patient-cards">
-<?php
-        $patiientResultSet = Database::search("SELECT  `patients_details`.`id` AS `pid`, `registered_patients`.`name` AS `name`,`patients_details`.`age` AS `age` 
+            <?php
+            $patiientResultSet = Database::search("SELECT  `patients_details`.`id` AS `pid`, `registered_patients`.`name` AS `name`,`patients_details`.`age` AS `age` 
         FROM `patients_details` 
         INNER JOIN  `registered_patients` ON `registered_patients`.`p_id` = `patients_details`.`patients_id`
         WHERE `patients_details`.`Prescriptions` != '' AND `patients_details`.`medicine_status`  = 'pending'   LIMIT 8");
@@ -121,13 +121,13 @@ $totalPatients = $totalRow['total'];
                 while ($patientDetails = $patiientResultSet->fetch_assoc()) {
             ?>
 
-            <!-- <div class="patient-card">
+                    <!-- <div class="patient-card">
                 <h3>John Doe</h3>
                 <p><strong>Age:</strong> 30</p>
                 <button class="examine-btn" onclick="examinePatient()">Produce</button>
             </div> -->
 
-            <div class="patient-card">
+                    <div class="patient-card">
                         <h3><?php echo $patientDetails["name"] ?></h3>
                         <p><strong>Age:</strong> <?php echo $patientDetails["age"] ?></p>
                         <button class="examine-btn" onclick="examinePatient(<?php echo $patientDetails['pid'] ?>)">Produce</button>
@@ -137,7 +137,7 @@ $totalPatients = $totalRow['total'];
                 }
             }
             ?>
-            
+
         </div>
     </div>
 </body>
