@@ -139,7 +139,7 @@
             <span>Medical Report</span>
             <input type="checkbox" name="med-report" id="med-report">
         </div>
-                  
+       
     </div>
     <button type="submit" onclick="registerPatient()">Register</button>
 </div>

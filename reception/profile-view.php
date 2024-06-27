@@ -182,7 +182,7 @@ $patient_id = $_GET["p_id"];
                             <span>Medical Report</span>
                             <input type="checkbox" name="med-report" id="med-report">
                         </div>
-                                  
+                        
                     </div>
                     <button onclick="exsitsPatientAddSymptoms(<?php echo $patient_id ?>)" type="submit">Add Symptoms</button>
                 </div>
