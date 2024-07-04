@@ -189,3 +189,11 @@ function exsitsPatientAddSymptoms(p_id) {
 function downloadmediReport(pdi) {
     window.location = "../createPdfFile.php?pdi=" + pdi;
 }
+
+function downloadBloodTestReport(pdi) {
+    window.location = "../Test_report_createPdfFile.php?pdi=" + pdi;
+}
+
+function downloadPrescription(pdi) {
+    window.location = "../prescription_createPdfFile.php?pdi=" + pdi;
+}

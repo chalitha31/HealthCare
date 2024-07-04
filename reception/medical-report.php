@@ -129,6 +129,20 @@
             font-size: 0.9em;
             color: #666;
         }
+
+        .patient-info {
+            /* margin-bottom: 20px; */
+            font-size: 1em;
+            color: var(--dark-gray);
+            display: flex;
+            justify-content: space-between;
+            /* background-color: rgb(241, 241, 241); */
+            /* padding: 10px; */
+        }
+        .patient-info p {
+            margin: 2px 0;
+        }
+
     </style>
 </head>
 
@@ -149,7 +163,7 @@ $pdi = 31;
 
     $numRows = $patiientResultSet->num_rows;
 
-    if ($numRows > 0) {
+    if ($numRows >= 0) {
 
         $pDetails = $patiientResultSet->fetch_assoc();
     ?>
@@ -183,13 +197,21 @@ $pdi = 31;
         </div>
 
         <div class="scissors-hr-container">
-        <img src="../assets/images/scissors.png" alt="Scissors Image" style="height: 20px;">
+        <img src="http://localhost/HealthCare/assets/images/s.jpg" alt="Scissors Image" style="height: 20px;">
             <hr>
         </div>
 
         <div class="container">
             <h2>Medical Report</h2>
-
+            <div style="justify-content: center;" class="patient-info">
+                    <div>
+                        <h1 style="color: #0080c0;">Primary medical care unit minuwangamuwa</h1>
+                        <p style="text-align: center;">130,Main street, minuwangamuwa</p>
+                        <h2 style="color: #b70000; text-align: center;">MEDICAL LABORATORY REPORT</h2>
+                    </div>
+                   
+                </div>
+              
             <div class="section">
                 <h3>Patient Information</h3>
                 <p><strong>Name:</strong> <?php echo $pDetails["name"] ?></p>

@@ -95,6 +95,7 @@ $patient_id = $_GET["p_id"];
                         <th>Age</th>
                         <th>Doctor Status</th>
                         <th>Medical Report</th>
+                        <th>Blood Report</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -105,6 +106,9 @@ $patient_id = $_GET["p_id"];
                     if ($patientDetailsCount > 0) {
                         while ($patientDetailsResult = $patientDetailsResultSet->fetch_assoc()) {
                             $recordId = $patientDetailsResult["id"]; // Assuming id is unique for each record
+
+                            $bloodTestResult = Database::search("SELECT * FROM `patients_details` INNER JOIN `bloodtest` ON `patients_details`.`id` = `bloodtest`.`patientDetails_id` WHERE `patients_details`.`id` = '" . $recordId . "' ORDER BY `bloodtest`.`id` DESC LIMIT 1");
+                            $bloodTestNumRows = $bloodTestResult->num_rows;
                     ?>
                             <tr>
                                 <td onclick="showPopup('details-popup-<?php echo $recordId; ?>')"><?php echo $recordId; ?></td>
@@ -114,9 +118,10 @@ $patient_id = $_GET["p_id"];
                                 <?php if (empty($patientDetailsResult["Prescriptions"])) { ?>
                                     <td><button class="status-btn pending">Pending</button></td>
                                 <?php } else { ?>
-                                    <td><button class="status-btn checked">Checked</button></td>
+                                    <td><button class="status-btn checked">Checked</button> / <button class="status-btn checked" style="background-color: #ff2222;" onclick="downloadPrescription(<?php echo $recordId; ?>);">Download</button></td>
                                 <?php } ?>
 
+                                <!--Medical report -->
                                 <?php if (($patientDetailsResult["medical_report"]) == 'no') { ?>
                                     <td><button style="background-color: #85696D;" class="status-btn pending">No</button></td>
                                 <?php } else if (($patientDetailsResult["medical_report"]) == 'yes') { ?>
@@ -124,6 +129,28 @@ $patient_id = $_GET["p_id"];
                                 <?php } else { ?>
                                     <td><button onclick="downloadmediReport(<?php echo $recordId; ?>);" style="background-color: #ff2222;" class="status-btn checked">Download</button></td>
                                 <?php } ?>
+
+                                <!-- Bood Report -->
+                                <?php
+                                if ($bloodTestNumRows > 0) {
+                                    $bloodTestData = $bloodTestResult->fetch_assoc();
+
+                                    if (($bloodTestData["reportName"]) === null || trim($bloodTestData["reportName"]) === '') {
+                                ?>
+                                        <td><button style="background-color: #f3b738;" class="status-btn checked">pending</button></td>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <td><button onclick="downloadBloodTestReport(<?php echo $recordId; ?>);" style="background-color: #ff2222;" class="status-btn checked">Download</button></td>
+                                    <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <td><button style="background-color: #85696D;" class="status-btn pending">No</button></td>
+
+                                <?php
+                                }
+                                ?>
 
                             </tr>
 

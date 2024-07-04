@@ -99,14 +99,14 @@
     <div class="medicine-inventory">
 
 
-        <h3>Out Of Stock Medicine List</h3>
+        <h3>Expire Medicine List</h3>
         <table id="medicineTable">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Brand</th>
-                    <th>Current Stock (mg)</th>
-                    <th>Total Usage Quantity (mg)</th>
+                    <th>Medicine Name</th>
+                    <th>Medicine Brand</th>
+                    <th>Expire Quantity</th>
+                    <!-- <th>Total Usage Quantity (mg)</th> -->
                     <th>Expiration Date</th>
                 </tr>
             </thead>
@@ -151,7 +151,7 @@
                             <td class="name"><?php echo $medicine['name'] ?></td>
                             <td class="brand"><?php echo $medicine['brand'] ?></td>
                             <td class="quantity"><?php echo $medicine['quantity'] ?></td>
-                            <td class="quantity"><?php echo $Usage ?></td>
+                            <!-- <td class="quantity"><?php echo $Usage ?></td> -->
                             <td class="exp"><?php echo $medicine['exp'] ?></td>
                         </tr>
 

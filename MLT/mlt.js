@@ -187,10 +187,10 @@ function filterTable() {
 function examinePatient(pdi, type) {
     // alert(type)
 
-    if (type == 'cbc') {
+    if (type == 'fbc') {
         window.location.href = 'blood-report.php?pdi=' + pdi + '&type=' + type;
 
-    } else if (type == 'hdl') {
+    } else if (type == 'lipid') {
         window.location.href = 'hdl-report.php?pdi=' + pdi + '&type=' + type;
 
     } else if (type == 'ldl') {
@@ -202,7 +202,7 @@ function examinePatient(pdi, type) {
     } else if (type == 'vldl') {
         window.location.href = 'vldl-report.php?pdi=' + pdi + '&type=' + type;
 
-    } else if (type == 'fbs') {
+    } else if (type == 'fpg') {
         window.location.href = 'fbs-report.php?pdi=' + pdi + '&type=' + type;
 
     }

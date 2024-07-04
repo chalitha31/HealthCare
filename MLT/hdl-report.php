@@ -28,6 +28,7 @@ require_once "../connection.php";
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: #000000 2px solid;
         }
 
         .patient-info {
@@ -68,10 +69,11 @@ require_once "../connection.php";
 
 
         .report-title {
-            text-align: center;
+            text-align: start;
             color: var(--base-color);
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
         }
+
 
         .fbs-report-form {
             display: flex;
@@ -168,6 +170,13 @@ require_once "../connection.php";
             border: none;
             padding: 8px 10px;
         }
+        .signature-block {
+            margin-top: 20px;
+            display: flex;
+            align-items: end;
+            flex-direction: column;
+            gap: 0px;
+        }
     </style>
 </head>
 
@@ -205,7 +214,16 @@ require_once "../connection.php";
         </header>
 
         <div class="container" id="form-container">
-            <h2 class="report-title">HDL Cholesterol</h2>
+           
+            <div style="justify-content: center;" class="patient-info">
+                    <div>
+                        <h1 style="color: #0080c0;">Primary medical care unit minuwangamuwa</h1>
+                        <p style="text-align: center;">130,Main street, minuwangamuwa</p>
+                        <h2 style="color: #b70000; text-align: center;">MEDICAL LABORATORY REPORT</h2>
+                    </div>
+                   
+                </div>
+                <hr />
             <div class="patient-info">
                 <div>
                     <strong>Patient Details</strong>
@@ -224,6 +242,7 @@ require_once "../connection.php";
                 </div>
             </div>
             <hr>
+            <h3 class="report-title">lipid test</h3>
             <table class="report-table">
                 <thead>
                     <tr>
@@ -235,10 +254,37 @@ require_once "../connection.php";
                 </thead>
                 <tbody>
                     <tr>
-                        <td>LDL Cholesterol</td>
+                        <td>Cholesterol Total</td>
+                        <td><input type="number" id="totalCholesterol" step="0.01" required></td>
+                        <td>< 170.00</td>
+                        <td>mg/dL</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cholesterol HDL</td>
+                        <td><input type="number" id="hdlCholesterol" step="0.01" required></td>
+                        <td>40 - 60</td>
+                        <td>mg/dL</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cholesterol VLDL</td>
                         <td><input type="number" id="vldlCholesterol" step="0.01" required></td>
-                        <td>
-                            < 40.00</td>
+                        <td>2.00 - 30.00</td>
+                        <td>mg/dL</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cholesterol LDL </td>
+                        <td><input type="number" id="ldlCholesterol" step="0.01" required></td>
+                        <td>< 110.00</td>
+                        <td>mg/dL</td>
+                    </tr>
+
+                    <tr>
+                        <td>Triglycerides</td>
+                        <td><input type="number" id="Triglycerides" step="0.01" required></td>
+                        <td>< 150.00</td>
                         <td>mg/dL</td>
                     </tr>
                     <!-- <tr>
@@ -307,7 +353,10 @@ require_once "../connection.php";
                 <p>1. Measurements in the same patient can show physiological & analytical variations. Three serial samples 1 week apart are recommended for Total Cholesterol, Triglycerides, HDL & LDL Cholesterol.</p>
                 <p>2. As per NLA-2014 guidelines, all adults above the age of 20 years should be screened for lipid status. Selective screening of children above the age of 2 years with a family history of premature cardiovascular disease or those with at least one parent with high total cholesterol is recommended.</p>
             </div>
-
+            <div class="signature-block">
+                <p>...........................</p>
+                <p>Signature</p>
+            </div>
         </div>
         <div class="button-group">
             <!-- <button type="button" id="dataFeedButton">Data Feed</button> -->
@@ -331,7 +380,11 @@ require_once "../connection.php";
             // const exportBtn = document.getElementById('export-btn');
 
             dataFeedButton.addEventListener('click', function() {
-                document.getElementById('vldlCholesterol').value = (10 + Math.random() * 30).toFixed(2); // Glucose Fasting 70-100 mg/dL
+                document.getElementById('totalCholesterol').value = (( Math.random() * (170 - 80))+80).toFixed(2); //  80-170 mg/dL
+                document.getElementById('hdlCholesterol').value = (( Math.random() * (80 - 30))+30).toFixed(2);   //30-80
+                document.getElementById('vldlCholesterol').value =(( Math.random() * (40 - 1))+1).toFixed(2);   //2-30
+                document.getElementById('ldlCholesterol').value = (( Math.random() * (130 - 50))+50).toFixed(2);  // 50-130
+                document.getElementById('Triglycerides').value = (( Math.random() * (150 - 20))+20).toFixed(2); //
             });
 
             // exportBtn.addEventListener('click', (e) => {

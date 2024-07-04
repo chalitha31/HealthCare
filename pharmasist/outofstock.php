@@ -105,10 +105,11 @@
                 <tr>
                     <th>Name</th>
                     <th>Brand</th>
-                    <th>Expiration Date</th>
-                    <th>Total Usage Quantity (mg)</th>
-                    <th>medicines report count</th>
-                    <th>Estimate Stock for 6 months (mg) / [3 reports per day]</th>
+                    <th>purchase Date</th>
+                    <th>Out of Stock Date</th>
+                    <th>Total Usage Quantity </th>
+                    <!-- <th>medicines report count</th> -->
+                    <th>Estimate Stock for 6 months</th>
                 </tr>
             </thead>
             <tbody>
@@ -153,9 +154,10 @@
                         <tr class="dataRow" >
                             <td class=""><?php echo $medicine['name'] ?></td>
                             <td class=""><?php echo $medicine['brand'] ?></td>
-                            <td class=""><?php echo $medicine['exp'] ?></td>
+                            <td class=""><?php echo $medicine['purchase_date'] ?></td>
+                            <td class=""><?php echo $medicine['outofstock_date'] ?></td>
                             <td class=""><?php echo $Usage ?></td>
-                            <td class=""><?php echo $recNum ?></td>
+                            <!-- <td class=""><?php echo $recNum ?></td> -->
                             <td class=""></td>
                          
                         </tr>

@@ -134,24 +134,42 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                     .then(response => response.text())
                     .then(data => {
-                        // alert(data);
-                        Swal.fire({
-                            icon: "success",
-                            title: data,
-                            background: "#fff",
-                            showConfirmButton: true,
-                            customClass: {
-                                popup: 'swal2-dark'
-                            }
 
-                            // timer: 2000
-                        }).then(() => {
-                            // window.location = "index.php";
-                            location.reload();
-                        });
+                        if (data == "Please Enter Valid Quantity!") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                // color: "#22252c",
+                                background: "#fff",
+                                // text: "Something went wrong!",
+                                text: data,
+                                customClass: {
+                                    popup: 'swal2-dark'
+                                }
 
-                        // Refresh the table
-                        loadMedicineData();
+                                // footer: '<a href="#">Why do I have this issue?</a>'
+                            });
+                        } else {
+                            // alert(data);
+                            Swal.fire({
+                                icon: "success",
+                                title: data,
+                                background: "#fff",
+                                showConfirmButton: true,
+                                customClass: {
+                                    popup: 'swal2-dark'
+                                }
+
+                                // timer: 2000
+                            }).then(() => {
+                                // window.location = "index.php";
+                                location.reload();
+                            });
+
+                            // Refresh the table
+                            loadMedicineData();
+
+                        }
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -188,19 +206,57 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Function to calculate days in 6 months
+    function daysInSixMonths(fromDate) {
+        const toDate = new Date(fromDate);
+        toDate.setMonth(toDate.getMonth() + 6);
+        const millisecondsPerDay = 1000 * 60 * 60 * 24;
+        return Math.floor((toDate - fromDate) / millisecondsPerDay);
+    }
+
     function stockCalculation() {
         let tableBody = document.querySelector('tbody')
         let tableRows = Array.from(tableBody.querySelectorAll('tr'));
         // console.log(tableRows);
 
+        const nowDate = new Date();
+        const formatDate = nowDate.toLocaleDateString("en-ca");
+        // console.log(formatDate + "d");
+
         tableRows.forEach(row => {
             let tds = Array.from(row.querySelectorAll('td'));
-            let currentStock = tds[2].textContent;
-            let weeklyAverage = tds[3].textContent;
-            let availabilityDays = Math.ceil(currentStock / (weeklyAverage / 7));
-            let sixMonthStock = Math.ceil((weeklyAverage / 7) * 183);
-            tds[4].textContent = availabilityDays;
-            tds[6].textContent = sixMonthStock;
+
+            let purchase_date = tds[2].textContent;
+            let useStock = tds[4].textContent;
+            let availableStock = tds[5].textContent;
+
+            let d1 = new Date(purchase_date);
+            let d2 = new Date(formatDate);
+
+            let diff = d2.getTime() - d1.getTime();
+
+            let totaldate = diff / (1000 * 60 * 60 * 24);
+
+            // let sixMonthStock = Math.ceil((Total_Usage / totaldate) * 183);
+            // let availabilityDays = Math.ceil(currentStock / (weeklyAverage / 7));
+
+            // let dailyRate = Math.ceil(useStock / totaldate);
+            let dailyRate = (useStock / totaldate);
+            let availabilityDays = Math.ceil(availableStock / dailyRate);
+            // console.log(totaldate)
+            // console.log(useStock)
+            // console.log(dailyRate)
+            // console.log(availabilityDays)
+            // let sixMonthStock = Math.ceil((weeklyAverage / 7) * 183);
+            const daysInSixMonth = daysInSixMonths(nowDate);
+            // console.log(daysInSixMonth)
+            let sixMonthStock = Math.ceil(dailyRate * daysInSixMonth);
+
+            // tds[6].textContent = availabilityDays + " days";
+            tds[6].textContent = (availabilityDays == "Infinity" || isNaN(availabilityDays)) ? "-" : availabilityDays + " days";
+
+            tds[8].textContent = (sixMonthStock == 0 || isNaN(sixMonthStock)) ? "-" : sixMonthStock;
+            // tds[8].textContent = sixMonthStock;
         });
     }
 
@@ -211,10 +267,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         tableRows.forEach(row => {
             let tds = Array.from(row.querySelectorAll('td'));
-            let repcount = tds[4].textContent;
-            let totalUsage = tds[3].textContent;
+            let purchase_Date = tds[2].textContent;
+            let Out_of_Stock_Date = tds[3].textContent;
+            let Total_Usage = tds[4].textContent;
+
             // let availabilityDays = Math.ceil(currentStock / (weeklyAverage / 7));
-            let sixMonthStock = Math.ceil(((totalUsage / repcount) * 3) * 183);
+
+            let d1 = new Date(purchase_Date);
+            let d2 = new Date(Out_of_Stock_Date);
+
+            let diff = d2.getTime() - d1.getTime();
+
+            let totalDate = diff / (1000 * 60 * 60 * 24);
+
+            let sixMonthStock = Math.ceil((Total_Usage / totalDate) * 183);
             // tds[1].textContent = availabilityDays;
             tds[5].textContent = sixMonthStock;
         });

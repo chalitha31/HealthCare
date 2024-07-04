@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 
 require_once "../connection.php";
@@ -29,12 +29,13 @@ require_once "../connection.php";
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: #000000 2px solid;
         }
 
         .report-title {
-            text-align: center;
+            text-align: start;
             color: var(--base-color);
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
         }
 
         .cbc-report-form {
@@ -120,13 +121,20 @@ require_once "../connection.php";
             /* font-size: 15px; */
             font-weight: bold;
         }
+        .signature-block {
+            margin-top: 20px;
+            display: flex;
+            align-items: end;
+            flex-direction: column;
+            gap: 0px;
+        }
     </style>
 </head>
 
 <body>
     <?php
 
-$type = $_GET["type"];
+    $type = $_GET["type"];
     $pdi = $_GET["pdi"];
 
     $d = new DateTime();
@@ -158,16 +166,25 @@ $type = $_GET["type"];
         </header>
 
         <div class="container" id="form-container">
-            <h2 class="report-title">Complete Blood Count (CBC)</h2>
+
 
             <form id="cbcReportForm" class="cbc-report-form">
+                <div style="justify-content: center;" class="patient-info">
+                    <div>
+                        <h1 style="color: #0080c0;">Primary medical care unit minuwangamuwa</h1>
+                        <p style="text-align: center;">130,Main street, minuwangamuwa</p>
+                        <h2 style="color: #b70000; text-align: center;">MEDICAL LABORATORY REPORT</h2>
+                    </div>
+                   
+                </div>
+                <hr />
                 <div class="patient-info">
                     <div>
                         <strong>Patient Details</strong>
                         <p style="visibility: hidden;">Sex: Male</p>
                         <p><?php echo $pDetaila["name"] ?></p>
                         <p>Age: <?php echo $pDetaila["age"] ?> Years</p>
-                        
+
                         <p>PID: 55</p>
                     </div>
                     <div class="report-header-right">
@@ -179,6 +196,7 @@ $type = $_GET["type"];
                     </div>
                 </div>
                 <hr>
+                <h3 class="report-title">Full Blood Count (FBC)</h3>
                 <table class="report-table">
                     <thead>
                         <tr>
@@ -307,11 +325,16 @@ $type = $_GET["type"];
                 </table>
 
             </form>
+
+            <div class="signature-block">
+                <p>...........................</p>
+                <p>Signature</p>
+            </div>
         </div>
         <div class="button-group">
             <button style="background-color: darkgoldenrod;" type="button" id="dataFeedButton">Data Feed</button>
             <!-- <button type="submit" class="submit-btn">Submit</button> -->
-            <button  id="export-btn" onclick="exportToJPG('form-container','<?php echo $pdi ?>','<?php echo $pDetaila['name'] ?>','<?php echo $pDetaila['bloodtest_id'] ?>')">Submit</button>
+            <button id="export-btn" onclick="exportToJPG('form-container','<?php echo $pdi ?>','<?php echo $pDetaila['name'] ?>','<?php echo $pDetaila['bloodtest_id'] ?>')">Submit</button>
         </div>
     <?php
     }
@@ -375,7 +398,7 @@ $type = $_GET["type"];
 
         });
 
-        function exportToJPG(divID, pdi, name,bloodtest_id) {
+        function exportToJPG(divID, pdi, name, bloodtest_id) {
 
             if (!formValidation()) {
                 // alert("cant't Export a blank test report")
@@ -398,7 +421,7 @@ $type = $_GET["type"];
             html2canvas(div).then(canvas => {
                 const imageData = canvas.toDataURL('image/jpeg');
 
-     // optional;
+                // optional;
                 // const postData ={
                 //     image: encodeURIComponent(imageData),
                 //     pdi: pdi,
@@ -406,11 +429,11 @@ $type = $_GET["type"];
                 //     bloodtestId: bloodtest_id,
                 // };
 
-                const postData = 'image=' + encodeURIComponent(imageData) + 
-                         '&pdi=' + encodeURIComponent(pdi) + 
-                         '&name=' + encodeURIComponent(name) + 
-                         '&bloodtestId=' + encodeURIComponent(bloodtest_id)+
-                         '&type=' + encodeURIComponent('cbc');
+                const postData = 'image=' + encodeURIComponent(imageData) +
+                    '&pdi=' + encodeURIComponent(pdi) +
+                    '&name=' + encodeURIComponent(name) +
+                    '&bloodtestId=' + encodeURIComponent(bloodtest_id) +
+                    '&type=' + encodeURIComponent('cbc');
 
                 // optional;
 
@@ -441,7 +464,7 @@ $type = $_GET["type"];
                                 // timer: 2000
                             }).then(() => {
                                 // alert(data);
-                                window.location.href = 'mlt.php?name=registered_mlt'; 
+                                window.location.href = 'mlt.php?name=registered_mlt';
                                 // location.reload();
                                 // window.location = "index.php";
                             });

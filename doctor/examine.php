@@ -21,6 +21,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            
         }
 
         .container-header {
@@ -422,12 +423,12 @@
                 <label for="test">Test Type:</label>
 
                 <select name="test" id="test">
-                    <option value="cbc">CBC</option>
-                    <option value="hdl">HDL</option>
-                    <option value="ldl">LDL</option>
-                    <option value="ppbs">PPBS</option>
-                    <option value="vldl">VLDL</option>
-                    <option value="fbs">FBS</option>
+                    <option value="fbc">Full Blood Count (FBC)</option>  
+                    <option value="fpg">Fasting Plasma Glucose (FPG)</option>
+                    <option value="ppbs">Post Prandial Blood Sugar (ppbs)</option>
+                    <option value="lipid">Cholesterol And Lipid Blood Test (lipid test)</option>
+                   <!-- <option value="hdl">HDL</option>
+                    <option value="ldl">LDL</option> -->
                 </select>
                 <button onclick="mltBloodRequest(<?php echo $pid ?>);" class="submit-records">Sumbit</button>
 

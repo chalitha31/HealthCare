@@ -1,11 +1,14 @@
 <?php
-require 'vendor/autoload.php';
+// require 'vendor/autoload.php';
+require_once 'dompdf/vendor/autoload.php';
+// require_once 'dompdf/autoload.inc.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
 // Fetch patient details
-function fetchPatientDetails($pdi) {
+function fetchPatientDetails($pdi)
+{
     require_once "connection.php";
 
     $patientResultSet = Database::search("SELECT `registered_patients`.`name` AS `name`, `patients_details`.`age` AS `age`, `patients_details`.`medical_report` AS `medical_report`
@@ -22,6 +25,8 @@ function fetchPatientDetails($pdi) {
 
 $pdi = $_GET['pdi'];
 $pDetails = fetchPatientDetails($pdi);
+
+
 
 if ($pDetails) {
     $currentDate = new DateTime();
@@ -127,10 +132,20 @@ if ($pDetails) {
                 border: 2px dotted black;
                 width: 500px;
             }
+           .patient-info {
+            font-size: 1em;
+            color: var(--dark-gray);
+            display: flex;
+            justify-content: space-between;
+       
+        }
+         
+   
         </style>
     </head>
     <body>
         <div class="bill">
+      
             <h1>Hospital Medical Laboratory</h1>
             <div class="bill-info">
                 <p><strong>Patient Name:</strong> ' . $pDetails["name"] . '</p>
@@ -156,9 +171,18 @@ if ($pDetails) {
             </div>
             <p class="note">Thank you for your visit. Please come again!</p>
         </div>
-            <hr>
+<hr/>
         <div class="container">
-            <h2>Medical Report</h2>
+             <div style="justify-content: center;" class="patient-info">
+                   
+                        <h1 style="color: #4CAF50;text-align:center;">Primary medical care unit minuwangamuwa</h1>
+                        <p style="text-align: center;">130,Main street, minuwangamuwa</p>
+                        <p style="text-align: center;">Tel : 035 123 4567, Fax : 035 123 4568</p>
+                        <h2 style="color: #b70000; text-align: center;">Medical Report</h2>
+                 
+                   
+                </div>
+                
             <div class="section">
                 <h3>Patient Information</h3>
                 <p><strong>Name:</strong> ' . $pDetails["name"] . '</p>
@@ -189,4 +213,3 @@ if ($pDetails) {
 } else {
     echo "Patient details not found.";
 }
-?>

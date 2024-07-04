@@ -54,11 +54,16 @@
                 <tr>
                     <th>No</th>
                     <th>Medicine Name</th>
-                    <th>Current Stock (mg)</th>
-                    <th>Weekly Usage</th>
-                    <th>Current Stock Availability (days)</th>
-                    <th>Current Stock to expire (days)</th>
-                    <th>Estimate Stock for 6 months (mg)</th>
+                    <th>purchase Date</th>
+                    <th>purchase Quantity</th>
+                    <th>Issued Quantity</th>
+                    <th>Available Quantity</th>
+                    <!-- <th>Weekly Usage (Quantity)</th> -->
+                    <!-- <th>Stock Depletion Timeline</th> -->
+                    <th>Estimate Stock Depletion Timeline</th>
+                    <!-- <th>Current Stock to expire (days)</th> -->
+                    <th>Expiration Date</th>
+                    <th>Estimate Stock for 6 months (Quantity)</th>
                 </tr>
             </thead>
             <tbody>
@@ -102,50 +107,81 @@
                         $abs_diff = $later->diff($earlier)->format("%a");
 
 
+                        $issue_quentitiy = 0;
+                        $isMediRecResultSet = Database::search("SELECT * FROM `medicines_recode` WHERE `date`  >= '" .  $medicines["purchase_date"] . "' AND `medicine_id` = '" . $medicines["id"] . "'");
+                        $isrecNum = $isMediRecResultSet->num_rows;
+                        if ($isrecNum > 0) {
+                            $isRecMediData = $isMediRecResultSet->fetch_all(MYSQLI_ASSOC);
+
+
+
+                            foreach ($isRecMediData as $isrecmedicine) {
+
+                                $issue_quentitiy +=  $isrecmedicine["qty"];
+                            }
+                        }
+
+
                         $mediRecResultSet = Database::search("SELECT * FROM `medicines_recode` WHERE `date`  >= '" . $date7daysAgo . "' AND `medicine_id` = '" . $medicines["id"] . "'");
+                        // $medicines["purchase_date"]
 
                         $recNum = $mediRecResultSet->num_rows;
                         $weeklyUsage = 0;
+                        // $first_issue_date = $date;
+                      
+                        // $total_usage =0;
+
+                   
 
                         if ($recNum > 0) {
                             $recMediData = $mediRecResultSet->fetch_all(MYSQLI_ASSOC);
 
+                            // $total_issued_last_7_days = 0;
+
                             foreach ($recMediData as $recmedicine) {
                                 // $recMediData = $mediRecResultSet->fetch_assoc();
-                                $qtyCount = $recmedicine["qty"];
-                                $weeklyUsage += $qtyCount;
+                                $weeklyUsage +=  $recmedicine["qty"];
 
-                                // if($recNum == 0){
+                                //         if($recNum < 7){
 
-                                // }else if($recNum == 1){
+                                //             $days_elapsed = (strtotime($date) - strtotime($first_issue_date)) / (60 * 60 * 24);
 
-                                // }else if($recNum == 2){
+                                //   }else{
+                                //     $qtyCount = $recmedicine["qty"];
+                                //     $weeklyUsage += $qtyCount;
+                                //   }
 
-                                // }else if($recNum == 3){
 
-                                // }else if($recNum == 4){
 
-                                // }else if($recNum == 5){
-
-                                // }else if($recNum == 6){
-
-                                // }else{
-
-                                // }
+                           
                             }
+
+                            // if( $total_issued_last_7_days < 7){
+
+
+                            // }
+
+
+
+
                         }
+
 
                 ?>
 
                         <tr class="data-row">
                             <td><?php echo $i ?></td>
                             <td><?php echo $medicines["name"] ?></td>
+                            <td><?php echo $medicines["purchase_date"] ?></td>
+                            <td><?php echo ($medicines["quantity"] + $issue_quentitiy) ?></td>
+                            <td><?php echo $issue_quentitiy ?></td>
                             <td><?php echo $medicines["quantity"] ?></td>
-                            <td><?php echo $weeklyUsage ?></td>
+                            <!-- <td><?php echo $weeklyUsage ?></td> -->
                             <td></td>
-                            <td><?php echo $abs_diff ?></td>
+                            <!-- <?php echo $abs_diff ?> -->
+                            <td><?php echo $exdate ?></td>
                             <td></td>
-                          
+
 
                         </tr>
 
@@ -156,7 +192,7 @@
 
                 ?>
 
-             
+
             </tbody>
         </table>
     </div>

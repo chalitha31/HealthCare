@@ -28,6 +28,7 @@ require_once "../connection.php";
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: #000000 2px solid;
         }
 
         .patient-info {
@@ -68,9 +69,9 @@ require_once "../connection.php";
 
 
         .report-title {
-            text-align: center;
+            text-align: start;
             color: var(--base-color);
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
         }
 
         .fbs-report-form {
@@ -136,6 +137,13 @@ require_once "../connection.php";
             border: none;
             padding: 8px 10px;
         }
+        .signature-block {
+            margin-top: 20px;
+            display: flex;
+            align-items: end;
+            flex-direction: column;
+            gap: 0px;
+        }
     </style>
 </head>
 
@@ -175,7 +183,15 @@ $type = $_GET["type"];
         </header>
 
         <div class="container" id="form-container">
-            <h2 class="report-title">Fasting Blood Sugar (FBS)</h2>
+        <div style="justify-content: center;" class="patient-info">
+                    <div>
+                        <h1 style="color: #0080c0;">Primary medical care unit minuwangamuwa</h1>
+                        <p style="text-align: center;">130,Main street, minuwangamuwa</p>
+                        <h2 style="color: #b70000; text-align: center;">MEDICAL LABORATORY REPORT</h2>
+                    </div>
+                   
+                </div>
+                <hr />
             <div class="patient-info">
                 <div>
                     <strong>Patient Details</strong>
@@ -194,6 +210,7 @@ $type = $_GET["type"];
                 </div>
             </div>
             <hr>
+            <h3 class="report-title">Fasting Plasma Glucose (FPG)</h3>
             <table class="report-table">
                 <thead>
                     <tr>
@@ -236,7 +253,10 @@ $type = $_GET["type"];
                     <li>Partial / Total Gastrectomy</li>
                 </ul>
             </div>
-
+            <div class="signature-block">
+                <p>...........................</p>
+                <p>Signature</p>
+            </div>
         </div>
         <div class="button-group">
             <!-- <button type="button" id="dataFeedButton">Data Feed</button> -->

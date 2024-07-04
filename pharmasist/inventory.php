@@ -109,7 +109,7 @@
                 <input type="text" id="medicineBrand" name="medicineBrand" required>
             </div>
             <div class="form-group">
-                <label for="medicineQuantity">Quantity (mg):</label>
+                <label for="medicineQuantity">Quantity </label>
                 <input type="number" id="medicineQuantity" name="medicineQuantity" required>
             </div>
 
@@ -133,7 +133,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Brand</th>
-                    <th>Quantity (mg)</th>
+                    <th>Quantity</th>
                     <th>Expiration Date</th>
                 </tr>
             </thead>

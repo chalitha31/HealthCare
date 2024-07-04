@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tz = new DateTimeZone("Asia/Colombo");
     $d->setTimezone($tz);
     $date = $d->format("Y-m-d H:i:s");
+    $dateOnly = $d->format("Y-m-d");
 
     // Check if the data is an array
     if (isset($data['pdi']) && isset($data['medicines'])) {
@@ -44,6 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $mediId = $mediData["id"];
                     $allReadyMedicine = true;
+
+                    if(($currentQty - $mqty) == 0){
+
+                        Database::iud("UPDATE `medicines` SET `outofstock_date` = '$dateOnly' WHERE `id` = '$mediId'");
+
+                    }
 
                     // echo $mediId;
                 } else {
@@ -91,6 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $updateQty = $currentQty - $mqty;
 
                 Database::iud("UPDATE `medicines` SET `quantity` = '$updateQty' WHERE `id` = '$mediId'");
+
+
                 Database::iud("UPDATE `patients_details` SET `medicine_status` = 'true' WHERE `id` = '$pdi'");
             }
 
