@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        /* The Modal (background) */
+        
+        .modal {
+            /* display: none; */
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1000;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+        /* Modal Content */
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+            border-radius: 10px;
+            padding-bottom: 30px;
+        }
+        /* The Close Button */
+        
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .modelHead {
+            text-align: center;
+            color: rgb(56, 170, 132);
+            margin-bottom: 50px;
+        }
+        
+        .eqipmentDetails {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+        
+        .outofstock {
+            background-color: rgb(204, 72, 11);
+            color: white;
+            padding: 7px;
+            border-radius: 2px;
+            border: none;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        
+        .updateQuantitiy {
+            margin-left: 20px;
+        }
+        
+        .updateQuantitiy input {
+            width: 30%;
+            height: 30px;
+            margin-left: 50px;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Modal Example</h2>
+
+    <!-- Trigger/Open The Modal -->
+    <button id="myBtn">Open Modal</button>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <!-- <p>Some text in the Modal..</p> -->
+            <h2 class="modelHead">Update equipments Details</h2>
+            <div class="eqipmentDetails">
+                <div style="max-width: 340px; " class="">
+                    <strong class="">Name : </strong>
+                    <span style="word-wrap:break-word;" class="">gose fef et wetwewrtwet we wet </span>
+                </div>
+                <div class="">
+                    <strong class="">Purchase Quantitiy : </strong>
+                    <span class="">150 </span>
+                </div>
+                <div class="">
+                    <strong class="">Avalabile Quantitiy : </strong>
+                    <span class="">80 </span>
+                </div>
+
+            </div>
+
+            <br/>
+            <hr>
+
+            <div class="updateQuantitiy">
+                <h3>Update Quantitiy : </h3>
+                <input type="number" min="0">
+                <button style="background-color: rgb(13, 141, 45);" class="outofstock">Update</button>
+                <button class="outofstock">Out Of Stock</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal 
+        // btn.onclick = function() {
+        //     modal.style.display = "block";
+        // }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+    </script>
+
+</body>
+
+</html>

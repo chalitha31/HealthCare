@@ -40,20 +40,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // update the image filename into the database
 
-        $mltequResult = Database::search("SELECT * FROM `mlt_equipments`");
-        $numRow = $mltequResult->num_rows;
+        // $mltequResult = Database::search("SELECT * FROM `mlt_equipments`");
+        // $numRow = $mltequResult->num_rows;
 
-        for ($i = 0; $i < $numRow; $i++) {
-            $row = $mltequResult->fetch_assoc();
-            $mlt_equipment_id = $row["id"];
-            // $mlt_equipment_name = $row["name"];
+        // for ($i = 0; $i < $numRow; $i++) {
+        //     $row = $mltequResult->fetch_assoc();
+        //     $mlt_equipment_id = $row["id"];
+        //     // $mlt_equipment_name = $row["name"];
 
-            $updateqty = $row["quantity"] - 1;
+        //     $updateqty = $row["quantity"] - 1;
 
-            $weeklyqty = $row["weekly"] + 1;
+        //     $weeklyqty = $row["weekly"] + 1;
 
-            Database::iud("UPDATE `mlt_equipments` SET `quantity` = '$updateqty' , `weekly` = '$weeklyqty' WHERE `id` = '" . $mlt_equipment_id . "' ");
-        }
+        //     Database::iud("UPDATE `mlt_equipments` SET `quantity` = '$updateqty' , `weekly` = '$weeklyqty' WHERE `id` = '" . $mlt_equipment_id . "' ");
+        // }
 
 
         Database::iud("UPDATE `bloodtest` SET `reportName` = '" . $filename . "' ,`issued_Date` = '" . $date . "' , `mlt_id` = '" . $_SESSION["idnum"] . "' WHERE `id` ='" . $bloodtestId . "' ");

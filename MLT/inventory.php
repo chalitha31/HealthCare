@@ -128,8 +128,8 @@
                 <tr>
                     <th>Name</th>
                     <!-- <th>Brand</th> -->
-                    <th>Quantity (mg)</th>
-                    <!-- <th>Expiration Date</th> -->
+                    <th>Purchase Quantity</th>
+                    <th>purchase_date</th>
                 </tr>
             </thead>
             <tbody>

@@ -19,11 +19,18 @@ $medicineQuantity = $_POST['medicineQuantity'];
 $sql = "SELECT id, quantity FROM mlt_equipments WHERE name = '$medicineName'";
 $result = $conn->query($sql);
 
+$d = new DateTime();
+$tz = new DateTimeZone("Asia/Colombo");
+$d->setTimezone($tz);
+// $date = $d->format('Y-m-d H:i:s');
+$date = $d->format('Y-m-d');
+
 if ($result->num_rows > 0) {
     // Row exists, update the quantity
     $row = $result->fetch_assoc();
     $newQuantity = $row['quantity'] + $medicineQuantity;
-    $updateSql = "UPDATE mlt_equipments SET quantity = $newQuantity WHERE id = " . $row['id'];
+    $updateQuantity = $row['avalable_quantity'] + $medicineQuantity;
+    $updateSql = "UPDATE mlt_equipments SET quantity = $newQuantity , avalable_quantity = $updateQuantity WHERE id = " . $row['id'];
 
     if ($conn->query($updateSql) === TRUE) {
         echo "Record updated successfully";
@@ -32,7 +39,7 @@ if ($result->num_rows > 0) {
     }
 } else {
     // Row does not exist, insert a new row
-    $insertSql = "INSERT INTO mlt_equipments (name, quantity) VALUES ('$medicineName', $medicineQuantity)";
+    $insertSql = "INSERT INTO mlt_equipments (name, quantity,purchase_date,avalable_quantity) VALUES ('$medicineName', $medicineQuantity,'$date','$medicineQuantity')";
 
     if ($conn->query($insertSql) === TRUE) {
         echo "New record created successfully";

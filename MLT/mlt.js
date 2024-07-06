@@ -23,15 +23,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const target = tab.getAttribute('data-target');
         if (target == 'produce-list.php') {
             localVarToTrue('mlt-produce');
-            localVarToFalse('mlt-inventory')
+            localVarToFalse('mlt-inventory');
+            localVarToFalse('mlt-stock'); //
         }
         if (target == 'inventory.php') {
             localVarToTrue('mlt-inventory');
             localVarToFalse('mlt-produce');
+            localVarToFalse('mlt-stock'); //
         }
-        if (target != 'inventory.php' && target != 'produce-list.php') {
+        if (target == 'stock-manage.php') {
             localVarToFalse('mlt-inventory');
             localVarToFalse('mlt-produce');
+            localVarToTrue('mlt-stock'); //
+        }
+        if (target != 'inventory.php' && target != 'produce-list.php' && target != 'stock-manage.php') {
+            localVarToFalse('mlt-inventory');
+            localVarToFalse('mlt-produce');
+            localVarToFalse('mlt-stock'); //
         }
         fetch(target)
             .then(response => response.text())
@@ -42,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 tab.style.backgroundColor = basecolor;
                 if (target == 'stock-manage.php') {
-                    loadEquipData();
+                    // loadEquipData();
                     // stockCalculation();
                 }
                 if (target == 'inventory.php') {
@@ -72,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (localStorage.getItem('mlt-produce') == 'true') loadTabContent(tabs[0]);
     else if (localStorage.getItem('mlt-inventory') == 'true') loadTabContent(tabs[2]);
+    else if (localStorage.getItem('mlt-stock') == 'true') loadTabContent(tabs[3]);
     else loadTabContent(tabs[4]);
 
     function initForm() {
@@ -114,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             row.innerHTML = `
                                 <td>${medicine.name}</td>
                                 <td>${medicine.quantity}</td>
+                                <td>${medicine.purchase_date}</td>
                                 `;
                             tableBody.appendChild(row);
                         });
@@ -129,32 +139,88 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    function loadEquipData() {
-        fetch('get-stock.php')
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.querySelector('#stockTable tbody');
-                tableBody.innerHTML = '';
-                let number = 1;
-                data.forEach(medicine => {
-                    const row = document.createElement('tr');
-                    let currentStock = medicine.quantity;
-                    let weeklyAverage = medicine.weekly;
-                    let availabilityDays = Math.ceil(currentStock / (weeklyAverage / 7));
-                    let sixMonthStock = Math.ceil((weeklyAverage / 7) * 183);
-                    row.innerHTML = `
-                        <td>${number++}</td>
-                        <td>${medicine.name}</td>
-                        <td>${currentStock}</td>
-                        <td>${weeklyAverage}</td>
-                        <td>${availabilityDays}</td>
-                        <td>${sixMonthStock}</td>
-                        `;
-                    tableBody.appendChild(row);
-                });
-            })
-            .catch(error => console.error('Error:', error));
-    }
+    //     function loadEquipData() {
+    //         fetch('get-stock.php')
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 // const tableBody = document.querySelector('#stockTable tbody');
+    //                 // const eqAqty = document.getElementById('eqAqty');
+    //                 // const eqName = document.getElementById('eqName');
+    //                 // const eqPqty = document.getElementById('eqPqty');
+
+    //                 const tableBody = document.getElementById('stmediTable');
+    //                 const upModel = document.getElementById('upModel');
+
+    //                 tableBody.innerHTML = '';
+    //                 let number = 1;
+    //                 data.forEach(medicine => {
+
+    //                     // eqName.innerText = medicine.name;
+    //                     // eqAqty.innerText = medicine.quantity;
+    //                     // eqPqty.innerText = medicine.avalable_quantity;
+
+    //                     const row = document.createElement('tr');
+    //                     row.addEventListener('click', showUpdateModel);
+    //                     let currentStock = medicine.quantity;
+    //                     //                let weeklyAverage = medicine.weekly;
+    //                     //                let availabilityDays = Math.ceil(currentStock / (weeklyAverage / 7));
+    //                     //              let sixMonthStock = Math.ceil((weeklyAverage / 7) * 183);
+    //                     upModel.innerHTML = `
+
+    //                     <div id="myModal" class="modal">
+
+
+    //                         <div class="modal-content">
+    //                             <span onclick="closeModel()" class="close">&times;</span>
+    //                             <h2 class="modelHead">Update equipments Details</h2>
+    //                             <div class="eqipmentDetails">
+    //                                 <div style="max-width: 340px; " class="">
+    //                                     <strong class="">Name : </strong>
+    //                                     <span id="eqName" style="word-wrap:break-word;" class="">${medicine.name}</span>
+    //                                 </div>
+    //                                 <div class="">
+    //                                     <strong class="">Purchase Quantitiy : </strong>
+    //                                     <span id="eqPqty" class="">${currentStock} </span>
+    //                                 </div>
+    //                                 <div class="">
+    //                                     <strong class="">Avalabile Quantitiy : </strong>
+    //                                     <span id="eqAqty" class="">${medicine.avalable_quantity} </span>
+    //                                 </div>
+
+    //                             </div>
+
+    //                             <br />
+    //                             <hr>
+
+    //                             <div class="updateQuantitiy">
+    //                                 <h3>Update Quantitiy : </h3>
+    //                                 <br />
+    //                                 <input type="number" min="0">
+    //                                 <button onclick="updateEquiDetails()" style="background-color: rgb(13, 141, 45);" class="outofstock">Update</button>
+    //                                 <button onclick="updateEquiDetails()" class="outofstock">Out Of Stock</button>
+    //                             </div>
+
+    //                         </div>
+
+    //                     </div>
+    //                                 `;
+
+    //                     row.innerHTML = `
+    //                         <td>${number++}</td>
+    //                         <td>${medicine.name}</td>
+    //                         <td>${currentStock}</td>
+    //                       <td>${medicine.purchase_date}</td>
+    //                       <td>${medicine.avalable_quantity}</td>
+    //                        <td></td>
+    //                       <td></td>
+    //                         `;
+    //                     tableBody.appendChild(row);
+
+
+    //                 });
+    //             })
+    //             .catch(error => console.error('Error:', error));
+    //     }
 
 });
 
@@ -162,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function filterTable() {
     const searchBar = document.getElementById('searchBar');
     const filter = searchBar.value.toLowerCase();
-    const table = document.getElementById('dataTable');
+    const table = document.getElementById('medicineTable');
     const rows = table.getElementsByTagName('tr');
 
     for (let i = 1; i < rows.length; i++) {
@@ -208,4 +274,70 @@ function examinePatient(pdi, type) {
     }
 
     // window.location.href = 'blood-report.php?pdi=' + pdi;
+}
+
+function openReportImage(reportName) {
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    // var img = document.getElementById("myImg");
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    modal.style.display = "block";
+    modalImg.src = "../MLT/images/" + reportName;
+    captionText.innerHTML = "Medical Test Report";
+
+
+}
+
+function closeOpenImage() {
+    // Get the <span> element that closes the modal
+
+    var modal = document.getElementById("myModal");
+    // When the user clicks on <span> (x), close the modal
+
+    modal.style.display = "none";
+}
+
+
+function closeModel(id) {
+    var modal = document.getElementById("myModal-" + id);
+    const editQty = document.getElementById("editQty-" + id).value = '';
+    modal.style.display = "none";
+}
+
+function showUpdateModel(id) {
+
+    var modal = document.getElementById("myModal-" + id);
+    modal.style.display = "block";
+
+
+}
+
+function updateEquiDetails(eqId) {
+
+    const editQty = document.getElementById("editQty-" + eqId).value;
+
+    if (editQty == "") {
+        alert("Please enter a quantity.");
+        return;
+    }
+
+    const url = `updateMltStockProcess.php?upQty=${editQty}&eqid=${eqId}`;
+    fetch(url, {
+        method: "GET",
+        // body: "upQty=" + editQty + "&eqid=" + eqId,
+
+    })
+
+    .then((response) => response.text())
+        .then(data => {
+            if (data == "success") {
+                location.reload();
+            } else {
+                alert(data);
+            }
+        })
+        .catch(error => { console.error("Error :", error) });
+
 }
