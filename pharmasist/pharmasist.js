@@ -209,6 +209,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to calculate days in 6 months
     function daysInSixMonths(fromDate) {
         const toDate = new Date(fromDate);
+        // alert(toDate)
+        // alert(fromDate)
         toDate.setMonth(toDate.getMonth() + 6);
         const millisecondsPerDay = 1000 * 60 * 60 * 24;
         return Math.floor((toDate - fromDate) / millisecondsPerDay);
@@ -237,6 +239,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
             let totaldate = diff / (1000 * 60 * 60 * 24);
 
+            // exDate
+
+            let ex_date = tds[7].textContent;
+            let exD = new Date(ex_date);
+            let exDiff = exD.getTime() - d2.getTime();
+
+            let exTotalDate = exDiff / (1000 * 60 * 60 * 24);
+
+            // Subtract 14 days
+
+            let exBefore14Days = exTotalDate - 14;
+
+            // exD.setDate(exD.getDate() - 14);
+            // let before14FormattedDate = givenDate.toISOString().split('T')[0];
+
+            // exDate
+
             // let sixMonthStock = Math.ceil((Total_Usage / totaldate) * 183);
             // let availabilityDays = Math.ceil(currentStock / (weeklyAverage / 7));
 
@@ -249,13 +268,36 @@ document.addEventListener('DOMContentLoaded', function() {
             // console.log(availabilityDays)
             // let sixMonthStock = Math.ceil((weeklyAverage / 7) * 183);
             const daysInSixMonth = daysInSixMonths(nowDate);
+
+            // const daysInexDate = daysInSixMonths(nowDate);
             // console.log(daysInSixMonth)
             let sixMonthStock = Math.ceil(dailyRate * daysInSixMonth);
 
             // tds[6].textContent = availabilityDays + " days";
             tds[6].textContent = (availabilityDays == "Infinity" || isNaN(availabilityDays)) ? "-" : availabilityDays + " days";
 
-            tds[8].textContent = (sixMonthStock == 0 || isNaN(sixMonthStock)) ? "-" : sixMonthStock;
+            // tds[8].textContent = (sixMonthStock == 0 || isNaN(sixMonthStock)) ? "-" : sixMonthStock;
+
+            if (sixMonthStock == 0 || isNaN(sixMonthStock)) {
+                tds[8].textContent = "-";
+
+            } else if (availabilityDays > daysInSixMonth) {
+                if (exBefore14Days > daysInSixMonth) {
+                    tds[8].textContent = "enough";
+
+                } else {
+                    // tds[8].textContent = sixMonthStock + "_" + daysInSixMonth + "_" + exBefore14Days + "_" + (daysInSixMonth - exBefore14Days);
+                    // let sixMonthStock1 = Math.ceil(dailyRate * daysInSixMonth);
+                    let remaining_days = daysInSixMonth - exBefore14Days;
+                    sixMonthStock = Math.ceil(dailyRate * remaining_days);
+                    tds[8].textContent = sixMonthStock;
+                }
+
+
+            } else if (availabilityDays < daysInSixMonth) {
+                tds[8].textContent = sixMonthStock;
+            }
+
             // tds[8].textContent = sixMonthStock;
         });
     }

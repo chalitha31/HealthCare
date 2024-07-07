@@ -100,6 +100,7 @@
 
 
         <h3>Expire Medicine List</h3>
+        <strong style="color: red;">(Special attention : </strong><span>Medicine with 14 days to expiry is considered expired item.)</span>
         <table id="medicineTable">
             <thead>
                 <tr>
@@ -121,8 +122,11 @@
                 // $date = $d->format('Y-m-d H:i:s');
                 $date = $d->format('Y-m-d');
 
+                $d->modify('14 days');
+                $date14days = $d->format('Y-m-d');
+
                 // $mediResultSet = Database::search("SELECT * FROM `medicines` WHERE `exp`  > '" . $date . "' AND `quantity` > '0'");
-                $mediResultSet = Database::search("SELECT * FROM `medicines` WHERE `exp` <= '" . $date . "' ");
+                $mediResultSet = Database::search("SELECT * FROM `medicines` WHERE `exp` <= '" . $date14days . "' ");
 
                 if ($mediResultSet->num_rows > 0) {
                     // Fetch all results as an associative array

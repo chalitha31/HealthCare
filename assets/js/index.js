@@ -44,7 +44,7 @@ function localVarToFalse(itemName) {
 }
 
 window.addEventListener('load', (e) => {
-    let localVariables = ['doc-exmlist', 'mlt-produce', 'mlt-inventory'];
+    let localVariables = ['doc-exmlist', 'mlt-produce', 'mlt-inventory', 'res-registration', 'res-patients'];
     for (const name of localVariables) {
         localVarToFalse(name)
     }

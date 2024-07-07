@@ -66,22 +66,27 @@
                     <th>Estimate Stock for 6 months (Quantity)</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tbod">
 
                 <?php
                 require_once "../connection.php";
 
 
                 $d = new DateTime();
+                $d14 = new DateTime();
                 $tz = new DateTimeZone("Asia/Colombo");
                 $d->setTimezone($tz);
+                $d14->setTimezone($tz);
                 // $date = $d->format('Y-m-d H:i:s');
                 $date = $d->format('Y-m-d');
 
                 $d->modify('-7 days');
                 $date7daysAgo = $d->format('Y-m-d');
 
-                $mediResultSet = Database::search("SELECT * FROM `medicines` WHERE `exp`  > '" . $date . "' AND `quantity` > '0'");
+                $d14->modify('14 days');
+                $date14days = $d14->format('Y-m-d');
+
+                $mediResultSet = Database::search("SELECT * FROM `medicines` WHERE `exp`  >= '" . $date14days . "' AND `quantity` > '0'");
 
 
 
@@ -197,3 +202,6 @@
         </table>
     </div>
 </body>
+
+
+

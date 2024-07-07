@@ -11,25 +11,83 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabs = document.querySelectorAll('.tab');
     const content = document.getElementById('content');
 
+    function localVarToFalse(itemName) {
+        if (localStorage.getItem(itemName) == null || localStorage.getItem(itemName) == 'true') localStorage.setItem(itemName, 'false');
+    }
+
+    function localVarToTrue(itemName) {
+        if (localStorage.getItem(itemName) == null || localStorage.getItem(itemName) == 'false') localStorage.setItem(itemName, 'true');
+    }
+
+    function loadTabContent(tab) {
+        const target = tab.getAttribute('data-target');
+        console.log(target);
+        if (target == 'patients.php') {
+            localVarToTrue('res-patients');
+            localVarToFalse('res-registration');
+
+        }
+        if (target == 'registration.php') {
+            localVarToTrue('res-registration');
+            localVarToFalse('res-patients');
+        }
+
+        if (target != 'patients.php' && target != 'registration.php') {
+            localVarToFalse('res-registration');
+            localVarToFalse('res-patients');
+
+        }
+        fetch(target)
+            .then(response => response.text())
+            .then(data => {
+                content.innerHTML = data;
+                tabs.forEach(colorTab => {
+                    colorTab.style.backgroundColor = mediumgrey;
+                });
+                tab.style.backgroundColor = basecolor;
+
+            })
+            .catch(error => {
+                console.error('Error loading content:', error);
+            });
+    }
+
+    // tabs.forEach(tab => {
+    //     tab.addEventListener('click', function(e) {
+    //         tabs.forEach(colorTab => {
+    //             colorTab.style.backgroundColor = mediumgrey;
+    //         })
+    //         e.preventDefault();
+
+    //         fetch(target)
+    //             .then(response => response.text())
+    //             .then(data => {
+    //                 content.innerHTML = data;
+    //                 tab.style.backgroundColor = basecolor;
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error loading content:', error);
+    //             });
+    //     });
+    // });
+
     tabs.forEach(tab => {
         tab.addEventListener('click', function(e) {
-            tabs.forEach(colorTab => {
-                colorTab.style.backgroundColor = mediumgrey;
-            })
+            // try {
+            //     document.querySelector('.content-backdrop').style.display = 'none';
+            // } catch (error) {
+            //     console.log('localStorage.getItem('res-registration'));
+            // }
             e.preventDefault();
-            const target = this.getAttribute('data-target');
-            console.log(target)
-            fetch(target)
-                .then(response => response.text())
-                .then(data => {
-                    content.innerHTML = data;
-                    tab.style.backgroundColor = basecolor;
-                })
-                .catch(error => {
-                    console.error('Error loading content:', error);
-                });
+            loadTabContent(tab);
         });
     });
+
+    if (localStorage.getItem('res-registration') == 'true') loadTabContent(tabs[0]);
+    else if (localStorage.getItem('res-patients') == 'true') loadTabContent(tabs[1]);
+    else loadTabContent(tabs[2]);
+
+
 });
 
 
@@ -148,3 +206,7 @@ function registerPatient() {
     })
 
 }
+
+// function clearStorage() {
+//     localStorage.clear();
+// }

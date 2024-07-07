@@ -339,7 +339,7 @@ require_once "../connection.php";
                     <tr>
                         <th>Name</th>
                         <th>Brand</th>
-                        <th>Quantity (mg)</th>
+                        <th>Quantity </th>
                         <th>Expiration Date</th>
                         <th>Action</th>
                     </tr>

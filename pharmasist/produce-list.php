@@ -130,7 +130,7 @@ $totalPatients = $totalRow['total'];
                     <div class="patient-card">
                         <h3><?php echo $patientDetails["name"] ?></h3>
                         <p><strong>Age:</strong> <?php echo $patientDetails["age"] ?></p>
-                        <button class="examine-btn" onclick="examinePatient(<?php echo $patientDetails['pid'] ?>)">Produce</button>
+                        <button class="examine-btn" onclick="examinePatient(<?php echo $patientDetails['pid'] ?>)">Checking</button>
                     </div>
 
             <?php

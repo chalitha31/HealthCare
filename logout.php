@@ -9,7 +9,7 @@ if (isset($_SESSION["fname"])) {
     $_SESSION["email"] = null;
 
     session_destroy();
-
+   
     header("location: index.php");
     exit();
 }
