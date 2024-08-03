@@ -40,7 +40,7 @@ function examinePatient() {
 }
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
 
 
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     tabs.forEach(tab => {
-        tab.addEventListener('click', function(e) {
+        tab.addEventListener('click', function (e) {
             e.preventDefault();
             loadTabContent(tab);
         });
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('medicineForm');
         if (form) {
             let currentDate = new Date(new Date().setDate(new Date().getDate() + 14)).toISOString().split('T')[0];
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', function (e) {
                 e.preventDefault();
 
                 let expDate = document.getElementById('expirationDate').value;
@@ -129,9 +129,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const formData = new FormData(form);
                 fetch('submit_medicine.php', {
-                        method: 'POST',
-                        body: formData
-                    })
+                    method: 'POST',
+                    body: formData
+                })
                     .then(response => response.text())
                     .then(data => {
 
@@ -184,16 +184,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         tableBody.innerHTML = '';
 
                         data.forEach(medicine => {
-                            if (medicine.exp > currentDate) {
-                                const row = document.createElement('tr');
-                                row.innerHTML = `
+
+                            const row = document.createElement('tr');
+                            row.addEventListener('dblclick', function () {
+                                // alert(medicine.name);
+                                document.getElementById("medicineName").value = medicine.name;
+                                document.getElementById("medicineBrand").value = medicine.brand;
+                            })
+                            row.innerHTML = `
                                 <td>${medicine.name}</td>
                                 <td>${medicine.brand}</td>
-                                <td>${medicine.quantity}</td>
-                                <td>${medicine.exp}</td>
-                                `;
-                                tableBody.appendChild(row);
-                            }
+                           `;
+                            tableBody.appendChild(row);
+
                         });
 
 
@@ -228,6 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
         tableRows.forEach(row => {
             let tds = Array.from(row.querySelectorAll('td'));
 
+            let purchase_stock = tds[3].textContent;
             let purchase_date = tds[2].textContent;
             let useStock = tds[4].textContent;
             let availableStock = tds[5].textContent;
@@ -237,15 +241,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
             let diff = d2.getTime() - d1.getTime();
 
-            let totaldate = diff / (1000 * 60 * 60 * 24);
+            let totaldate = (diff / (1000 * 60 * 60 * 24))+1;
 
             // exDate
 
-            let ex_date = tds[7].textContent;
+            let ex_date = tds[8].textContent;
             let exD = new Date(ex_date);
             let exDiff = exD.getTime() - d2.getTime();
 
-            let exTotalDate = exDiff / (1000 * 60 * 60 * 24);
+            let exTotalDate = exDiff / ((1000 * 60 * 60 * 24))+1;
 
             // Subtract 14 days
 
@@ -260,7 +264,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // let availabilityDays = Math.ceil(currentStock / (weeklyAverage / 7));
 
             // let dailyRate = Math.ceil(useStock / totaldate);
-            let dailyRate = (useStock / totaldate);
+            let dailyRate = 0;
+            if (totaldate == 0) {
+                dailyRate = 1
+            } else {
+                dailyRate = (useStock / totaldate); // daily usage
+            }
+
             let availabilityDays = Math.ceil(availableStock / dailyRate);
             // console.log(totaldate)
             // console.log(useStock)
@@ -273,29 +283,61 @@ document.addEventListener('DOMContentLoaded', function() {
             // console.log(daysInSixMonth)
             let sixMonthStock = Math.ceil(dailyRate * daysInSixMonth);
 
-            // tds[6].textContent = availabilityDays + " days";
-            tds[6].textContent = (availabilityDays == "Infinity" || isNaN(availabilityDays)) ? "-" : availabilityDays + " days";
+            let dailyPercentage = ((dailyRate / purchase_stock) * 100);
+            tds[6].textContent = parseFloat(dailyPercentage.toFixed(2)) + " %";
+            // tds[6].textContent = (parseFloat(dailyPercentage) || 0).toFixed(2);
+            tds[7].textContent = (availabilityDays == "Infinity" || isNaN(availabilityDays)) ? "-" : availabilityDays + " days";
 
             // tds[8].textContent = (sixMonthStock == 0 || isNaN(sixMonthStock)) ? "-" : sixMonthStock;
 
             if (sixMonthStock == 0 || isNaN(sixMonthStock)) {
-                tds[8].textContent = "-";
+                tds[9].textContent = "-";
 
             } else if (availabilityDays > daysInSixMonth) {
+                
                 if (exBefore14Days > daysInSixMonth) {
-                    tds[8].textContent = "enough";
+                    tds[9].textContent = "enough";
 
                 } else {
-                    // tds[8].textContent = sixMonthStock + "_" + daysInSixMonth + "_" + exBefore14Days + "_" + (daysInSixMonth - exBefore14Days);
-                    // let sixMonthStock1 = Math.ceil(dailyRate * daysInSixMonth);
+                    // tds[8].textContent = sixMonthStock + "" + daysInSixMonth + "" + exBefore14Days + "_" + (daysInSixMonth - exBefore14Days);
+                    // let sixMonthStock1 = Math.ceil( * daysInSixMonth);
                     let remaining_days = daysInSixMonth - exBefore14Days;
+
                     sixMonthStock = Math.ceil(dailyRate * remaining_days);
-                    tds[8].textContent = sixMonthStock;
+                    tds[9].textContent = sixMonthStock;
                 }
 
 
             } else if (availabilityDays < daysInSixMonth) {
-                tds[8].textContent = sixMonthStock;
+
+                if (availabilityDays > exBefore14Days) {
+                    quantity_used_until_expiration = Math.ceil(dailyRate * exBefore14Days);
+
+                    // if (availableStock > quantity_used_until_expiration) {
+
+                    sixMonthStock = sixMonthStock - quantity_used_until_expiration;
+                    tds[9].textContent = sixMonthStock;
+                    //                     }else{
+
+                    // sixMonthStock = Math.ceil(dailyRate * remaining_days);
+                    //                     tds[9].textContent = sixMonthStock;
+
+                    //                     }
+
+                } else {
+
+                    let remaining_days = daysInSixMonth - availabilityDays;
+                    sixMonthStock = Math.ceil(dailyRate * remaining_days);
+                    tds[9].textContent = sixMonthStock;
+
+                }
+
+                // let remaining_days = daysInSixMonth - exBefore14Days;
+                // sixMonthStock = Math.ceil(dailyRate * remaining_days);
+                // tds[9].textContent = sixMonthStock;
+
+            } else {
+                tds[9].textContent = sixMonthStock;
             }
 
             // tds[8].textContent = sixMonthStock;
@@ -309,9 +351,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         tableRows.forEach(row => {
             let tds = Array.from(row.querySelectorAll('td'));
-            let purchase_Date = tds[2].textContent;
-            let Out_of_Stock_Date = tds[3].textContent;
-            let Total_Usage = tds[4].textContent;
+            let purchase_Date = tds[3].textContent;
+            let Out_of_Stock_Date = tds[4].textContent;
+            let Total_Usage = tds[5].textContent;
 
             // let availabilityDays = Math.ceil(currentStock / (weeklyAverage / 7));
 
@@ -320,11 +362,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
             let diff = d2.getTime() - d1.getTime();
 
-            let totalDate = diff / (1000 * 60 * 60 * 24);
+            let totalDate = 0;
+            if (diff == 0) {
+                totalDate = 1
+            } else {
+                totalDate = (diff / (1000 * 60 * 60 * 24))+1;
+            }
 
-            let sixMonthStock = Math.ceil((Total_Usage / totalDate) * 183);
+            let sixMonthStock = Math.ceil((Total_Usage / totalDate) * 184);
             // tds[1].textContent = availabilityDays;
-            tds[5].textContent = sixMonthStock;
+            tds[6].textContent = sixMonthStock;
         });
     }
     // Initial load for the current content
@@ -336,3 +383,194 @@ document.addEventListener('DOMContentLoaded', function() {
 function examinePatient(pid) {
     window.location.href = 'produce.php?pid=' + pid;
 }
+function filterTable() {
+    const searchBar = document.getElementById('searchBar');
+    const filter = searchBar.value.toLowerCase();
+    const table = document.getElementById('medicineTable');
+    const rows = table.getElementsByTagName('tr');
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let rowText = '';
+        for (let j = 0; j < cells.length; j++) {
+            rowText += cells[j].textContent || cells[j].innerText;
+        }
+        if (rowText.toLowerCase().indexOf(filter) > -1) {
+            rows[i].style.display = '';
+        } else {
+            rows[i].style.display = 'none';
+        }
+    }
+}
+
+
+function downloadTableAsExcel() {
+    var table = document.getElementById('medicineTable');
+    const data = [];
+    // Get all rows from the table body
+    const rows = table.querySelectorAll('tbody tr');
+    const headRows = table.querySelector('thead tr');
+
+    const headCells = headRows.querySelectorAll('th');
+    const headRowData = [];
+    headCells.forEach(cell => {
+        headRowData.push(cell.textContent.trim());
+    });
+
+    // Add rowData to data if it's not empty
+    // if (headCells.length > 0) {
+    //     data.push(headRowData);
+    // }
+
+    // Loop through each row
+    rows.forEach(row => {
+        const rowData = [];
+
+        // Get all cells in the row
+        const cells = row.querySelectorAll('td');
+
+        // Loop through each cell and add its text content to rowData
+        cells.forEach(cell => {
+            rowData.push(cell.textContent.trim());
+        });
+
+        // Add rowData to data if it's not empty
+        if (rowData.length > 0) {
+            data.push(rowData);
+        }
+    });
+
+    // fetch('printExcel.php', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             tableData: data
+    //         })
+    //     })
+    //     .then(response => response.text())
+    //     .then(result => {
+    //         // Handle the response from the backend
+    //         console.log('Success:', result);
+    //     })
+    //     .catch(error => {
+    //         // Handle errors
+    //         console.error('Error:', error);
+    //     });
+
+    fetch('printExcel.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                tableData: data,
+                tableHeadData: headRowData,
+                name: "Out of Stock Medicines"
+            })
+        })
+        .then(response => response.blob()) // Handle bin.ary data
+        .then(blob => {
+            // Create a URL for the blob and trigger the download
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'OutOfStock_Medicines.xlsx'; // Name of the file to be downloaded
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+
+}
+// print out of stock excel
+
+
+// print  stock excel
+function downloadStockTableAsExcel() {
+    var table = document.getElementById('stockTable');
+    const data = [];
+    // Get all rows from the table body
+    const rows = table.querySelectorAll('tbody tr');
+    const headRows = table.querySelector('thead tr');
+
+    const headCells = headRows.querySelectorAll('th');
+    const headRowData = [];
+    headCells.forEach(cell => {
+        headRowData.push(cell.textContent.trim());
+    });
+
+    // Add rowData to data if it's not empty
+    // if (headCells.length > 0) {
+    //     data.push(headRowData);
+    // }
+
+    // Loop through each row
+    rows.forEach(row => {
+        const rowData = [];
+
+        // Get all cells in the row
+        const cells = row.querySelectorAll('td');
+
+        // Loop through each cell and add its text content to rowData
+        cells.forEach(cell => {
+            rowData.push(cell.textContent.trim());
+        });
+
+        // Add rowData to data if it's not empty
+        if (rowData.length > 0) {
+            data.push(rowData);
+        }
+    });
+
+    // fetch('printExcel.php', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             tableData: data
+    //         })
+    //     })
+    //     .then(response => response.text())
+    //     .then(result => {
+    //         // Handle the response from the backend
+    //         console.log('Success:', result);
+    //     })
+    //     .catch(error => {
+    //         // Handle errors
+    //         console.error('Error:', error);
+    //     });
+
+    fetch('printExcel.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                tableData: data,
+                tableHeadData: headRowData,
+                name: "Stock Medicines"
+            })
+        })
+        .then(response => response.blob()) // Handle bin.ary data
+        .then(blob => {
+            // Create a URL for the blob and trigger the download
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Stock_Medicines.xlsx'; // Name of the file to be downloaded
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+
+}
+// print stock excel

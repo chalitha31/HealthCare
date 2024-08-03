@@ -92,7 +92,8 @@ function login() {
             } else if (data === "admin") {
 
                 window.location = "admin/admin.php";
-            } else {
+            } else { 
+                // alert box
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",

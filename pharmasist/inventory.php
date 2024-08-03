@@ -92,6 +92,21 @@
             background-color: var(--medium-gray);
             color: white;
         }
+
+        #searchBar {
+            width: 30%;
+            min-width: 200px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        #searchBar:focus {
+            border-color: var(--base-color);
+        }
     </style>
 </head>
 
@@ -113,12 +128,12 @@
                 <input type="number" id="medicineQuantity" name="medicineQuantity" required>
             </div>
 
-            <?php 
-                       $d = new DateTime();
-                       $tz = new DateTimeZone("Asia/Colombo");
-                       $d->setTimezone($tz);
-                       // $date = $d->format('Y-m-d H:i:s');
-                       $date = $d->format('Y-m-d');
+            <?php
+            $d = new DateTime();
+            $tz = new DateTimeZone("Asia/Colombo");
+            $d->setTimezone($tz);
+            // $date = $d->format('Y-m-d H:i:s');
+            $date = $d->format('Y-m-d');
             ?>
             <div class="form-group">
                 <label for="expirationDate">Expiration Date:</label>
@@ -128,17 +143,18 @@
         </form>
 
         <h3>Medicine List</h3>
+        <input type="text" id="searchBar" placeholder="Search..." onkeyup="filterTable()">
         <table id="medicineTable">
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Brand</th>
-                    <th>Quantity</th>
-                    <th>Expiration Date</th>
+                    <!-- <th>Quantity</th> 
+                    <th>Expiration Date</th> -->
                 </tr>
             </thead>
             <tbody>
-              
+
             </tbody>
 
         </table>
@@ -146,4 +162,3 @@
 
 
 </body>
-

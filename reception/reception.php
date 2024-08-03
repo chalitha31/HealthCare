@@ -31,7 +31,7 @@ if(isset($_SESSION["name"])){
         <aside class="sidebar">
             <ul>
                 <li><a href="#" class="tab" data-target="registration.php">Patient Registration</a></li>
-                <li><a href="#" class="tab" data-target="patients.php">Patients</a></li>
+                <li><a href="#" class="tab" data-target="patients.php">Patients Details</a></li>
                 <li><a href="../employee-profile.php?name=<?php echo $Tname ?>" class="tabb">View Profile</a></li>
                 <li ><a style="background-color: #ff4848;" href="../logoutEmployee.php" class="tabb">Log Out</a></li>
                 <li><a href="#" class="tab" data-target="home-tab.php" style="visibility: hidden; pointer-events:none;">Home</a></li>

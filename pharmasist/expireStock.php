@@ -106,9 +106,11 @@
                 <tr>
                     <th>Medicine Name</th>
                     <th>Medicine Brand</th>
+                    <th>purchase Date</th>
+                    <th>purchase Quantity</th>
                     <th>Expire Quantity</th>
-                    <!-- <th>Total Usage Quantity (mg)</th> -->
                     <th>Expiration Date</th>
+                    <!-- <th>Estimate Stock for 6 months (Quantity)</th>  -->
                 </tr>
             </thead>
             <tbody>
@@ -134,11 +136,26 @@
 
                     foreach ($medicines as $medicine) {
 
-
                         $mediRecResultSet = Database::search("SELECT * FROM `medicines_recode` WHERE  `medicine_id` = '" . $medicine["id"] . "'");
 
                         $recNum = $mediRecResultSet->num_rows;
                         $Usage = 0;
+
+                        // estimate 6 month
+
+                        $pDate = $medicine['purchase_date'];
+                        $expDate = $medicine['exp'];
+
+                        $pd1 = new DateTime($pDate);
+                        $ed1 = new DateTime($expDate);
+
+                        // Calculate the difference
+                        $daysDifference = $pd1->diff($ed1);
+
+                        // 14 days expire
+                        $totalDays = (($daysDifference->days) - 14);
+                        // $sixMonthEstimate = "-";
+                        // estimate 6 month
 
                         if ($recNum > 0) {
                             $recMediData = $mediRecResultSet->fetch_all(MYSQLI_ASSOC);
@@ -148,15 +165,19 @@
                                 $qtyCount = $recmedicine["qty"];
                                 $Usage += $qtyCount;
                             }
+
+                            // $sixMonthEstimate =(int) (($Usage / $totalDays) * 184);
                         }
 
                 ?>
                         <tr class="dataRow">
                             <td class="name"><?php echo $medicine['name'] ?></td>
                             <td class="brand"><?php echo $medicine['brand'] ?></td>
+                            <td><?php echo $medicine["purchase_date"] ?></td>
+                            <td class="quantity"><?php echo ($Usage + $medicine['quantity']) ?></td>
                             <td class="quantity"><?php echo $medicine['quantity'] ?></td>
-                            <!-- <td class="quantity"><?php echo $Usage ?></td> -->
                             <td class="exp"><?php echo $medicine['exp'] ?></td>
+                        
                         </tr>
 
                 <?php

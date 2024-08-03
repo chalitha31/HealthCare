@@ -23,7 +23,7 @@ if(isset($_SESSION["name"])){
 <body>
     <header>
         <div class="logo">Healthcare</div>
-        <div class="header-time">
+        <div style="visibility: hidden;" class="header-time">
             <span id="liveTime"></span>
         </div>
         <div class="header-username"><?php echo $_SESSION["name"] ?></div>
@@ -32,7 +32,7 @@ if(isset($_SESSION["name"])){
     <div class="main-container">
         <aside class="sidebar">
             <ul>            
-                <li><a href="#" class="tab" data-target="produce-list.php">produce medicine</a></li>
+                <li><a href="#" class="tab" data-target="produce-list.php">Issuing medicine</a></li>
                 <li><a href="#" class="tab" data-target="inventory.php">Inventory Management</a></li>
                 <li><a href="#" class="tab" data-target="stock-manage.php">Stock Management</a></li>
                 <li><a href="#" class="tab" data-target="outofstock.php">Out of Stock</a></li>

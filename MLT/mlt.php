@@ -29,7 +29,7 @@ if(isset($_SESSION["name"])){
     <div class="main-container">
         <aside class="sidebar">
             <ul>
-                <li><a href="#" class="tab" data-target="produce-list.php">Produce Reports</a></li>
+                <li><a href="#" class="tab" data-target="produce-list.php">Issuing Reports</a></li>
                 <li><a href="#" class="tab" data-target="report-history.php">Report History</a></li>
                 <li><a href="#" class="tab" data-target="inventory.php">Inventory</a></li>
                 <li><a href="#" class="tab" data-target="stock-manage.php">Stock Management</a></li>

@@ -27,6 +27,7 @@
         table {
             width: 80%;
             border-collapse: collapse;
+            margin-top: 5px;
         }
 
         th,
@@ -54,46 +55,59 @@
             background-color: var(--medium-gray);
             color: white;
         }
+
+        .status-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9em;
+            cursor: pointer;
+            background-color: #fba353;
+        }
     </style>
 
-    <script>
 
 
-    </script>
+
+
 </head>
 <h2 class="content-title">Patients</h2>
 <input type="text" id="searchBar" placeholder="Search..." onkeyup="filterTable()">
+<br>
+
 <table id="dataTable">
     <thead>
         <tr>
             <th>Patients ID</th>
             <th>Patients Name</th>
+            <th style="text-align: center;">View</th>
         </tr>
     </thead>
     <tbody>
 
-    <?php
-    require_once "../connection.php";
+        <?php
+        require_once "../connection.php";
 
 
-    $patientResultSet = Database::search("SELECT * FROM `registered_patients` ORDER BY `p_id` DESC");
+        $patientResultSet = Database::search("SELECT * FROM `registered_patients` ORDER BY `p_id` DESC");
 
-    $patientCount = $patientResultSet->num_rows;
+        $patientCount = $patientResultSet->num_rows;
 
-    if ($patientCount > 0) {
+        if ($patientCount > 0) {
 
-        while ($patientResult = $patientResultSet->fetch_assoc()) {
-    ?>
-           
-                <tr ondblclick="window.location.href='profile-view.php?p_id=<?php echo $patientResult['p_id'] ?>'">
+            while ($patientResult = $patientResultSet->fetch_assoc()) {
+        ?>
+
+                <tr>
                     <td><?php echo $patientResult['p_id'] ?></td>
                     <td><?php echo $patientResult['name'] ?></td>
+                    <td  style="text-align: center;"><button onclick="window.location.href='profile-view.php?p_id=<?php echo $patientResult['p_id'] ?>'" class="status-btn">View</button></td>
                 </tr>
-               
-    <?php
-        }
-    }
 
-    ?>
- </tbody>
+        <?php
+            }
+        }
+
+        ?>
+    </tbody>
 </table>

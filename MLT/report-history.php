@@ -211,20 +211,29 @@ require_once "../connection.php"; ?>
         /* image view model */
 
         #searchBar {
-        width: 50%;
-        /* margin-top: 50px; */
-        min-width: 200px;
-        padding: 10px;
-        margin-bottom: 20px;
-        border: 1px solid var(--medium-gray);
-        border-radius: 5px;
-        font-size: 16px;
-        outline: none;
-    }
+            width: 50%;
+            /* margin-top: 50px; */
+            min-width: 200px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+        }
 
-    #searchBar:focus {
-        border-color: var(--base-color);
-    }
+        #searchBar:focus {
+            border-color: var(--base-color);
+        }
+
+        .status-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9em;
+            cursor: pointer;
+            background-color: #fba353;
+        }
     </style>
 </head>
 
@@ -234,7 +243,7 @@ require_once "../connection.php"; ?>
 
     <div class="medicine-inventory">
         <h2>Reports History</h2>
-        <input type="text" id="searchBar" placeholder="Search Medicine..." onkeyup="filterTable()">
+        <input type="text" id="searchBar" placeholder="Search ..." onkeyup="filterTable()">
         <table id="medicineTable">
             <thead>
                 <tr>
@@ -243,6 +252,7 @@ require_once "../connection.php"; ?>
                     <th>Age</th>
                     <th>Report Type</th>
                     <th>Issued Date</th>
+                    <th style="text-align: center;">Blood Test Reprt</th>
                 </tr>
             </thead>
             <tbody>
@@ -262,29 +272,30 @@ WHERE `bloodtest`.`mlt_id` = '" . $_SESSION["idnum"] . "' AND  `patients_details
                     while ($patientDetails = $patiientResultSet->fetch_assoc()) {
                 ?>
 
-                        <tr onclick="openReportImage('<?php echo $patientDetails['reportName'] ?>')">
+                        <tr >
                             <td><?php echo $patientDetails["bid"] ?></td>
                             <td><?php echo $patientDetails["name"] ?></td>
                             <td><?php echo $patientDetails["age"] ?></td>
                             <td><?php echo $patientDetails["test_type"] ?> Report</td>
                             <td><?php echo $patientDetails["isdate"] ?></td>
-                          
+                            <td style="text-align: center;"><button onclick="openReportImage('<?php echo $patientDetails['reportName'] ?>')" class="status-btn">View</button></td>
+
                         </tr>
-                                                               <?php
+                <?php
                     }
                 }
                 ?>
             </tbody>
 
         </table>
-      
 
-          <!-- The Modal -->
-          <div id="myModal" class="modal">
-                    <span onclick="closeOpenImage()" class="close">&times;</span>
-                    <img class="modal-content" id="img01">
-                    <div id="caption"></div>
-                </div>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <span onclick="closeOpenImage()" class="close">&times;</span>
+            <img class="modal-content" id="img01">
+            <div id="caption"></div>
+        </div>
     </div>
 
 

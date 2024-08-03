@@ -92,6 +92,23 @@
             background-color: var(--medium-gray);
             color: white;
         }
+
+        .print {
+            width: 100%;
+            text-align: end;
+            padding-bottom: 10px;
+        }
+
+        .print button {
+            background-color: #008040;
+            padding: 8px;
+            width: 80px;
+            border-radius: 10px;
+            font-size: large;
+            font-weight: 800;
+            border: none;
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -100,9 +117,11 @@
 
 
         <h3>Out Of Stock Medicine List</h3>
+        <div class="print"><button onclick="downloadTableAsExcel()">Print</button></div>
         <table id="medicineTable">
             <thead>
                 <tr>
+                    <th>Medicine ID</th>
                     <th>Name</th>
                     <th>Brand</th>
                     <th>purchase Date</th>
@@ -125,10 +144,11 @@
 
                 // $mediResultSet = Database::search("SELECT * FROM `medicines` WHERE `exp`  > '" . $date . "' AND `quantity` > '0'");
                 $mediResultSet = Database::search("SELECT * FROM `medicines` WHERE  `quantity` = '0'");
-               
+
                 if ($mediResultSet->num_rows > 0) {
                     // Fetch all results as an associative array
                     $medicines = $mediResultSet->fetch_all(MYSQLI_ASSOC);
+                    $i = 1;
 
                     foreach ($medicines as $medicine) {
 
@@ -145,13 +165,13 @@
                                 // $recMediData = $mediRecResultSet->fetch_assoc();
                                 $qtyCount = $recmedicine["qty"];
                                 $Usage += $qtyCount;
-
-                         
                             }
                         }
 
                 ?>
-                        <tr class="dataRow" >
+                        <tr class="dataRow">
+                            <td class=""><?php echo $i ?></td>
+
                             <td class=""><?php echo $medicine['name'] ?></td>
                             <td class=""><?php echo $medicine['brand'] ?></td>
                             <td class=""><?php echo $medicine['purchase_date'] ?></td>
@@ -159,10 +179,11 @@
                             <td class=""><?php echo $Usage ?></td>
                             <!-- <td class=""><?php echo $recNum ?></td> -->
                             <td class=""></td>
-                         
+
                         </tr>
 
                 <?php
+                $i+=1;
                     }
                 }
                 ?>

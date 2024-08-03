@@ -19,7 +19,7 @@
 
         table {
             width: 100%;
-            margin: 20px 0;
+            /* margin: 20px 0; */
             border-collapse: collapse;
         }
 
@@ -42,6 +42,20 @@
 
         tr:nth-child(even) {
             background-color: #f2f2f2;
+        } .print{
+            width: 100%;
+            text-align: end;
+            padding-bottom: 10px;
+        }
+        .print button {
+            background-color: #008040;
+            padding: 8px;
+            width:80px;
+            border-radius: 10px;
+            font-size: large;
+            font-weight: 800;
+            border: none;
+            color: #fff;
         }
     </style>
 </head>
@@ -49,18 +63,22 @@
 <body>
     <div class="container">
         <h2 class="stock-header">Stock Management</h2>
+        <div class="print"><button onclick="downloadStockTableAsExcel()">Print</button></div>
         <table id="stockTable">
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Medicine Name</th>
+                    <th>Medicine Name</th> 
                     <th>purchase Date</th>
                     <th>purchase Quantity</th>
                     <th>Issued Quantity</th>
                     <th>Available Quantity</th>
+
+                    <th>Daily Usage Rate</th>
                     <!-- <th>Weekly Usage (Quantity)</th> -->
                     <!-- <th>Stock Depletion Timeline</th> -->
-                    <th>Estimate Stock Depletion Timeline</th>
+                    <th>Available Stock Depletion Timeline</th>
+                    <!-- <th>Remaining Quantity Valid Days</th> -->
                     <!-- <th>Current Stock to expire (days)</th> -->
                     <th>Expiration Date</th>
                     <th>Estimate Stock for 6 months (Quantity)</th>
@@ -86,7 +104,7 @@
                 $d14->modify('14 days');
                 $date14days = $d14->format('Y-m-d');
 
-                $mediResultSet = Database::search("SELECT * FROM `medicines` WHERE `exp`  >= '" . $date14days . "' AND `quantity` > '0'");
+                $mediResultSet = Database::search("SELECT * FROM `medicines` WHERE `exp`  > '" . $date14days . "' AND `quantity` > '0'");
 
 
 
@@ -133,10 +151,10 @@
                         $recNum = $mediRecResultSet->num_rows;
                         $weeklyUsage = 0;
                         // $first_issue_date = $date;
-                      
+
                         // $total_usage =0;
 
-                   
+
 
                         if ($recNum > 0) {
                             $recMediData = $mediRecResultSet->fetch_all(MYSQLI_ASSOC);
@@ -158,7 +176,7 @@
 
 
 
-                           
+
                             }
 
                             // if( $total_issued_last_7_days < 7){
@@ -175,17 +193,16 @@
                 ?>
 
                         <tr class="data-row">
-                            <td><?php echo $i ?></td>
-                            <td><?php echo $medicines["name"] ?></td>
-                            <td><?php echo $medicines["purchase_date"] ?></td>
-                            <td><?php echo ($medicines["quantity"] + $issue_quentitiy) ?></td>
-                            <td><?php echo $issue_quentitiy ?></td>
-                            <td><?php echo $medicines["quantity"] ?></td>
-                            <!-- <td><?php echo $weeklyUsage ?></td> -->
-                            <td></td>
-                            <!-- <?php echo $abs_diff ?> -->
-                            <td><?php echo $exdate ?></td>
-                            <td></td>
+                            <td><?php echo $i ?></td>   <!--medicine no -->
+                            <td><?php echo $medicines["name"] ?></td>   <!--medicine name -->
+                            <td><?php echo $medicines["purchase_date"] ?></td>  <!--purchase date -->
+                            <td><?php echo ($medicines["quantity"] + $issue_quentitiy) ?></td>  <!--purchase quantity -->
+                            <td><?php echo $issue_quentitiy ?></td>  <!--issue quantity -->
+                            <td><?php echo $medicines["quantity"] ?></td>  <!-- available quantity-->
+                            <td></td>  <!--daily usuage rate-->
+                            <td></td>  <!--availble stock depletion time line -->
+                            <td><?php echo $exdate ?></td>  <!--expire date-->
+                            <td></td>  <!--esitimate 6 moths stock-->
 
 
                         </tr>
@@ -202,6 +219,3 @@
         </table>
     </div>
 </body>
-
-
-

@@ -72,12 +72,32 @@
             background-color: var(--second-base-color);
         }
 
+        .table-container {
+            max-height: 400px;
+            /* Sets the fixed height for the table */
+            overflow-y: auto;
+            /* Enables vertical scrolling */
+            border: 1px solid #ddd;
+            /* Adds a border around the table container */
+        }
+
         table {
+            /* display: block;
             width: 100%;
-            max-width: 800px;
+            max-width: 100%;
             min-width: max-content;
             border-collapse: collapse;
+        max-height: 400px;
+        overflow-y: auto; */
+
+            width: 100%;
+            /* Ensures the table takes up the full width of its container */
+            border-collapse: collapse;
         }
+
+
+
+
 
         th,
         td {
@@ -86,7 +106,18 @@
             text-align: left;
         }
 
+        thead {
+            position: sticky;
+            /* Makes the header sticky for better visibility while scrolling */
+            top: 0;
+            /* Ensures the header stays at the top */
+            background-color: #f9f9f9;
+            /* Adds background color to the header for better distinction */
+            z-index: 1;
+        }
+
         thead th {
+
             background-color: var(--base-color);
             color: #FFFFFF;
         }
@@ -94,6 +125,18 @@
         tbody tr:hover {
             background-color: var(--medium-gray);
             color: white;
+        }
+        select {
+            width: 150px;
+            font-size: 18px;
+            font-weight: 700;
+            height: 40px;
+            margin-left: 10px;
+            /* padding: 10px; */
+            padding-left: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--medium-gray);
+
         }
     </style>
 </head>
@@ -115,51 +158,71 @@
                 <label for="medicineQuantity">Quantity:</label>
                 <input type="number" id="medicineQuantity" name="medicineQuantity" required>
             </div>
-            <!-- <div class="form-group">
+
+            <?php
+            $d = new DateTime();
+            $tz = new DateTimeZone("Asia/Colombo");
+            $d->setTimezone($tz);
+            // $date = $d->format('Y-m-d H:i:s');
+            $date = $d->format('Y-m-d');
+            ?>
+            <div class="form-group">
                 <label for="expirationDate">Expiration Date:</label>
-                <input type="date" id="expirationDate" name="expirationDate" required>
-            </div> -->
+                <input type="date" id="expirationDate" name="expirationDate" min="<?php echo $date ?>" >
+            </div>
+
             <button class="medic-add-btn" type="submit">Submit</button>
         </form>
 
         <h3>Equipment List</h3>
-        <table id="medicineTable">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <!-- <th>Brand</th> -->
-                    <th>Purchase Quantity</th>
-                    <th>purchase_date</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Paracetamol</td>
-                    <!-- <td>ABC Pharma</td> -->
-                    <td>500</td>
-                    <!-- <td>2024-12-01</td> -->
-                </tr>
-                <tr>
-                    <td>Ibuprofen</td>
-                    <!-- <td>XYZ Pharma</td> -->
-                    <td>200</td>
-                    <!-- <td>2025-06-15</td> -->
-                </tr>
-                <tr>
-                    <td>Amoxicillin</td>
-                    <!-- <td>HealthCare Inc.</td> -->
-                    <td>250</td>
-                    <!-- <td>2023-09-30</td> -->
-                </tr>
-                <tr>
-                    <td>Aspirin</td>
-                    <!-- <td>MediCare Ltd.</td> -->
-                    <td>100</td>
-                    <!-- <td>2024-03-22</td> -->
-                </tr>
-            </tbody>
+        <input type="text" id="searchBar" placeholder="Search..." onkeyup="filterTableinventory()">
+        <select id="statusFilter" onchange="filterTableinventory()">
+            <option value="all">All</option>
+            <!-- <option value="1">In Stock</option> -->
+            <option value="0">Out of Stock</option>
+            <option value="expired">Expired</option>
+        </select>
+        <div class="table-container">
+            <table id="medicineTable">
+                <thead>
+                    <tr>
+                    <th>Item No</th>
+                        <th>Name</th>
+                        <!-- <th>Brand</th> -->
+                        <!-- <th>Purchase Quantity</th> -->
+                        <th>Avaliable Quantity</th>
+                        <th>Expire_date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Paracetamol</td>
+                        <!-- <td>ABC Pharma</td> -->
+                        <td>500</td>
+                        <!-- <td>2024-12-01</td> -->
+                    </tr>
+                    <tr>
+                        <td>Ibuprofen</td>
+                        <!-- <td>XYZ Pharma</td> -->
+                        <td>200</td>
+                        <!-- <td>2025-06-15</td> -->
+                    </tr>
+                    <tr>
+                        <td>Amoxicillin</td>
+                        <!-- <td>HealthCare Inc.</td> -->
+                        <td>250</td>
+                        <!-- <td>2023-09-30</td> -->
+                    </tr>
+                    <tr>
+                        <td>Aspirin</td>
+                        <!-- <td>MediCare Ltd.</td> -->
+                        <td>100</td>
+                        <!-- <td>2024-03-22</td> -->
+                    </tr>
+                </tbody>
 
-        </table>
+            </table>
+        </div>
     </div>
 
 

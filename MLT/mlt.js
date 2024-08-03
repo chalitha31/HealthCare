@@ -100,7 +100,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         document.getElementById("medicineName").value = '';
                         document.getElementById("medicineQuantity").value = '';
-                        alert(data);
+                        document.getElementById("expirationDate").value = '';
+
+                        document.getElementById('statusFilter').value = 'all';
+                        // alert(data);
 
 
                         // Refresh the table
@@ -117,22 +120,51 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(data => {
                         const tableBody = document.querySelector('#medicineTable tbody');
                         tableBody.innerHTML = '';
-
+                        let i = 1;
+                        let currentDate = new Date(new Date().setDate(new Date().getDate())).toISOString().split('T')[0];
                         data.forEach(medicine => {
                             const row = document.createElement('tr');
+                            let exDate = ""
+                            if (medicine.expire_date == "" || medicine.expire_date == null) {
+                                exDate = "no"
+                            } else {
+
+
+                                if (currentDate >= medicine.expire_date) {
+                                    exDate = "<span style='color:red; font-weight:900'>" + medicine.expire_date + "</span>";
+
+                                } else {
+
+                                    exDate = medicine.expire_date;
+                                }
+
+                            }
+                            let avalibleQty = 0;
+                            if (currentDate >= medicine.expire_date) {
+                                avalibleQty = "<span style='color:red; font-weight:900'>expired ( </span>" + medicine.avalable_quantity + "<span style='color:red; font-weight:900'> )</span>";
+
+                            } else {
+
+                                avalibleQty = medicine.avalable_quantity;
+                            }
+
+                            row.addEventListener('dblclick', function() {
+                                // alert(medicine.name);
+                                document.getElementById("medicineName").value = medicine.name;
+
+                            })
                             row.innerHTML = `
+                             <td>${i}</td>
                                 <td>${medicine.name}</td>
-                                <td>${medicine.quantity}</td>
-                                <td>${medicine.purchase_date}</td>
+                                <td>${avalibleQty}</td>
+                                   <td>${exDate}</td>
                                 `;
                             tableBody.appendChild(row);
+                            i += 1;
                         });
                     })
                     .catch(error => console.error('Error:', error));
             }
-
-
-
             // Initial load
             loadMedicineData();
         }
@@ -225,25 +257,216 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+// function filterTable() {
+//     const searchBar = document.getElementById('searchBar');
+//     const filter = searchBar.value.toLowerCase();
+//     const table = document.getElementById('medicineTable');
+//     const rows = table.getElementsByTagName('tr');
+//     const selectMenu = document.getElementById('statusFilter').value;
+
+
+//     // searchbar
+
+//     for (let i = 1; i < rows.length; i++) {
+//         const cells = rows[i].getElementsByTagName('td');
+//         let rowText = '';
+//         for (let j = 0; j < cells.length; j++) {
+//             if (rows[i].style.display != 'none') {
+//                 rowText += cells[j].textContent || cells[j].innerText;
+//             }
+//         }
+//         if (rowText.toLowerCase().indexOf(filter) > -1) {
+//             rows[i].style.display = '';
+//         } else {
+//             rows[i].style.display = 'none';
+//         }
+//     }
+//     // searchbar
+
+
+// }
+
+// stock filter 
+
 function filterTable() {
     const searchBar = document.getElementById('searchBar');
     const filter = searchBar.value.toLowerCase();
     const table = document.getElementById('medicineTable');
     const rows = table.getElementsByTagName('tr');
 
-    for (let i = 1; i < rows.length; i++) {
-        const cells = rows[i].getElementsByTagName('td');
-        let rowText = '';
-        for (let j = 0; j < cells.length; j++) {
-            rowText += cells[j].textContent || cells[j].innerText;
+    const selectMenu = document.getElementById('statusFilter').value;
+
+    if (selectMenu == 'all') {
+        for (let i = 1; i < rows.length; i++) {
+            // const cells = rows[i].getElementsByTagName('td');
+            // rows[i].style.display = '';
+            const cells = rows[i].getElementsByTagName('td');
+            let rowText = '';
+            for (let j = 0; j < cells.length; j++) {
+                // if (rows[i].style.display != 'none') {
+                rowText += cells[j].textContent || cells[j].innerText;
+                // }
+            }
+            if (rowText.toLowerCase().indexOf(filter) > -1) {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none';
+            }
         }
-        if (rowText.toLowerCase().indexOf(filter) > -1) {
-            rows[i].style.display = '';
-        } else {
-            rows[i].style.display = 'none';
+    } else if (selectMenu == 'expired') {
+
+        for (let i = 1; i < rows.length; i++) {
+
+            const cells = rows[i].querySelectorAll('td');
+
+            // let tds = Array.from(rows[i].querySelectorAll('td'));
+
+            if (rows[i].cells[6].textContent.replaceAll(" ", "").indexOf("Expired") > -1) {
+
+                // rows[i].style.display = '';
+
+                let rowText = '';
+                for (let j = 0; j < cells.length; j++) {
+                    if (rows[i].style.display != 'none') {
+                        rowText += cells[j].textContent || cells[j].innerText;
+                    }
+                }
+                if (rowText.toLowerCase().indexOf(filter) > -1) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+
+            } else {
+
+                rows[i].style.display = 'none';
+            }
+        }
+    } else if (selectMenu == '0') {
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+
+            if (rows[i].cells[6].textContent.replaceAll(" ", "").indexOf("OutOfStock") > -1) {
+
+                // rows[i].style.display = '';
+
+                let rowText = '';
+                for (let j = 0; j < cells.length; j++) {
+                    if (rows[i].style.display != 'none') {
+                        rowText += cells[j].textContent || cells[j].innerText;
+                    }
+                }
+                if (rowText.toLowerCase().indexOf(filter) > -1) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+
+            } else {
+                // console.log(rows[i].cells[6].textContent)
+
+                rows[i].style.display = 'none';
+            }
         }
     }
+
 }
+
+// stock filter 
+
+// invntory filter 
+
+function filterTableinventory() {
+    const searchBar = document.getElementById('searchBar');
+    const filter = searchBar.value.toLowerCase();
+    const table = document.getElementById('medicineTable');
+    const rows = table.getElementsByTagName('tr');
+
+    const selectMenu = document.getElementById('statusFilter').value;
+
+    if (selectMenu == 'all') {
+        for (let i = 1; i < rows.length; i++) {
+            // const cells = rows[i].getElementsByTagName('td');
+            // rows[i].style.display = '';
+            const cells = rows[i].getElementsByTagName('td');
+            let rowText = '';
+            for (let j = 0; j < cells.length; j++) {
+                // if (rows[i].style.display != 'none') {
+                rowText += cells[j].textContent || cells[j].innerText;
+                // }
+            }
+            if (rowText.toLowerCase().indexOf(filter) > -1) {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    } else if (selectMenu == 'expired') {
+
+        for (let i = 1; i < rows.length; i++) {
+
+            const cells = rows[i].querySelectorAll('td');
+
+            // let tds = Array.from(rows[i].querySelectorAll('td'));
+
+            if (rows[i].cells[2].textContent.replaceAll(" ", "").indexOf("expired") > -1) {
+
+                // rows[i].style.display = '';
+
+                let rowText = '';
+                for (let j = 0; j < cells.length; j++) {
+                    if (rows[i].style.display != 'none') {
+                        rowText += cells[j].textContent || cells[j].innerText;
+                    }
+                }
+                if (rowText.toLowerCase().indexOf(filter) > -1) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+
+            } else {
+
+                rows[i].style.display = 'none';
+            }
+        }
+    } else if (selectMenu == '0') {
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+
+            // if (rows[i].cells[2].textContent.replaceAll(" ", "").indexOf("0") > -1) {
+            if (rows[i].cells[2].textContent == "0") {
+
+                // rows[i].style.display = '';
+
+                let rowText = '';
+                for (let j = 0; j < cells.length; j++) {
+                    if (rows[i].style.display != 'none') {
+                        rowText += cells[j].textContent || cells[j].innerText;
+                    }
+                }
+                if (rowText.toLowerCase().indexOf(filter) > -1) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+
+
+            } else {
+                // console.log(rows[i].cells[6].textContent)
+
+                rows[i].style.display = 'none';
+            }
+        }
+    }
+
+
+
+
+}
+
 
 
 
@@ -314,16 +537,18 @@ function showUpdateModel(id) {
 
 }
 
-function updateEquiDetails(eqId) {
+function updateEquiDetails(eqId, status) {
 
     const editQty = document.getElementById("editQty-" + eqId).value;
 
-    if (editQty == "") {
-        alert("Please enter a quantity.");
-        return;
+    if (status == "update") {
+        if (editQty == "") {
+            alert("Please enter a quantity.");
+            return;
+        }
     }
 
-    const url = `updateMltStockProcess.php?upQty=${editQty}&eqid=${eqId}`;
+    const url = `updateMltStockProcess.php?upQty=${editQty}&eqid=${eqId}&status=${status}`;
     fetch(url, {
         method: "GET",
         // body: "upQty=" + editQty + "&eqid=" + eqId,
@@ -336,8 +561,83 @@ function updateEquiDetails(eqId) {
                 location.reload();
             } else {
                 alert(data);
+                location.reload();
             }
         })
         .catch(error => { console.error("Error :", error) });
 
 }
+
+// print  stock excel
+function downloadStockTableAsExcel() {
+    var table = document.getElementById('medicineTable');
+    const data = [];
+    // Get all rows from the table body
+    const rows = table.querySelectorAll('tbody tr');
+    const headRows = table.querySelector('thead tr');
+
+    const headCells = headRows.querySelectorAll('th');
+    // headCells = headRows.removeChild(headCells[headCells.length - 1]);
+
+    const headRowData = [];
+    headCells.forEach(cell => {
+        headRowData.push(cell.textContent.trim());
+    });
+
+    headRowData.pop();
+
+
+    // Loop through each row
+    rows.forEach(row => {
+        if (row.style.display != 'none') {
+            const rowData = [];
+
+            // Get all cells in the row
+            const cells = row.querySelectorAll('td');
+
+            // cells = row.removeChild(cells[cells.length - 1]);
+
+            // Loop through each cell and add its text content to rowData
+            cells.forEach(cell => {
+                rowData.push(cell.textContent.trim());
+            });
+
+            rowData.pop();
+
+            // Add rowData to data if it's not empty
+            if (rowData.length > 0) {
+                data.push(rowData);
+            }
+        }
+    });
+
+
+    fetch('printExcel.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                tableData: data,
+                tableHeadData: headRowData,
+                name: "Laboratory Equipments"
+            })
+        })
+        .then(response => response.blob()) // Handle bin.ary data
+        .then(blob => {
+            // Create a URL for the blob and trigger the download
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'laboratory_equipments.xlsx'; // Name of the file to be downloaded
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+
+}
+// print stock excel

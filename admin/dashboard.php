@@ -112,18 +112,19 @@ $date = $d->format('Y-m-d H:i:s');
 $currntDate = new DateTime($date);
 
 $dailyVisitsPatient = 0;
-$lastWeekRegPatient = 0;
+$lastWeekRegPatient = 0; // last week patient count
 $monthVisit = 0;
 
 if ($patientnumr > 0) {
+    // last week registered patient count
 
     while ($patientResult = $patientResultSet->fetch_assoc()) {
 
 
-        $patientRegDate = $patientResult["rdate"];
-        $pConverDate = new DateTime($patientRegDate);
+        $patientRegDate = $patientResult["rdate"]; // patient register date
+        $pConverDate = new DateTime($patientRegDate); // patient register date
 
-        $interval = $currntDate->diff($pConverDate);
+        $interval = $currntDate->diff($pConverDate);  
 
         // if ($interval->h <= 24 &&  $interval->d == 0 && $interval->m == 0  && $interval->y == 0) {
         //     $dailyVisitsPatient += 1;
@@ -137,7 +138,8 @@ if ($patientnumr > 0) {
         //     $monthVisit += 1;
         // }
 
-    }
+    } 
+     // last week registered patient count
 }
 
 if ($patienDetailstnumr > 0) {
@@ -163,14 +165,14 @@ if ($patienDetailstnumr > 0) {
         }
     }
 
-    $dailyAvg = (int)$monthVisit / 30;
+    $dailyAvg = $monthVisit / 30;
 
-    if ($dailyAvg < 1) {
-        $monthVisit = 0;
-    } else {
+    // if ($dailyAvg < 1) {
+    //     $monthVisit = 0;
+    // } else {
 
-        $monthVisit = (int)$dailyAvg;
-    }
+        $monthVisit=(($dailyAvg/$patienDetailstnumr)*100);
+    // }
 
     // $monthVisit = $dailyAvg;
 
@@ -197,7 +199,7 @@ if ($patienDetailstnumr > 0) {
             <p id="receptionists-count"><?php echo $resCount ?></p>
         </div>
     </div>
-    <h3 class="dash-sub-heading">Patients Stats</h3>
+    <h3 class="dash-sub-heading">Patients Status</h3>
     <div class="dashboard-content patients-dash">
         <div class="stat-box">
             <h3>Patients</h3>
@@ -208,8 +210,8 @@ if ($patienDetailstnumr > 0) {
             <p id="patients-count"><?php echo $dailyVisitsPatient ?></p>
         </div>
         <div class="stat-box">
-            <h3>AVG Daily Visits</h3>
-            <p id="avg-new-patients-per-day"><?php echo $monthVisit ?></p>
+            <h3>AVG Daily Visits Rate</h3>
+            <p id="avg-new-patients-per-day"><?php echo round( $monthVisit,2 ) ?>%</p>
         </div>
         <div class="stat-box">
             <h3>New Patients Last Week</h3>

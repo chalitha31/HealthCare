@@ -205,8 +205,8 @@ $pdi = 31;
             <h2>Medical Report</h2>
             <div style="justify-content: center;" class="patient-info">
                     <div>
-                        <h1 style="color: #0080c0;">Primary medical care unit minuwangamuwa</h1>
-                        <p style="text-align: center;">130,Main street, minuwangamuwa</p>
+                        <h1 style="color: #0080c0;">Primary Medical Care Unit Minuwangamuwa</h1>
+                        <p style="text-align: center;">130,Main street, Minuwangamuwa</p>
                         <h2 style="color: #b70000; text-align: center;">MEDICAL LABORATORY REPORT</h2>
                     </div>
                    

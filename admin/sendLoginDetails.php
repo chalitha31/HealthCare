@@ -62,9 +62,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
 
 
-            $pwHash = substr(uniqid(), 0, 8);
+            // $pwHash = substr(uniqid(), 0, 8);
+            $randomNumber = rand(10000, 99999); // Generate a random 5-digit number
+        
+            // Hash the number using SHA-256
+            $code = hash('sha256', (string)$randomNumber);
 
-            $code = hash("sha256", "$pwHash");
+            // $code = hash("sha256", "$pwHash");
 
 
 
@@ -89,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 We are pleased to welcome you to Healthcare. Your account has been successfully created, and you can now access our Healthcare Admin Panel. Below are your login credentials:<br><br>
                 <strong>Login URL:</strong> <a href='http://localhost/HealthCare/index.php'>Healthcare</a><br>
                 <strong>Email : </strong> {$email}<br>
-                <strong>Temporary Password : </strong> {$pwHash}<br><br>
+                <strong>Temporary Password : </strong> {$randomNumber}<br><br>
                 For security reasons, we recommend that you log in to your account immediately and update your password and profile information.<br><br>
                 <strong>How to Log In:</strong><br>
                 <ol>
@@ -118,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 "We are pleased to welcome you to Healthcare. Your account has been successfully created, and you can now access our Healthcare Admin Panel. Below are your login credentials:\n\n" .
                 "Login URL: http://localhost/HealthCare/index.php\n" .
                 "Email: {$email}\n" .
-                "Temporary Password: {$pwHash}\n\n" .
+                "Temporary Password: {$randomNumber}\n\n" .
                 "For security reasons, we recommend that you log in to your account immediately and update your password and profile information.\n\n" .
                 "How to Log In:\n" .
                 "1. Visit the http://localhost/HealthCare/index.php.\n" .

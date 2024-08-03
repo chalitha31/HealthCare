@@ -10,7 +10,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch data from the database
-$sql = "SELECT name, quantity, purchase_date FROM mlt_equipments";
+$sql = "SELECT name, quantity, purchase_date,avalable_quantity,expire_date FROM mlt_equipments WHERE view = '1'";
 $result = $conn->query($sql);
 
 $medicines = [];

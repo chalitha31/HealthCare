@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Access each field in the row
                 $mname = $medicine['mname'];
                 $mbrand = $medicine['mbrand'];
-                $mqty = $medicine['mqty'];
+                $mqty = $medicine['mqty'];  // enter quantity
                 $mexdate = $medicine['mexdate'];
                 // $pdi = $row['pdi'];
 
@@ -89,13 +89,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $mediData = $medicineResultSet->fetch_assoc();
 
-                $currentQty = $mediData["quantity"];
-
+                $currentQty = $mediData["quantity"]; // current quantity
                 $mediId = $mediData["id"];
 
                 Database::iud("INSERT INTO `medicines_recode` (`patientDetails_id`,`medicine_id`,`qty`,`date`) VALUES('$pdi','$mediId','$mqty','$date')");
 
-                $updateQty = $currentQty - $mqty;
+                $updateQty = $currentQty - $mqty; // update quantity
 
                 Database::iud("UPDATE `medicines` SET `quantity` = '$updateQty' WHERE `id` = '$mediId'");
 

@@ -13,10 +13,11 @@ if ($conn->connect_error) {
 $medicineName = $_POST['medicineName'];
 // $medicineBrand = $_POST['medicineBrand'];
 $medicineQuantity = $_POST['medicineQuantity'];
-// $expirationDate = $_POST['expirationDate'];
+$expirationDate = $_POST['expirationDate'];
+
 
 // Check if the row already exists
-$sql = "SELECT id, quantity FROM mlt_equipments WHERE name = '$medicineName'";
+$sql = "SELECT id, quantity,avalable_quantity,expire_date FROM mlt_equipments WHERE name = '$medicineName'";
 $result = $conn->query($sql);
 
 $d = new DateTime();
@@ -30,16 +31,42 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $newQuantity = $row['quantity'] + $medicineQuantity;
     $updateQuantity = $row['avalable_quantity'] + $medicineQuantity;
-    $updateSql = "UPDATE mlt_equipments SET quantity = $newQuantity , avalable_quantity = $updateQuantity WHERE id = " . $row['id'];
 
+    if ($expirationDate == "" || $expirationDate == null) {
+
+        $updateSql = "UPDATE mlt_equipments SET quantity = $updateQuantity , avalable_quantity = $updateQuantity,purchase_date = '$date' WHERE id = " . $row['id'];
+    } else {
+        $exdate = $row['expire_date'];
+        if ($exdate == $expirationDate) {
+
+            $updateSql = "UPDATE mlt_equipments SET quantity = $updateQuantity , avalable_quantity = $updateQuantity,purchase_date = '$date' WHERE id = " . $row['id'];
+        } else {
+
+            $updateSql = "INSERT INTO mlt_equipments (name, quantity,purchase_date,avalable_quantity,expire_date) VALUES ('$medicineName', $medicineQuantity,'$date','$medicineQuantity','$expirationDate')";
+        }
+        // $updateSql = "UPDATE mlt_equipments SET quantity = $updateQuantity , avalable_quantity = $updateQuantity,purchase_date = '$date',view = '1' WHERE id = " . $row['id'];
+
+
+    }
     if ($conn->query($updateSql) === TRUE) {
         echo "Record updated successfully";
+        // echo $row['avalable_quantity'];
+        // echo $updateQuantity; 
     } else {
         echo "Error updating record: " . $conn->error;
     }
 } else {
     // Row does not exist, insert a new row
-    $insertSql = "INSERT INTO mlt_equipments (name, quantity,purchase_date,avalable_quantity) VALUES ('$medicineName', $medicineQuantity,'$date','$medicineQuantity')";
+    $insertSql;
+
+    if ($expirationDate == "" || $expirationDate == null) {
+        $insertSql = "INSERT INTO mlt_equipments (name, quantity,purchase_date,avalable_quantity,expire_date) VALUES ('$medicineName', $medicineQuantity,'$date','$medicineQuantity',null)";
+    } else {
+
+        $insertSql = "INSERT INTO mlt_equipments (name, quantity,purchase_date,avalable_quantity,expire_date) VALUES ('$medicineName', $medicineQuantity,'$date','$medicineQuantity','$expirationDate')";
+    }
+
+    // $insertSql = "INSERT INTO mlt_equipments (name, quantity,purchase_date,avalable_quantity) VALUES ('$medicineName', $medicineQuantity,'$date','$medicineQuantity')";
 
     if ($conn->query($insertSql) === TRUE) {
         echo "New record created successfully";

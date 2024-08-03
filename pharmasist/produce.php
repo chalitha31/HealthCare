@@ -274,7 +274,7 @@ require_once "../connection.php";
             <div class="maindiv">
 
                 <div class="left ">
-                    <h2 class="content-title">Produce medicine</h2>
+                    <h2 class="content-title">Issue medicine</h2>
                     <div class="health-issues">
                         <h3><?php echo $pdata["name"] ?> Prescription</h3>
                         <!-- <p>Paracetamol 30</p>
@@ -348,7 +348,7 @@ require_once "../connection.php";
                 </tbody>
             </table>
 
-            <button onclick="issueMedi(<?php echo $pdi ?>);" id="produceButton">Produce</button>
+            <button onclick="issueMedi(<?php echo $pdi ?>);" id="produceButton">Issue</button>
         </div>
     </div>
     <script src="produce.js"></script>
